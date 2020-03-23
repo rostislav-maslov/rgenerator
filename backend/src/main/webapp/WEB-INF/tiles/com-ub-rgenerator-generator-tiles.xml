@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+    <!--CLIENT-->
+    <!-- <definition name="tech.maslov.rgenerator.client.generator.all" extends="tech.maslov.rgenerator.client.layout">
+        <put-attribute name="content" value="/WEB-INF/tech/maslov/rgenerator/client/generator/all.jsp"/>
+    </definition> -->
+
+    <!--ADMIN-->
+    <definition name="tech.maslov.rgenerator.admin.generator.all" extends="com.ub.core.admin.layout">
+        <put-attribute name="content" value="/WEB-INF/tech/maslov/rgenerator/admin/generator/all.jsp"/>
+    </definition>
+    <definition name="tech.maslov.rgenerator.admin.generator.add" extends="com.ub.core.admin.layout">
+        <put-attribute name="content" value="/WEB-INF/tech/maslov/rgenerator/admin/generator/add.jsp"/>
+    </definition>
+    <definition name="tech.maslov.rgenerator.admin.generator.edit" extends="com.ub.core.admin.layout">
+        <put-attribute name="content" value="/WEB-INF/tech/maslov/rgenerator/admin/generator/edit.jsp"/>
+    </definition>
+    <definition name="tech.maslov.rgenerator.admin.generator.delete" extends="com.ub.core.admin.layout">
+        <put-attribute name="content" value="/WEB-INF/tech/maslov/rgenerator/admin/generator/delete.jsp"/>
+    </definition>
+    <definition name="tech.maslov.rgenerator.admin.generator.modal.parent"
+        template="/WEB-INF/tech/maslov/rgenerator/admin/generator/modalResponse.jsp">
+    </definition>
+
+</tiles-definitions>

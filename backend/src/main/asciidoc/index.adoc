@@ -1,0 +1,126 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+= RESTful API Guide - RGenerator
+
+[[overview]]
+= Обзор
+
+[[overview-http-verbs]]
+== HTTP методы
+
+Мы будем придерживаться как можно ближе к стандартным HTTP методам.
+
+|===
+| Метод | Использование
+
+| `GET`
+| Чтение ресурса
+
+| `POST`
+| Взаимодействие с ресурсом
+|===
+
+[[overview-http-status-codes]]
+== HTTP статусы
+
+Так же как и с HTTP методами, мы будет придерживаться стандартным HTTP статусам. Но будем использовать лишь основные.
+
+|===
+| Статус | Использование
+
+| `200 OK`
+| Успешный запрос
+
+| `400 Bad Request`
+| Некорректный запрос, ошибки в параметрах
+
+| `401 User Not Authorized`
+| Запрос не авторизирован или недостаточно прав для просмотра ресурса
+
+| `404 Not Found`
+| Запрашиваемый ресурс не найден
+|===
+
+[[overview-auth]]
+== Авторизация запросов
+
+Авторизация запросов происходит по средству помещения параметров в header запроса.
+
+|===
+| Header | Значение
+
+| `X-Auth-Token`
+| Токен пользователя
+
+| `X-Device-Token`
+| UUID устройства (необязательно)
+
+| `X-Device-Type`
+| Тип устройства [ANDROID, IOS] (необязательно)
+|===
+
+[[overview-respinse-errors-format]]
+== Формат ошибок
+
+Формат ошибок возвращаемых сервером. Надо учитывать, что такие ошибки возвращаются вместе с HTTP статусами: 400, 401, 404.
+
+|===
+| Path | Type | Description
+
+| message
+| String
+| Сообщение ошибки (может не быть)
+
+| errors
+| Object
+| Ошибки
+
+| errors.field
+| Array
+| Ошибки поля 'field'
+
+| errors.field[]
+| String
+| Текст ошибки
+|===
+
+[[overview-respinse-result-format]]
+== Формат результат
+
+Формат результата успешного запроса. Надо учитывать, что такой ответ возвращается сервером вместе с HTTP статусом 200.
+
+|===
+| Path | Description
+
+| result
+| Результат запроса
+|===
+
+//[[category-all]]
+//== Категории
+//
+//=== Все
+//
+//`GET` Получение всех категорий
+//
+//==== Пример запроса
+//
+//include::{snippets}/category/all/curl-request.adoc[]
+//
+//==== Поля запроса
+//
+//include::{snippets}/category/all/request-parameters.adoc[]
+//
+//==== Пример ответа
+//
+//include::{snippets}/category/all/http-response.adoc[]
+//
+//==== Поля ответа
+//
+//include::{snippets}/category/all/response-fields.adoc[]
+//
