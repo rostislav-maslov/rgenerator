@@ -1,4 +1,4 @@
-package tech.maslov.sandbox.api.base.controllers;
+package tech.maslov.rgenerator.api.base.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

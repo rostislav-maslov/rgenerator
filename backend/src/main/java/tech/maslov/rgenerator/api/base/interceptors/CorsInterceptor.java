@@ -1,4 +1,4 @@
-package tech.maslov.sandbox.api.base.interceptors;
+package tech.maslov.rgenerator.api.base.interceptors;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;

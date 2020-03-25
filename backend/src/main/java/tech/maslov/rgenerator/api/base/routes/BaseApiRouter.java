@@ -1,4 +1,4 @@
-package tech.maslov.sandbox.api.base.routes;
+package tech.maslov.rgenerator.api.base.routes;
 
 public class BaseApiRouter {
     public static final String ROOT = "/api";

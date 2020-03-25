@@ -58,7 +58,7 @@
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/api/**"/>
-            <bean class="tech.maslov.sandbox.api.base.interceptors.CorsInterceptor"/>
+            <bean class="tech.maslov.rgenerator.api.base.interceptors.CorsInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 

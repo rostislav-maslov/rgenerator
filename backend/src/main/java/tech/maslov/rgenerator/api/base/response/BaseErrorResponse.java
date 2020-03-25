@@ -1,4 +1,4 @@
-package tech.maslov.sandbox.api.base.response;
+package tech.maslov.rgenerator.api.base.response;
 
 public class BaseErrorResponse {
     private Boolean success = true;

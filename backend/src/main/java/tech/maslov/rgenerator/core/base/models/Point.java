@@ -1,4 +1,4 @@
-package tech.maslov.sandbox.core.base.models;
+package tech.maslov.rgenerator.core.base.models;
 
 public class Point {
     private Double longitude;

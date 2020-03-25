@@ -1,24 +1,30 @@
 package tech.maslov.rgenerator.generator.controllers;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import tech.maslov.rgenerator.generator.services.ZipService;
+import org.springframework.web.bind.annotation.*;
+import tech.maslov.rgenerator.api.base.response.BaseApiResponse;
+import tech.maslov.rgenerator.generator.api.request.GeneratorAddRequest;
+import tech.maslov.rgenerator.generator.api.response.GeneratorResponse;
+import tech.maslov.rgenerator.generator.routes.GeneratorApiRoutes;
+import tech.maslov.rgenerator.generator.services.GeneratorApiService;
 
-import java.io.IOException;
 
-@Controller
+@RestController
 public class GeneratorApiController {
 
-    @Autowired private ZipService generatorService;
+    @Autowired private GeneratorApiService generateApiService;
 
-    @ResponseBody
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String example() throws IOException {
-        generatorService.generateZip();
-        return "ok";
+    @RequestMapping(value = GeneratorApiRoutes.ROOT, method = RequestMethod.POST)
+    public BaseApiResponse<GeneratorResponse> create(@RequestBody GeneratorAddRequest request) {
+        return BaseApiResponse.of(generateApiService.create(request));
     }
+
+    @RequestMapping(value = GeneratorApiRoutes.BY_ID, method = RequestMethod.GET)
+    public BaseApiResponse<GeneratorResponse> create(@PathVariable ObjectId id) {
+        return BaseApiResponse.of(generateApiService.findId(id));
+    }
+
+
 
 }
