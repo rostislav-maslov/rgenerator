@@ -9,8 +9,8 @@ import {
 } from "react-router-dom";
 
 import Home from "../scenes/home";
-import Basket from "../scenes/templateResult";
-import Order from "../scenes/list";
+import TemplateResult from "../scenes/templateResult";
+import GenerateList from "../scenes/list";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
@@ -21,11 +21,11 @@ function App() {
             <div className={'content'}>
 
                 <Switch>
-                    <Route path="/basket">
-                        <Basket/>
+                    <Route path="/list">
+                        <GenerateList/>
                     </Route>
-                    <Route path="/order">
-                        <Order/>
+                    <Route path="/template-result/:id">
+                        <TemplateResult/>
                     </Route>
                     <Route path="/">
                         <Home/>

@@ -24,3 +24,5 @@ hs_err_pid*
 backend/target
 frontend/node_modules
 *.iml
+frontend/.env
+frontend/.env.production
