@@ -9,12 +9,16 @@ import javax.persistence.Id;
 
 @Document
 public class TemplateResultDoc extends BaseModel {
+    public enum Status{
+        NEW, IN_PROGRESS, SUCCESS, ERROR
+    }
     @Id
     private ObjectId id;
     private ObjectId userId;
 	private ObjectId generatorId;
 	private ObjectId resultFileId;
 	private String content;
+	private Status status = Status.NEW;
 	
     public ObjectId getId() {
         return id;
@@ -56,4 +60,11 @@ public class TemplateResultDoc extends BaseModel {
         this.content = content;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }

@@ -9,7 +9,9 @@ import {
 } from "react-router-dom";
 
 import GeneratorApi from "../../services/Generator";
+import TemplateResultApi from "../../services/TemplateResult";
 import {withRouter} from 'react-router-dom';
+import {FILE, FILE_ATTACH} from "../../services/Const";
 
 class TemplateResult extends Component {
     constructor(props) {
@@ -23,6 +25,7 @@ class TemplateResult extends Component {
             },
             apiData: {
                 generator: null,
+                templateResult: null
             },
             data: {}
         };
@@ -67,13 +70,15 @@ class TemplateResult extends Component {
 
     generate = () => {
         let self = this
-        GeneratorApi.generate(
-            this.state.data.generator.id,
+        TemplateResultApi.create(
+            this.state.apiData.generator.id,
             this.state.viewData.example
         ).then((result) => {
             result.json().then((responseJson) => {
-                debugger
                 const json = responseJson.result
+                let apiData = self.state.apiData
+                apiData.templateResult = json
+                self.setState({apiData: apiData})
             })
         })
     }
@@ -110,6 +115,19 @@ class TemplateResult extends Component {
                                 <button type="submit" className="btn btn-primary">Submit</button>
                             </div>
                         </div>
+
+                        {this.state.apiData.templateResult != null ? (
+                            <div className="row">
+                                <div className="col">
+                                    Результаты:
+                                    <a href={FILE_ATTACH(this.state.apiData.templateResult.resultFileId)}
+                                       target={'_blank'}>
+                                        Ссылка на скачивание файла zip - {this.state.apiData.templateResult.resultFileId}
+                                    </a>
+                                </div>
+                            </div>
+                        ) : false}
+
                     </form>
                 </div>
             </section>

@@ -31,7 +31,6 @@ public class ZipService {
     private FileService fileService;
 
     public TemplateResultDoc generate(GeneratorDoc generatorDoc, TemplateResultDoc templateResultDoc) throws IOException {
-
         File directoryTemplate = getDirForObject(templateResultDoc.getId());
         File directoryForContent = getDirForGenerateFiles(directoryTemplate);
 

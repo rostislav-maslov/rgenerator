@@ -22,9 +22,4 @@ public class GeneratorUploadController {
         return BaseApiResponse.of(generateApiService.fileAdd(id, path, file));
     }
 
-    @RequestMapping(value = GeneratorApiRoutes.GENERATE, method = RequestMethod.POST)
-    public BaseApiResponse<GeneratorResponse> generate(@PathVariable ObjectId id, @RequestParam String json) throws IOException {
-        return BaseApiResponse.of(generateApiService.fileAdd(id, path, file));
-    }
-
 }
