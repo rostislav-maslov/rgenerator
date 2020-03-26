@@ -26,3 +26,6 @@ frontend/node_modules
 *.iml
 frontend/.env
 frontend/.env.production
+backend/src/main/webapp/resources/database-dev.properties
+backend/src/main/webapp/resources/database-prod.properties
+backend/src/main/webapp/resources/database-stand.properties
