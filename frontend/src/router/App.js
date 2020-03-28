@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 
 import Home from "../scenes/home";
+import Create from "../scenes/create";
 import TemplateResult from "../scenes/templateResult";
 import GenerateList from "../scenes/list";
 import Header from "../components/Header";
@@ -26,6 +27,9 @@ function App() {
                     </Route>
                     <Route path="/template-result/:id">
                         <TemplateResult/>
+                    </Route>
+                    <Route path="/create">
+                        <Create/>
                     </Route>
                     <Route path="/">
                         <Home/>
