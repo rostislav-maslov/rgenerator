@@ -12,7 +12,7 @@
     <name>rgenerator Suite</name>
 
     <modules>
-        <module>../../rcore</module>
+        <module>../../ubcore</module>
         <module>../backend</module>
     </modules>
     <properties>
