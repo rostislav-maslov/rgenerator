@@ -62,7 +62,6 @@ class TemplateResult extends Component {
     }
 
 
-
     generate = () => {
         let self = this
         TemplateResultApi.create(
@@ -88,7 +87,7 @@ class TemplateResult extends Component {
         let viewData = this.state.viewData;
         viewData.example = e.updated_src
         viewData.exampleString = JSON.stringify(e.updated_src, null, 4)
-        this.setState({viewData:viewData})
+        this.setState({viewData: viewData})
     }
 
     onChangeExample = (e) => {
@@ -99,7 +98,7 @@ class TemplateResult extends Component {
             viewData.example = value
             viewData.exampleString = e.target.value
             this.setState({viewData: viewData})
-        }catch (ex) {
+        } catch (ex) {
             let viewData = this.state.viewData;
             viewData.exampleString = e.target.value
             this.setState({viewData: viewData})
@@ -119,52 +118,83 @@ class TemplateResult extends Component {
         return (
             <section>
                 <div className="container">
-                    <h1>{this.state.viewData.title}</h1>
-                    <p>{this.state.viewData.description}</p>
-
-                    <form onSubmit={this.onSubmit}>
+                    <div className={'row'}>
+                        <div className={'col'}>
+                            <br/>
+                            <br/>
+                            <h1>{this.state.viewData.title}</h1>
+                            <p>{this.state.viewData.description}</p>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+                <form onSubmit={this.onSubmit}>
+                    <div className="container">
                         <div className="row">
-                            <div className="col">
-                                <div className="form-group">
-                                    <label htmlFor="txtExample">JSON with your data</label>
 
-                                    <textarea className="form-control" id="txtExample" name={'example'}
-                                              onChange={this.onChangeExample}
-                                              value={this.state.viewData.exampleString}/>
+                            <div className="col-md-6">
+                                <div className="card">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Paste your data</h5>
 
-                                    <ReactJson
-                                        src={this.state.viewData.example}
-                                        collapsed={false}
-                                        enableClipboard={true}
-                                        onEdit={this.onUpdateJson}
-                                        onAdd={this.onUpdateJson}
-                                        onDelete={this.onUpdateJson}
-                                    />
+                                        <textarea className="form-control" id="txtExample" name={'example'}
+                                                  onChange={this.onChangeExample}
+                                                  style={{minHeight: '50vh'}}
+                                                  value={this.state.viewData.exampleString}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="card">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Or just edit current json</h5>
+                                        <ReactJson
+                                            style={{minHeight: '50vh'}}
+                                            src={this.state.viewData.example}
+                                            collapsed={false}
+                                            enableClipboard={true}
+                                            onEdit={this.onUpdateJson}
+                                            onAdd={this.onUpdateJson}
+                                            onDelete={this.onUpdateJson}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div className="row">
-                            <div className="col">
-                                <button type="submit" className="btn btn-primary">Submit</button>
-                            </div>
-                        </div>
 
-                        {this.state.apiData.templateResult != null ? (
+                    {this.state.apiData.templateResult != null ? (
+                        <div className="container">
                             <div className="row">
-                                <div className="col">
-                                    Результаты:
+                                <div className="col text-center">
+                                    <br/>
+                                    <br/>
+                                    ZIP with your template:
                                     <a href={FILE_ATTACH(this.state.apiData.templateResult.resultFileId)}
-                                       target={'_blank'}>
-                                        Ссылка на скачивание файла zip
+                                       target={'_blank'}> download
                                         - {this.state.apiData.templateResult.resultFileId}
                                     </a>
+                                    <br/>
+                                    <br/>
                                 </div>
                             </div>
-                        ) : false}
+                        </div>
+                    ) : (<div className="container">
+                        <div className="row">
+                            <div className="col text-center">
+                                <br/>
+                                <br/>
+                                <button type="submit" className="btn btn-primary ">Submit</button>
+                                <br/>
+                                <br/>
+                            </div>
+                        </div>
+                    </div>)}
 
-                    </form>
-                </div>
+
+                </form>
+
             </section>
         );
     }

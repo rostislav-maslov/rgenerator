@@ -198,7 +198,7 @@ class CreateScene extends Component {
                             </div>
                             <div className="col-md-6">
                                 <div className="card">
-                                    <div className="card-body" style={{minHeight: '50vh'}}>
+                                    <div className="card-body">
                                         <h5 className="card-title">Or just create new one</h5>
                                         <ReactJson
                                             style={{minHeight: '50vh'}}
