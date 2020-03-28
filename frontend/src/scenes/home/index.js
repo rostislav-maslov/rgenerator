@@ -8,6 +8,8 @@ import {
     Link
 } from "react-router-dom";
 
+import ReactJson from 'react-json-view'
+
 import GeneratorApi from "../../services/Generator";
 
 class HomeScene extends Component {
@@ -18,7 +20,8 @@ class HomeScene extends Component {
             viewData: {
                 title: "",
                 description: "",
-                example: "",
+                example: {},
+                exampleString: "{}",
             },
             apiData: {
                 catalogsResponse: [],
@@ -39,14 +42,7 @@ class HomeScene extends Component {
 
     }
 
-    onChangeInput = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
 
-        let viewData = this.state.viewData;
-        viewData[name] = value
-        this.setState({viewData: viewData})
-    }
 
     onChange = (e) => {
         const files = [...e.target.files]
@@ -70,7 +66,7 @@ class HomeScene extends Component {
         GeneratorApi.create(
             this.state.viewData.title,
             this.state.viewData.description,
-            this.state.viewData.example
+            JSON.stringify(this.state.viewData.example)
         ).then((result) => {
             result.json().then((responseJson) => {
                 const json = responseJson.result
@@ -117,6 +113,37 @@ class HomeScene extends Component {
         return false;
     }
 
+    onUpdateJson = (e) => {
+        let viewData = this.state.viewData;
+        viewData.example = e.updated_src
+        viewData.exampleString = JSON.stringify(e.updated_src, null, 4)
+        this.setState({viewData:viewData})
+    }
+
+    onChangeInput = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+
+        let viewData = this.state.viewData;
+        viewData[name] = value
+        this.setState({viewData: viewData})
+    }
+
+    onChangeExample = (e) => {
+        try {
+            const value = JSON.parse(e.target.value);
+
+            let viewData = this.state.viewData;
+            viewData.example = value
+            viewData.exampleString = e.target.value
+            this.setState({viewData: viewData})
+        }catch (ex) {
+            let viewData = this.state.viewData;
+            viewData.exampleString = e.target.value
+            this.setState({viewData: viewData})
+        }
+    }
+
     render() {
         return (
             <section>
@@ -149,7 +176,16 @@ class HomeScene extends Component {
                                 <div className="form-group">
                                     <label htmlFor="txtExample">Example json with your data</label>
                                     <textarea className="form-control" id="txtExample" name={'example'}
-                                              onChange={this.onChangeInput} value={this.state.viewData.example}/>
+                                              onChange={this.onChangeExample} value={this.state.viewData.exampleString}/>
+
+                                    <ReactJson
+                                        src={this.state.viewData.example}
+                                        collapsed={false}
+                                        enableClipboard={true}
+                                        onEdit={this.onUpdateJson}
+                                        onAdd={this.onUpdateJson}
+                                        onDelete={this.onUpdateJson}
+                                    />
                                 </div>
                             </div>
                         </div>
