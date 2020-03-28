@@ -22,7 +22,7 @@ function Header() {
                 <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
                     <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                         <li className="nav-item active">
-                            <Link to="/" className={'nav-link'}>Каталог</Link>
+                            <Link to="/list" className={'nav-link'}>Каталог</Link>
                         </li>
                         <li className="nav-item">
                             <Link to="/404" className={'nav-link'}>Информация о задачах и помощь</Link>
