@@ -12,7 +12,7 @@ function Footer() {
         <div className={'container-fluid footer-custom'}>
             <div className={'row'}>
                 <div className={'col text-center footer-custom-text'}>
-                    © 2020 maslov.tech & FoodTech Lab
+                    © 2020 maslov.tech
                 </div>
             </div>
         </div>

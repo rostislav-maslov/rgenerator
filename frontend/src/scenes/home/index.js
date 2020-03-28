@@ -148,7 +148,31 @@ class HomeScene extends Component {
         return (
             <section>
                 <div className="container">
-                    <h1>Upload template</h1>
+                    <h1>Create template</h1>
+
+                    <div className="row">
+                        <div className="col-sm-6">
+                            <div className="card">
+                                <div className="card-body">
+                                    <h5 className="card-title">Special title treatment</h5>
+                                    <p className="card-text">With supporting text below as a natural lead-in to
+                                        additional content.</p>
+                                    <a href="#" className="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-sm-6">
+                            <div className="card">
+                                <div className="card-body">
+                                    <h5 className="card-title">Special title treatment</h5>
+                                    <p className="card-text">With supporting text below as a natural lead-in to
+                                        additional content.</p>
+                                    <a href="#" className="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <form onSubmit={this.onSubmit}>
 
                         <div className="row">
