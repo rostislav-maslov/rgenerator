@@ -12,6 +12,10 @@ import tech.maslov.rgenerator.generator.api.response.GeneratorResponse;
 import tech.maslov.rgenerator.generator.models.FileStructure;
 import tech.maslov.rgenerator.generator.models.GeneratorDoc;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class GeneratorApiService {
 
@@ -44,6 +48,16 @@ public class GeneratorApiService {
     public GeneratorResponse findId(ObjectId id) {
         GeneratorDoc generatorDoc = generatorService.findById(id);
         return transform(generatorService.save(generatorDoc));
+    }
+
+    public List<GeneratorResponse> findAll() {
+        List<GeneratorDoc> generatorDocs = generatorService.findAll();
+        List<GeneratorResponse> responses = new ArrayList<>();
+        for(GeneratorDoc doc: generatorDocs){
+            responses.add(transform(doc));
+        }
+
+        return responses;
     }
 
     public GeneratorResponse fileAdd(ObjectId id, String path, MultipartFile file) {

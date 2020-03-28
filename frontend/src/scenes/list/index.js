@@ -10,20 +10,17 @@ import {
 
 import GeneratorApi from "../../services/Generator";
 
-class HomeScene extends Component {
+class ListScene extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             viewData: {
-                catalogs: [],
             },
             apiData: {
-                catalogsResponse: [],
-                productsResponse: []
+                list: [],
             },
             data: {
-                productsInBasket: [],
             }
         };
     }
@@ -33,26 +30,43 @@ class HomeScene extends Component {
     }
 
     update = () => {
+        let self = this
+        GeneratorApi.list()
+            .then((response) => {
+                response.json().then(result => {
+                    let apiData = this.state.apiData
+                    apiData.list = result.items
+                    let viewData = this.state.viewData
 
+                    self.setState({
+                        apiData: apiData,
+                        viewData: viewData
+                    })
+                })
+            })
     }
 
-    onChange = (e) => {
-        debugger;
-    }
+
 
     render() {
         return (
             <section>
                 <div className="container">
-                    <form>
-                        <div className="row">
-                            <div className="col">
-
-                                <input type="file" webkitdirectory mozdirectory directory onChange={this.onChange}/>
-
-                            </div>
+                    <div className={'row'}>
+                        <div className={'col'}>
+                            <h1>List</h1>
                         </div>
-                    </form>
+                    </div>
+                    <div className={'row'}>
+                        <div className={'col'}>
+                            {this.state.apiData.list.map((generator, idx) => {
+                                return (<div key={idx}>
+                                    <Link to={'/template-result/' + generator.id}> {generator.title}</Link>
+                                </div>)
+                            })}
+
+                        </div>
+                    </div>
                 </div>
             </section>
         );
@@ -60,4 +74,4 @@ class HomeScene extends Component {
 }
 
 
-export default HomeScene;
+export default ListScene;

@@ -39,6 +39,23 @@ export default {
         return response;
     },
 
+    list() {
+        const urlRequest = CONST.V1 + "/generator"
+        const method = 'GET'
+
+        let headers = {
+            // Authentication: 'secret',
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+        });
+
+        return response;
+    },
+
     uploadFile(id, path, file) {
         const urlRequest = CONST.V1 + "/generator/file"
         const method = 'POST'
