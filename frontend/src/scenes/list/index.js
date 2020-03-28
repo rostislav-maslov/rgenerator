@@ -15,13 +15,11 @@ class ListScene extends Component {
         super(props);
 
         this.state = {
-            viewData: {
-            },
+            viewData: {},
             apiData: {
                 list: [],
             },
-            data: {
-            }
+            data: {}
         };
     }
 
@@ -47,24 +45,37 @@ class ListScene extends Component {
     }
 
 
-
     render() {
         return (
             <section>
                 <div className="container">
                     <div className={'row'}>
                         <div className={'col'}>
-                            <h1>List</h1>
+                            <br/>
+                            <h1>Templates</h1>
+                            <br/>
+                            <br/>
                         </div>
                     </div>
                     <div className={'row'}>
                         <div className={'col'}>
-                            {this.state.apiData.list.map((generator, idx) => {
-                                return (<div key={idx}>
-                                    <Link to={'/template-result/' + generator.id}> {generator.title}</Link>
-                                </div>)
-                            })}
+                            <div className="list-group">
+                                {this.state.apiData.list.map((generator, idx) => {
+                                    return (
+                                        <Link key={idx} to={'/template-result/' + generator.id}
+                                              className="list-group-item list-group-item-action flex-column align-items-start">
 
+                                            <div className="d-flex w-100 justify-content-between">
+                                                <h5 className="mb-1">{generator.title}</h5>
+                                                <small className="text-muted">3 days ago</small>
+                                            </div>
+                                            <p className="mb-1">{generator.description}</p>
+                                            <small className="text-muted"></small>
+                                        </Link>)
+                                })}
+
+                                <br/><br/><br/>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -50,7 +50,11 @@ class TemplateResult extends Component {
                     let viewData = this.state.viewData
                     viewData.title = apiData.generator.title
                     viewData.description = apiData.generator.description
-                    viewData.example = JSON.parse(apiData.generator.example)
+                    try {
+                        viewData.example = JSON.parse(apiData.generator.example)
+                    }catch (e) {
+                        
+                    }
                     viewData.exampleString = apiData.generator.example
 
                     self.setState({
@@ -122,7 +126,7 @@ class TemplateResult extends Component {
                         <div className={'col'}>
                             <br/>
                             <br/>
-                            <h1>{this.state.viewData.title}</h1>
+                            <h1>Generate: {this.state.viewData.title}</h1>
                             <p>{this.state.viewData.description}</p>
                             <br/>
                         </div>
