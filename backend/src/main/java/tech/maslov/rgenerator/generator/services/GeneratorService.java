@@ -51,6 +51,13 @@ public class GeneratorService {
         return mongoTemplate.count(query, GeneratorDoc.class);
     }
 
+    public List<GeneratorDoc> findAll(){
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Query query = new Query();
+        query.with(sort);
+        return mongoTemplate.find(query, GeneratorDoc.class);
+    }
+
     public SearchGeneratorAdminResponse findAll(SearchGeneratorAdminRequest request) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(

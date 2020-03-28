@@ -10,21 +10,16 @@ import {
 
 import GeneratorApi from "../../services/Generator";
 
-class HomeScene extends Component {
+class ListScene extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            viewData: {
-                catalogs: [],
-            },
+            viewData: {},
             apiData: {
-                catalogsResponse: [],
-                productsResponse: []
+                list: [],
             },
-            data: {
-                productsInBasket: [],
-            }
+            data: {}
         };
     }
 
@@ -33,26 +28,56 @@ class HomeScene extends Component {
     }
 
     update = () => {
+        let self = this
+        GeneratorApi.list()
+            .then((response) => {
+                response.json().then(result => {
+                    let apiData = this.state.apiData
+                    apiData.list = result.items
+                    let viewData = this.state.viewData
 
+                    self.setState({
+                        apiData: apiData,
+                        viewData: viewData
+                    })
+                })
+            })
     }
 
-    onChange = (e) => {
-        debugger;
-    }
 
     render() {
         return (
             <section>
                 <div className="container">
-                    <form>
-                        <div className="row">
-                            <div className="col">
+                    <div className={'row'}>
+                        <div className={'col'}>
+                            <br/>
+                            <h1>Templates</h1>
+                            <br/>
+                            <br/>
+                        </div>
+                    </div>
+                    <div className={'row'}>
+                        <div className={'col'}>
+                            <div className="list-group">
+                                {this.state.apiData.list.map((generator, idx) => {
+                                    return (
+                                        <Link key={idx} to={'/template-result/' + generator.id}
+                                              className="list-group-item list-group-item-action flex-column align-items-start">
 
-                                <input type="file" webkitdirectory mozdirectory directory onChange={this.onChange}/>
+                                            <div className="d-flex w-100 justify-content-between">
+                                                <h5 className="mb-1">{generator.title}</h5>
+                                                <small className="text-muted">3 days ago</small>
+                                            </div>
+                                            <p className="mb-1">{generator.description}</p>
+                                            <small className="text-muted"></small>
+                                        </Link>)
+                                })}
 
+                                <br/><br/><br/>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </section>
         );
@@ -60,4 +85,4 @@ class HomeScene extends Component {
 }
 
 
-export default HomeScene;
+export default ListScene;
