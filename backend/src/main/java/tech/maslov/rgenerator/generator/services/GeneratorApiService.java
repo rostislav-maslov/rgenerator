@@ -1,20 +1,22 @@
 package tech.maslov.rgenerator.generator.services;
 
+import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 import com.ub.core.file.services.FileService;
+import org.apache.commons.io.IOUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import tech.maslov.rgenerator.generator.api.request.GeneratorAddRequest;
+import tech.maslov.rgenerator.generator.api.request.*;
 import tech.maslov.rgenerator.generator.api.response.GeneratorResponse;
 import tech.maslov.rgenerator.generator.models.FileStructure;
 import tech.maslov.rgenerator.generator.models.GeneratorDoc;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class GeneratorApiService {
@@ -24,6 +26,26 @@ public class GeneratorApiService {
     @Autowired
     private FileService fileService;
 
+    private List<GeneratorResponse.File> transformFiles(FileStructure.Directory dir, String parentPath) {
+        List<GeneratorResponse.File> response = new ArrayList<>();
+
+        for (FileStructure.File file : dir.getFiles()) {
+            GeneratorResponse.File responseFile = new GeneratorResponse.File();
+            responseFile.setFileId(file.getFileId().toString());
+            responseFile.setPath(parentPath + "/" + dir.getName() + "/" + file.getName());
+
+            response.add(responseFile);
+        }
+
+        for (FileStructure.Directory childDir : dir.getDirectories()) {
+            response.addAll(
+                    transformFiles(childDir, parentPath + "/" + dir.getName())
+            );
+        }
+
+        return response;
+    }
+
     private GeneratorResponse transform(GeneratorDoc doc) {
         GeneratorResponse response = new GeneratorResponse();
 
@@ -31,6 +53,7 @@ public class GeneratorApiService {
         response.setDescription(doc.getDescription());
         response.setExample(doc.getExample());
         response.setId(doc.getId().toString());
+        response.setFiles(transformFiles(doc.getFileStructure().getDirectory(), ""));
 
         return response;
     }
@@ -45,6 +68,101 @@ public class GeneratorApiService {
         return transform(generatorService.save(generatorDoc));
     }
 
+    public GeneratorResponse editInfo(ObjectId id, GeneratorInfoRequest request) {
+        GeneratorDoc generatorDoc = generatorService.findById(id);
+
+        generatorDoc.setTitle(request.getTitle());
+        generatorDoc.setDescription(request.getDescription());
+        generatorService.save(generatorDoc);
+
+        return transform(generatorDoc);
+    }
+
+    public GeneratorResponse editJson(ObjectId id, GeneratorJsonRequest request) {
+        GeneratorDoc generatorDoc = generatorService.findById(id);
+        generatorDoc.setExample(request.getExample());
+        generatorService.save(generatorDoc);
+
+        return transform(generatorDoc);
+    }
+
+    private void fileStructChangeFile(FileStructure.Directory dir, ObjectId oldId, ObjectId newId) {
+        for (FileStructure.File file : dir.getFiles()) {
+            if (file.getFileId().equals(oldId)) {
+                file.setFileId(newId);
+                fileService.delete(oldId);
+                return;
+            }
+        }
+
+        for (FileStructure.Directory childDir : dir.getDirectories()) {
+            fileStructChangeFile(childDir, oldId, newId);
+        }
+    }
+
+    private void fileStructDeleteFile(FileStructure.Directory dir, ObjectId oldId) {
+        List<FileStructure.File> toDelete = new ArrayList<>();
+
+        for (FileStructure.File file : dir.getFiles()) {
+            if (file.getFileId().equals(oldId)) {
+                fileService.delete(oldId);
+                toDelete.add(file);
+            }
+        }
+        dir.getFiles().removeAll(toDelete);
+
+        for (FileStructure.Directory childDir : dir.getDirectories()) {
+            fileStructDeleteFile(childDir, oldId);
+        }
+    }
+
+    public GeneratorResponse editFile(ObjectId id, GeneratorFileEditRequest request) {
+        GeneratorDoc generatorDoc = generatorService.findById(id);
+
+        fileStructChangeFile(generatorDoc.getFileStructure().getDirectory(), request.getOldFileId(), request.getNewFileId());
+        generatorService.save(generatorDoc);
+
+        return transform(generatorDoc);
+    }
+
+    public GeneratorResponse removeFile(ObjectId id, ObjectId fileId) {
+        GeneratorDoc generatorDoc = generatorService.findById(id);
+
+        fileStructDeleteFile(generatorDoc.getFileStructure().getDirectory(), fileId);
+        generatorService.save(generatorDoc);
+
+        return transform(generatorDoc);
+    }
+
+    private GeneratorResponse.File getFile(FileStructure.Directory dir, ObjectId fileId) {
+        List<GeneratorResponse.File> files = this.transformFiles(dir, "");
+        for (GeneratorResponse.File file : files) {
+            if (file.getFileId().equals(fileId.toString())) {
+                return file;
+            }
+        }
+
+        return null;
+    }
+
+    public GeneratorResponse.File fileView(ObjectId id, ObjectId fileId) {
+        GeneratorDoc generatorDoc = generatorService.findById(id);
+        GeneratorResponse.File response = getFile(generatorDoc.getFileStructure().getDirectory(), fileId);
+        if (response == null) return null;
+
+        try {
+            GridFSDBFile file = fileService.getFile(fileId);
+            String text = IOUtils.toString(file.getInputStream(), StandardCharsets.UTF_8.name());
+            response.setContent(text);
+            response.setType(GeneratorResponse.FileType.TEXT);
+        } catch (Exception e) {
+            response.setContent("text");
+            response.setType(GeneratorResponse.FileType.OTHER);
+        }
+
+        return response;
+    }
+
     public GeneratorResponse findId(ObjectId id) {
         GeneratorDoc generatorDoc = generatorService.findById(id);
         return transform(generatorService.save(generatorDoc));
@@ -53,62 +171,82 @@ public class GeneratorApiService {
     public List<GeneratorResponse> findAll() {
         List<GeneratorDoc> generatorDocs = generatorService.findAll();
         List<GeneratorResponse> responses = new ArrayList<>();
-        for(GeneratorDoc doc: generatorDocs){
+        for (GeneratorDoc doc : generatorDocs) {
             responses.add(transform(doc));
         }
 
         return responses;
     }
 
-    public GeneratorResponse fileAdd(ObjectId id, String path, MultipartFile file) {
+    public GeneratorResponse.File fileAdd(ObjectId id, String path, MultipartFile file) {
         GeneratorDoc generatorDoc = generatorService.findById(id);
 
         String[] pathArr = path.split("/");
         Integer idx = 0;
 
         FileStructure.Directory dir = null;
+        FileStructure.File result = null;
+
+        if (generatorDoc.getFileStructure().getDirectory().getName() == null) {
+            generatorDoc.getFileStructure().getDirectory().setName("root");
+        }
+
+        dir = generatorDoc.getFileStructure().getDirectory();
 
         for (String name : pathArr) {
-            if(idx == pathArr.length -1){
+            if (name.equals("")) {
+                idx = idx + 1;
+                continue;
+            }
+
+            if (name.equals("root") && pathArr[0].equals("") && idx == 1) {
+                idx = 2;
+                continue;
+            }
+
+            if (idx == pathArr.length - 1) {
                 //file
-                if(dir == null){
+                if (dir == null) {
                     dir = generatorDoc.getFileStructure().getDirectory();
-                    if(dir.getName() == null){
+                    if (dir.getName() == null) {
                         dir.setName("root");
                     }
                 }
 
                 FileStructure.File toChange = null;
-                for(FileStructure.File fileObj: dir.getFiles()){
-                    if(fileObj.getName().equals(name)){
+                for (FileStructure.File fileObj : dir.getFiles()) {
+                    if (fileObj.getName().equals(name)) {
                         //TODO: уже существует. Пока не знаю что с этим делать
                         toChange = fileObj;
+                        result = toChange;
                     }
                 }
 
-                if(toChange == null){
+                if (toChange == null) {
                     toChange = new FileStructure.File();
                     toChange.setName(name);
                     GridFSFile grid = fileService.save(file);
                     toChange.setFileId((ObjectId) grid.getId());
                     dir.getFiles().add(toChange);
+
+                    result = toChange;
                 }
-            }else{
+            } else {
                 //dir
-                if(dir == null){
+                if (dir == null) {
                     dir = generatorDoc.getFileStructure().getDirectory();
-                    if(dir.getName() == null){
+                    if (dir.getName() == null) {
                         dir.setName(name);
                     }
-                }else{
+                } else {
                     FileStructure.Directory child = null;
-                    for(FileStructure.Directory childDir : dir.getDirectories()){
-                        if(childDir.getName().equals(name)){
+                    for (FileStructure.Directory childDir : dir.getDirectories()) {
+                        if (childDir.getName().equals(name)) {
                             child = childDir;
                         }
                     }
 
-                    if(child == null) {
+                    if (child == null) {
                         child = new FileStructure.Directory();
                         child.setName(name);
                         dir.getDirectories().add(child);
@@ -118,7 +256,13 @@ public class GeneratorApiService {
             }
             idx = idx + 1;
         }
+        generatorService.save(generatorDoc);
+        GeneratorResponse.File response = new GeneratorResponse.File();
 
-        return transform(generatorService.save(generatorDoc));
+        if (result != null) {
+            response.setFileId(result.getFileId().toString());
+        }
+
+        return response;
     }
 }

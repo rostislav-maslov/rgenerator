@@ -91,7 +91,7 @@ public class ZipService {
      * @return
      * @throws IOException
      */
-    private Map contentObject(String content) throws IOException {
+    public Map contentObject(String content) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(content, Map.class);
     }
@@ -156,7 +156,7 @@ public class ZipService {
      * @return
      * @throws IOException
      */
-    private String genTemplate(Map data, String template) throws IOException {
+    public String genTemplate(Map data, String template) throws IOException {
         StringWriter stringWriter = new StringWriter();
 
         MustacheFactory mf = new DefaultMustacheFactory();

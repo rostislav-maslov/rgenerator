@@ -22,6 +22,46 @@ export default {
         return response;
     },
 
+    updateInfo(id, title, description) {
+        const urlRequest = `${CONST.V1}/generator/${id}/info`
+        const method = 'POST'
+
+        let headers = {
+            // Authentication: 'secret',
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        let contentJson = {title, description};
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+            body: JSON.stringify(contentJson)
+        });
+
+        return response;
+    },
+
+    updateJson(id, example) {
+        const urlRequest = `${CONST.V1}/generator/${id}/json`
+        const method = 'POST'
+
+        let headers = {
+            // Authentication: 'secret',
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        let contentJson = {example};
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+            body: JSON.stringify(contentJson)
+        });
+
+        return response;
+    },
+
     findById(id) {
         const urlRequest = CONST.V1 + "/generator/" + id
         const method = 'GET'
@@ -34,6 +74,45 @@ export default {
         let response = fetch(urlRequest, {
             method: method,
             headers: headers,
+        });
+
+        return response;
+    },
+
+    fileContent(id, fileId) {
+        const urlRequest = CONST.V1 + "/generator/" + id + '/file/' +fileId
+        const method = 'GET'
+
+        let headers = {
+            // Authentication: 'secret',
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+        });
+
+        return response;
+    },
+
+    generateExample(id, fileContent) {
+        const urlRequest = CONST.V1 + "/generator/" + id + '/generate'
+        const method = 'POST'
+
+        let headers = {
+            // Authentication: 'secret',
+            // 'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        let data = new FormData()
+        data.append('id', id)
+        data.append('content', fileContent)
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+            body: data
         });
 
         return response;
@@ -74,6 +153,26 @@ export default {
             method: method,
             headers: headers,
             body: data
+        });
+
+        return response;
+    },
+
+    deleteFile(id, fileId) {
+        const urlRequest = `${CONST.V1}/generator/${id}/file/${fileId}`
+        const method = 'DELETE'
+
+        let headers = {
+            // Authentication: 'secret',
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        let contentJson = {fileId};
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+            body: JSON.stringify(contentJson)
         });
 
         return response;
