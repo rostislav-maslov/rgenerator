@@ -57,20 +57,26 @@ public class ZipService {
         String dirFullPath = directory.getName();
         if (parentDirFullPath != null) dirFullPath = parentDirFullPath + "/" + dirFullPath;
 
-        File dirFile = new File(dirFullPath);
+        String dirFullPathTemplate= dirFullPath;
+
+        try {
+            dirFullPathTemplate = genTemplate(data, dirFullPath);
+        }catch (Exception ignore){}
+
+        File dirFile = new File(dirFullPathTemplate);
         if (dirFile.exists() == false) dirFile.mkdir();
 
         for (FileStructure.File file : directory.getFiles()) {
             try {
                 String content = getStringContentFromGridFS(file.getFileId());
-                createFile(dirFullPath, file.getName(), content, data);
+                createFile(dirFullPathTemplate, file.getName(), content, data);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
         for (FileStructure.Directory childDirectory : directory.getDirectories()) {
-            generateDir(dirFullPath, childDirectory, data);
+            generateDir(dirFullPathTemplate, childDirectory, data);
         }
     }
 
