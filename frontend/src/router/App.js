@@ -11,9 +11,17 @@ import {
 import Home from "../scenes/home";
 import Create from "../scenes/create";
 import TemplateResult from "../scenes/templateResult";
+import EditInfo from "../scenes/editInfo";
+import EditJson from "../scenes/editJson";
+import EditFileList from "../scenes/editFileList";
+import EditFileEdit from "../scenes/editFileEdit";
+import EditFileAdd from "../scenes/editFileAdd";
 import GenerateList from "../scenes/list";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import ViewScene from "../scenes/view";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     return (
@@ -21,15 +29,33 @@ function App() {
             <Header/>
             <div className={'content'}>
 
-                <Switch>
-                    <Route path="/list">
-                        <GenerateList/>
+                <Switch >
+                    <Route path="/generator/create">
+                        <Create/>
                     </Route>
-                    <Route path="/template-result/:id">
+                    <Route path="/generator/:id/template-result">
                         <TemplateResult/>
                     </Route>
-                    <Route path="/create">
-                        <Create/>
+                    <Route path="/generator/:id/edit/info">
+                        <EditInfo/>
+                    </Route>
+                    <Route path="/generator/:id/edit/json">
+                        <EditJson/>
+                    </Route>
+                    <Route path="/generator/:id/edit/files/add">
+                        <EditFileAdd/>
+                    </Route>
+                    <Route path="/generator/:id/edit/files/:fileId">
+                        <EditFileEdit/>
+                    </Route>
+                    <Route path="/generator/:id/edit/files">
+                        <EditFileList/>
+                    </Route>
+                    <Route path="/generator/:id">
+                        <ViewScene/>
+                    </Route>
+                    <Route path="/generator" >
+                        <GenerateList/>
                     </Route>
                     <Route path="/">
                         <Home/>
@@ -37,6 +63,7 @@ function App() {
                 </Switch>
 
             </div>
+            <ToastContainer />
             <Footer/>
         </Router>
     );
