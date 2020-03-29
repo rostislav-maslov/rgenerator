@@ -180,12 +180,14 @@ public class ZipService {
     private void createFile(String dir, String nameFile, String template, Map data) throws IOException {
         String fullPath = dir + "/" + genTemplate(data, nameFile);
 
-        File file = new File(fullPath);
+        String fullPathWithData = genTemplate(data, fullPath);
+
+        File file = new File(fullPathWithData);
         if (file.exists()) file.delete();
 
         String templateResult = genTemplate(data, template);
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath, true));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(fullPathWithData, true));
         writer.append(templateResult);
         writer.close();
     }
