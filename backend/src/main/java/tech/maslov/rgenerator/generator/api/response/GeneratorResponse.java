@@ -6,9 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GeneratorResponse {
+    public enum FileType{
+        TEXT, OTHER
+    }
     public static class File{
+
         private String fileId;
         private String path;
+        private String content;
+        private FileType type = FileType.OTHER;
 
         public String getFileId() {
             return fileId;
@@ -25,6 +31,23 @@ public class GeneratorResponse {
         public void setPath(String path) {
             this.path = path;
         }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public FileType getType() {
+            return type;
+        }
+
+        public void setType(FileType type) {
+            this.type = type;
+        }
+
     }
 
     private String id;

@@ -222,6 +222,9 @@ class TemplateResult extends Component {
                                                 <div className="col text-center">
                                                     <br/>
                                                     <br/>
+                                                    <button type="submit" className="btn btn-primary ">Generate Template Result</button>
+                                                    <br/>
+                                                    <br/>
                                                     ZIP with your template:
                                                     <a href={FILE_ATTACH(this.state.apiData.templateResult.resultFileId)}
                                                        target={'_blank'}> download

@@ -28,6 +28,7 @@ class EditFileListScene extends Component {
                 title: "",
                 description: "",
                 example: "",
+                viewResult: false
             },
             apiData: {
                 generator: {
@@ -35,9 +36,20 @@ class EditFileListScene extends Component {
                     id: null,
                     files: []
                 },
-                templateResult: null
+                file: {
+                    fileId: null,
+                    path: null,
+                    content: null,
+                    type: null
+                },
+                templateResult: {
+                    path: '',
+                    content: ''
+                }
             },
-            data: {}
+            data: {
+                file: null
+            }
         };
     }
 
@@ -57,34 +69,114 @@ class EditFileListScene extends Component {
                 response.json().then(result => {
                     let apiData = this.state.apiData
                     apiData.generator = result.result
+
                     let viewData = this.state.viewData
                     viewData.title = apiData.generator.title
                     viewData.description = apiData.generator.description
-                    try {
-                        viewData.example = JSON.parse(apiData.generator.example)
-                    } catch (e) {
-
-                    }
-                    viewData.exampleString = apiData.generator.example
 
                     self.setState({
                         apiData: apiData,
                         viewData: viewData
+                    }, () => {
+                        self.loadFileContent(id, this.props.match.params.fileId)
                     })
                 })
             })
     }
 
-    onDeleteFile = (e, fileId) => {
-        e.preventDefault();
+    loadFileContent = (id, fileId) => {
         let self = this
-        GeneratorApi.deleteFile(this.state.apiData.generator.id, fileId).then(() => {
-            self.update()
+        GeneratorApi.fileContent(id, fileId).then((result) => {
+            result.json().then((response) => {
+
+                let apiData = this.state.apiData
+                apiData.file = response.result
+
+                self.setState({
+                    apiData: apiData
+                })
+            })
         })
+    }
+
+    onChange = (e) => {
+        const files = [...e.target.files]
+        let fileToUpload = null
+        let fileObj = files[0]
+
+        fileToUpload = {
+            path: fileObj.webkitRelativePath,
+            file: fileObj,
+            didUpload: false
+        }
+
+        let data = this.state.data
+        data.file = fileToUpload
+        this.setState({data: data})
+    }
+
+    uploadFile = () => {
+        let data = this.state.data
+        let apiData = this.state.apiData
+        GeneratorApi.deleteFile(apiData.generator.id, apiData.file.fileId).then(
+            (response) => {
+                GeneratorApi.uploadFile(
+                    apiData.generator.id,
+                    apiData.file.path,
+                    data.file.file
+                ).then((response) => {
+                    response.json().then((result) => {
+                        window.location = `/generator/${apiData.generator.id}/edit/files/${result.result.fileId}`
+                    })
+                })
+            }
+        )
+    }
+
+    onChangePath = (e) => {
+        let apiData = this.state.apiData
+        apiData.file.path = e.target.value
+        this.setState({apiData: apiData})
+    }
+
+    onSubmit = (e) => {
+        e.preventDefault();
+        this.uploadFile()
         return false;
     }
 
+    onClickViewResult = (e) => {
+        e.preventDefault();
+        let viewData = this.state.viewData
+        viewData.viewResult = !viewData.viewResult
+        this.setState({viewData: viewData})
 
+        let self = this
+
+        if(viewData.viewResult == true){
+            GeneratorApi.generateExample(this.state.apiData.generator.id, this.state.apiData.file.content).then(
+                (response) => {
+                    response.text().then((text) => {
+                        let apiData = self.state.apiData
+                        apiData.templateResult.content = text
+                        self.setState({apiData:apiData})
+                    })
+                }
+            )
+
+            GeneratorApi.generateExample(this.state.apiData.generator.id, this.state.apiData.file.path).then(
+                (response) => {
+                    response.text().then((text) => {
+                        let apiData = self.state.apiData
+                        apiData.templateResult.path = text
+                        self.setState({apiData:apiData})
+                    })
+                }
+            )
+        }
+
+        return false;
+    }
 
     render() {
         return (
@@ -132,7 +224,7 @@ class EditFileListScene extends Component {
                             <div className="container-fluid">
                                 <div className={'row'}>
                                     <div className={'col'}>
-                                        <h1>{this.state.apiData.generator.title}</h1>
+                                        <h1>Edit file</h1>
                                     </div>
                                 </div>
                             </div>
@@ -147,43 +239,89 @@ class EditFileListScene extends Component {
                                 </div>
                             </div>
 
-                            <div className={'container-fluid'}>
-                                <div className={'row'}>
-                                    <div className={'col'}>
-                                        <h2>Files list</h2>
-                                        <div className="table-responsive">
-                                            <table className="table table-striped table-sm">
-                                                <thead>
-                                                <tr>
-                                                    <th style={{width: '30px'}}>#</th>
-                                                    <th>Path</th>
-                                                    <th style={{width: '160px'}}>Actions</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {this.state.apiData.generator.files.map((file, idx) => {
-                                                    return (<tr key={idx}>
-                                                        <td>{idx + 1}</td>
-                                                        <td>{file.path}</td>
-                                                        <td>
-                                                            <Link to={''} className={'btn btn-sm btn-primary'}>
-                                                                edit
-                                                            </Link> <button className={'btn btn-sm btn-danger'} onClick={(e) => {
-                                                                this.onDeleteFile(e, file.fileId)
-                                                            }}>
-                                                                delete
-                                                            </button>
-                                                        </td>
-                                                    </tr>)
-                                                })}
-                                                </tbody>
-                                            </table>
+                            <form onSubmit={this.onSubmit}>
+                                <div className="container-fluid">
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="card">
+                                                <div className="card-body">
+
+                                                    <div className={'row'}>
+                                                        <div className={'col'}>
+                                                            <div className="form-group">
+                                                                <label htmlFor="inpTitle">Path</label>
+
+                                                                <input type="text" className="form-control"
+                                                                       id="inpTitle1"
+                                                                       name={'path1'}
+                                                                       onChange={this.onChangePath}
+                                                                       value={this.state.viewData.viewResult ? this.state.apiData.templateResult.path : this.state.apiData.file.path}/>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className={'row'}>
+                                                        <div className={'col-6'}>
+                                                            <div className="form-group">
+                                                                <label htmlFor="exampleFormControlFile1">Change
+                                                                    File</label>
+                                                                <input type="file" className="form-control-file"
+                                                                       id="exampleFormControlFile1"
+                                                                       name="fileList2"
+                                                                       onChange={this.onChange}/>
+                                                            </div>
+                                                        </div>
+                                                        <div className={'col-6'}>
+                                                            <div className="form-group float-right">
+                                                                <br/>
+                                                                <button type="submit"
+                                                                        className="btn btn-primary ">Submit
+                                                                </button>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <br/>
+
+                                <div className="container-fluid">
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <div className="card">
+                                                <div className="card-body">
+
+                                                    <div className="form-group">
+                                                        <label htmlFor="txtDescription">File Content</label>
 
 
+                                                        <textarea className="form-control" id="txtDescription"
+                                                                  style={{minHeight: '30vh'}}
+                                                                  name={'description1'} disabled={true}
+                                                                  value={this.state.viewData.viewResult == false ? this.state.apiData.file.content : this.state.apiData.templateResult.content}/>
+                                                    </div>
+
+                                                    <div className="form-group text-center">
+                                                        <button onClick={this.onClickViewResult}
+                                                                className={'btn btn-primary'}>
+                                                            {this.state.viewData.viewResult == false? "View Render" : "View Content"}
+                                                        </button> <a href={'https://mustache.github.io/'} target={'_blank'} className={'btn btn-default'}>
+                                                            Mustache Docs
+                                                        </a>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </main>
                     </div>
                 </div>

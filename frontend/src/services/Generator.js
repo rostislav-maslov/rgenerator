@@ -79,6 +79,45 @@ export default {
         return response;
     },
 
+    fileContent(id, fileId) {
+        const urlRequest = CONST.V1 + "/generator/" + id + '/file/' +fileId
+        const method = 'GET'
+
+        let headers = {
+            // Authentication: 'secret',
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+        });
+
+        return response;
+    },
+
+    generateExample(id, fileContent) {
+        const urlRequest = CONST.V1 + "/generator/" + id + '/generate'
+        const method = 'POST'
+
+        let headers = {
+            // Authentication: 'secret',
+            // 'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        let data = new FormData()
+        data.append('id', id)
+        data.append('content', fileContent)
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+            body: data
+        });
+
+        return response;
+    },
+
     list() {
         const urlRequest = CONST.V1 + "/generator"
         const method = 'GET'

@@ -1,5 +1,7 @@
 package tech.maslov.rgenerator.generator.controllers;
 
+import com.mongodb.gridfs.GridFSDBFile;
+import org.apache.commons.io.IOUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,8 @@ import tech.maslov.rgenerator.generator.api.response.GeneratorResponse;
 import tech.maslov.rgenerator.generator.routes.GeneratorApiRoutes;
 import tech.maslov.rgenerator.generator.services.GeneratorApiService;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 
@@ -47,6 +51,11 @@ public class GeneratorApiController {
     @RequestMapping(value = GeneratorApiRoutes.FILE, method = RequestMethod.DELETE)
     public BaseApiResponse<GeneratorResponse> deleteFile(@PathVariable ObjectId id, @PathVariable ObjectId fileId) {
         return BaseApiResponse.of(generateApiService.removeFile(id, fileId));
+    }
+
+    @RequestMapping(value = GeneratorApiRoutes.FILE, method = RequestMethod.GET)
+    public BaseApiResponse<GeneratorResponse.File> fileView(@PathVariable ObjectId id, @PathVariable ObjectId fileId) throws IOException {
+        return BaseApiResponse.of(generateApiService.fileView(id, fileId));
     }
 
     @RequestMapping(value = GeneratorApiRoutes.ROOT, method = RequestMethod.GET)
