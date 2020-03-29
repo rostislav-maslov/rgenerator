@@ -17,6 +17,7 @@ public class GeneratorUploadController {
 
     @Autowired private GeneratorApiService generateApiService;
 
+    @ResponseBody
     @RequestMapping(value = GeneratorApiRoutes.FILE_UPLOAD, method = RequestMethod.POST)
     public BaseApiResponse<GeneratorResponse> create(@RequestParam ObjectId id, @RequestParam String path, @RequestParam MultipartFile file) throws IOException {
         return BaseApiResponse.of(generateApiService.fileAdd(id, path, file));

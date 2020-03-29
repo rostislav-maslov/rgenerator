@@ -45,8 +45,8 @@ public class GeneratorApiController {
     }
 
     @RequestMapping(value = GeneratorApiRoutes.FILE, method = RequestMethod.DELETE)
-    public BaseApiResponse<GeneratorResponse> deleteFile(@PathVariable ObjectId id, @RequestBody GeneratorFileRemoveRequest request) {
-        return BaseApiResponse.of(generateApiService.removeFile(id, request));
+    public BaseApiResponse<GeneratorResponse> deleteFile(@PathVariable ObjectId id, @PathVariable ObjectId fileId) {
+        return BaseApiResponse.of(generateApiService.removeFile(id, fileId));
     }
 
     @RequestMapping(value = GeneratorApiRoutes.ROOT, method = RequestMethod.GET)

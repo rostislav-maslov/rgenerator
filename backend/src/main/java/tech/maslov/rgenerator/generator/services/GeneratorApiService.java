@@ -6,7 +6,6 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import tech.maslov.rgenerator.generator.api.request.*;
 import tech.maslov.rgenerator.generator.api.response.GeneratorResponse;
@@ -15,7 +14,6 @@ import tech.maslov.rgenerator.generator.models.GeneratorDoc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class GeneratorApiService {
@@ -24,7 +22,26 @@ public class GeneratorApiService {
     private GeneratorService generatorService;
     @Autowired
     private FileService fileService;
-    @Autowired private GridFsOperations gridFsTemplate;
+
+    private List<GeneratorResponse.File> transformFiles(FileStructure.Directory dir, String parentPath){
+        List<GeneratorResponse.File> response = new ArrayList<>();
+
+        for(FileStructure.File file: dir.getFiles()){
+            GeneratorResponse.File responseFile = new GeneratorResponse.File();
+            responseFile.setFileId(file.getFileId().toString());
+            responseFile.setPath(parentPath + "/" + dir.getName() + "/" + file.getName());
+
+            response.add(responseFile);
+        }
+
+        for(FileStructure.Directory childDir : dir.getDirectories()){
+            response.addAll(
+                    transformFiles(childDir, parentPath + "/" + dir.getName())
+            );
+        }
+
+        return response;
+    }
 
     private GeneratorResponse transform(GeneratorDoc doc) {
         GeneratorResponse response = new GeneratorResponse();
@@ -33,6 +50,7 @@ public class GeneratorApiService {
         response.setDescription(doc.getDescription());
         response.setExample(doc.getExample());
         response.setId(doc.getId().toString());
+        response.setFiles(transformFiles(doc.getFileStructure().getDirectory(), ""));
 
         return response;
     }
@@ -104,10 +122,10 @@ public class GeneratorApiService {
         return transform(generatorDoc);
     }
 
-    public GeneratorResponse removeFile(ObjectId id, GeneratorFileRemoveRequest request){
+    public GeneratorResponse removeFile(ObjectId id, ObjectId fileId){
         GeneratorDoc generatorDoc = generatorService.findById(id);
 
-        fileStructDeleteFile(generatorDoc.getFileStructure().getDirectory(), request.getFileId());
+        fileStructDeleteFile(generatorDoc.getFileStructure().getDirectory(), fileId);
         generatorService.save(generatorDoc);
 
         return transform(generatorDoc);

@@ -119,6 +119,26 @@ export default {
         return response;
     },
 
+    deleteFile(id, fileId) {
+        const urlRequest = `${CONST.V1}/generator/${id}/file/${fileId}`
+        const method = 'DELETE'
+
+        let headers = {
+            // Authentication: 'secret',
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        let contentJson = {fileId};
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+            body: JSON.stringify(contentJson)
+        });
+
+        return response;
+    },
+
     generate(id, jsonString){
         const urlRequest = CONST.V1 + "/generator/" + id + "/generate"
         const method = 'POST'

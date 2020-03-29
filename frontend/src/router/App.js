@@ -13,6 +13,9 @@ import Create from "../scenes/create";
 import TemplateResult from "../scenes/templateResult";
 import EditInfo from "../scenes/editInfo";
 import EditJson from "../scenes/editJson";
+import EditFileList from "../scenes/editFileList";
+import EditFileEdit from "../scenes/editFileEdit";
+import EditFileAdd from "../scenes/editFileAdd";
 import GenerateList from "../scenes/list";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -38,6 +41,15 @@ function App() {
                     </Route>
                     <Route path="/generator/:id/edit/json">
                         <EditJson/>
+                    </Route>
+                    <Route path="/generator/:id/edit/files/add">
+                        <EditFileAdd/>
+                    </Route>
+                    <Route path="/generator/:id/edit/files/:fileId">
+                        <EditFileEdit/>
+                    </Route>
+                    <Route path="/generator/:id/edit/files">
+                        <EditFileList/>
                     </Route>
                     <Route path="/generator/:id">
                         <ViewScene/>

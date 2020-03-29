@@ -105,7 +105,7 @@ class CreateScene extends Component {
 
         if (hasFile == false) {
             // все файлы загрузились, нужно перейти на list
-            window.location = `/generator/${data.generator.id}/template-result`
+            window.location = `/generator/${data.generator.id}`
         }
     }
 
