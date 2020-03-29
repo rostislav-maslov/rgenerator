@@ -11,6 +11,7 @@ import {
 import ReactJson from 'react-json-view'
 
 import GeneratorApi from "../../services/Generator";
+import LeftMenuComponent from "../../components/LeftMenu";
 
 class CreateScene extends Component {
     constructor(props) {
@@ -145,122 +146,137 @@ class CreateScene extends Component {
 
     render() {
         return (
+
             <section>
-                <div className="container">
+                <div className="container-fluid">
                     <div className="row">
-                        <div className="col-sm-12">
-                            <br/>
-                            <br/>
-                            <h1>Create template</h1>
-                            <br/>
-                        </div>
-                    </div>
-                </div>
-                <form onSubmit={this.onSubmit}>
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-sm-12">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h5 className="card-title">Info</h5>
-                                        <div className="form-group">
-                                            <label htmlFor="inpTitle">Title</label>
-                                            <input type="text" className="form-control" id="inpTitle"
-                                                   name={'title'} onChange={this.onChangeInput}
-                                                   value={this.state.viewData.title}/>
+                        <LeftMenuComponent/>
 
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="txtDescription">Description</label>
-                                            <textarea className="form-control" id="txtDescription" name={'description'}
-                                                      onChange={this.onChangeInput}
-                                                      value={this.state.viewData.description}/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-6">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h5 className="card-title">Past example of your data</h5>
-                                        <textarea className="form-control" id="txtExample" name={'example'}
-                                                  onChange={this.onChangeExample}
-                                                  value={this.state.viewData.exampleString}
-                                                  style={{minHeight: '50vh'}}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-6">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h5 className="card-title">Or just create new one</h5>
-                                        <ReactJson
-                                            style={{minHeight: '50vh'}}
-                                            src={this.state.viewData.example}
-                                            collapsed={false}
-                                            enableClipboard={true}
-                                            onEdit={this.onUpdateJson}
-                                            onAdd={this.onUpdateJson}
-                                            onDelete={this.onUpdateJson}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-6">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h1>Choose dir with template</h1>
-                                        <div className="form-group">
-                                            <label htmlFor="exampleFormControlFile1">Directory</label>
-                                            <input type="file" className="form-control-file"
-                                                   id="exampleFormControlFile1"
-                                                   name="fileList2" directory="" webkitdirectory=""
-                                                   onChange={this.onChange}/>
+                        <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                            <section>
+                                <div className="container-fluid">
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <br/>
+                                            <br/>
+                                            <h1>Create template</h1>
+                                            <br/>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <form onSubmit={this.onSubmit}>
+                                    <div className="container-fluid">
+                                        <div className="row">
+                                            <div className="col-sm-12">
+                                                <div className="card">
+                                                    <div className="card-body">
+                                                        <h5 className="card-title">Info</h5>
+                                                        <div className="form-group">
+                                                            <label htmlFor="inpTitle">Title</label>
+                                                            <input type="text" className="form-control" id="inpTitle"
+                                                                   name={'title'} onChange={this.onChangeInput}
+                                                                   value={this.state.viewData.title}/>
 
-                            {this.state.data.filesToUpload.length > 0 ?
-                                (<div className="col-md-6">
-                                    <div className="card">
-                                        <div className="card-body">
-                                            <h2>Files</h2>
-                                            <div>
-                                                {this.state.data.filesToUpload.map((file, idx) => {
-                                                    return (<div key={idx}>[{file.didUpload.toString()}]
-                                                        - {file.path}</div>)
-                                                })}
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label htmlFor="txtDescription">Description</label>
+                                                            <textarea className="form-control" id="txtDescription"
+                                                                      name={'description'}
+                                                                      onChange={this.onChangeInput}
+                                                                      value={this.state.viewData.description}/>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>) : false}
-                            <br/>
-                        </div>
+                                    <br/>
+                                    <div className="container-fluid">
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <div className="card">
+                                                    <div className="card-body">
+                                                        <h5 className="card-title">Past example of your data</h5>
+                                                        <textarea className="form-control" id="txtExample"
+                                                                  name={'example'}
+                                                                  onChange={this.onChangeExample}
+                                                                  value={this.state.viewData.exampleString}
+                                                                  style={{minHeight: '50vh'}}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <div className="card">
+                                                    <div className="card-body">
+                                                        <h5 className="card-title">Or just create new one</h5>
+                                                        <ReactJson
+                                                            style={{minHeight: '50vh'}}
+                                                            src={this.state.viewData.example}
+                                                            collapsed={false}
+                                                            enableClipboard={true}
+                                                            onEdit={this.onUpdateJson}
+                                                            onAdd={this.onUpdateJson}
+                                                            onDelete={this.onUpdateJson}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div className="container-fluid">
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <div className="card">
+                                                    <div className="card-body">
+                                                        <h1>Choose dir with template</h1>
+                                                        <div className="form-group">
+                                                            <label htmlFor="exampleFormControlFile1">Directory</label>
+                                                            <input type="file" className="form-control-file"
+                                                                   id="exampleFormControlFile1"
+                                                                   name="fileList2" directory="" webkitdirectory=""
+                                                                   onChange={this.onChange}/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {this.state.data.filesToUpload.length > 0 ?
+                                                (<div className="col-md-6">
+                                                    <div className="card">
+                                                        <div className="card-body">
+                                                            <h2>Files</h2>
+                                                            <div>
+                                                                {this.state.data.filesToUpload.map((file, idx) => {
+                                                                    return (<div key={idx}>[{file.didUpload.toString()}]
+                                                                        - {file.path}</div>)
+                                                                })}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>) : false}
+                                            <br/>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <div className="container-fluid">
+                                        <div className="row">
+                                            <div className="col text-center">
+                                                <button type="submit" className="btn btn-primary ">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                </form>
+                            </section>
+                        </main>
                     </div>
-                    <br/>
-                    <br/>
-                    <div className="container">
-                        <div className="row">
-                            <div className="col text-center">
-                                <button type="submit" className="btn btn-primary ">Submit</button>
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-                    <br/>
-                </form>
+                </div>
+
+
             </section>
         );
     }

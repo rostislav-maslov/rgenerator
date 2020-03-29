@@ -11,6 +11,7 @@ import {
 import Home from "../scenes/home";
 import Create from "../scenes/create";
 import TemplateResult from "../scenes/templateResult";
+import Edit from "../scenes/edit";
 import GenerateList from "../scenes/list";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -27,6 +28,9 @@ function App() {
                     </Route>
                     <Route path="/template-result/:id">
                         <TemplateResult/>
+                    </Route>
+                    <Route path="/edit/:id">
+                        <Edit/>
                     </Route>
                     <Route path="/create">
                         <Create/>
