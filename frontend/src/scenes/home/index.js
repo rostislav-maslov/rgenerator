@@ -31,6 +31,7 @@ class HomeScene extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0,0)
         this.update()
     }
 
@@ -40,12 +41,10 @@ class HomeScene extends Component {
 
     render() {
         return (
-
             <section>
                 <div className="container-fluid">
                     <div className="row">
-                        <LeftMenuComponent/>
-
+                        <LeftMenuComponent  activeLink={'home'}/>
                         <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
                             <section>
                                 <div className="container-fluid">
@@ -57,7 +56,6 @@ class HomeScene extends Component {
                                     </div>
                                 </div>
                             </section>
-
                         </main>
                     </div>
                 </div>

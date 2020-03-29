@@ -14,6 +14,7 @@ import {withRouter} from 'react-router-dom';
 import {FILE, FILE_ATTACH} from "../../services/Const";
 import ReactJson from 'react-json-view'
 import LeftMenuComponent from "../../components/LeftMenu";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 class TemplateResult extends Component {
     constructor(props) {
@@ -27,7 +28,8 @@ class TemplateResult extends Component {
             },
             apiData: {
                 generator: {
-                    id: null
+                    id: null,
+                    title: '',
                 },
                 templateResult: null
             },
@@ -36,6 +38,7 @@ class TemplateResult extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0)
         this.update()
     }
 
@@ -126,22 +129,53 @@ class TemplateResult extends Component {
             <section>
                 <div className="container-fluid">
                     <div className="row">
-                        <LeftMenuComponent/>
+                        <LeftMenuComponent  activeLink={'generate'} generator={this.state.apiData.generator}/>
 
                         <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                            <section>
+                                <div className={'container-fluid'}>
+                                    <div className={'row'}>
+                                        <div className={'col-10'}>
+                                            <Breadcrumbs links={[
+                                                {title: 'Home', url: '/'},
+                                                {title: 'Generators', url: '/generator'},
+                                                {
+                                                    title: this.state.apiData.generator.title,
+                                                    url: `/generator/${this.props.match.params.id}`
+                                                },
+                                                {
+                                                    title: 'Generate',
+                                                    url: `/generator/${this.props.match.params.id}/template-result`
+                                                },
+                                            ]}/>
+                                        </div>
+                                        <div className={'col-2'}>
+                                            <Link to={`/generator/${this.props.match.params.id}/edit/info`}
+                                                  style={{
+                                                      padding: '.69rem 1rem',
+                                                      fontSize: '.875rem'
+                                                  }}
+                                                  className={'btn btn-primary btn-md float-right'}>
+                                                Edit
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
                             <section>
                                 <div className="container-fluid">
                                     <div className={'row'}>
                                         <div className={'col'}>
-                                            <br/>
-                                            <br/>
                                             <h1>
-                                                Generate: {this.state.viewData.title} <Link
-                                                to={`/edit/${this.state.apiData.generator.id}`}
-                                                className={'btn btn-info'}>Edit</Link>
+                                                Generate: {this.state.viewData.title}
                                             </h1>
-                                            <p>{this.state.viewData.description}</p>
-                                            <br/>
+                                        </div>
+                                    </div>
+                                    <div className={'row'}>
+                                        <div className={'col'}>
+                                            <div
+                                                className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -203,7 +237,7 @@ class TemplateResult extends Component {
                                             <div className="col text-center">
                                                 <br/>
                                                 <br/>
-                                                <button type="submit" className="btn btn-primary ">Submit</button>
+                                                <button type="submit" className="btn btn-primary ">Generate Template Result</button>
                                                 <br/>
                                                 <br/>
                                             </div>

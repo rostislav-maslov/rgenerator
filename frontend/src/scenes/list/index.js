@@ -10,6 +10,7 @@ import {
 
 import GeneratorApi from "../../services/Generator";
 import LeftMenuComponent from "../../components/LeftMenu";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 class ListScene extends Component {
     constructor(props) {
@@ -25,6 +26,7 @@ class ListScene extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0,0)
         this.update()
     }
 
@@ -51,15 +53,36 @@ class ListScene extends Component {
             <section>
                 <div className="container-fluid">
                     <div className="row">
-                        <LeftMenuComponent/>
+                        <LeftMenuComponent  activeLink={'list'}/>
 
                         <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                            <section>
+                                <div className={'container-fluid'}>
+                                    <div className={'row'}>
+                                        <div className={'col-10'}>
+                                            <Breadcrumbs links={[
+                                                {title:'Home', url:'/'},
+                                                {title:'Generators', url:'/generator'},
+                                            ]}/>
+                                        </div>
+                                        <div className={'col-2'}>
+                                            <Link to={'/generator/create'}
+                                                  style={{
+                                                      padding: '.69rem 1rem',
+                                                      fontSize: '.875rem'
+                                                  }}
+                                                  className={'btn btn-primary btn-md float-right'}>
+                                                Create new
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
                             <section>
                                 <div className="container-fluid">
                                     <div className={'row'}>
                                         <div className={'col'}>
-                                            <br/>
-                                            <h1>Templates</h1>
+                                            <h1>RGenerator list</h1>
                                             <br/>
                                             <br/>
                                         </div>
@@ -69,7 +92,7 @@ class ListScene extends Component {
                                             <div className="list-group">
                                                 {this.state.apiData.list.map((generator, idx) => {
                                                     return (
-                                                        <Link key={idx} to={'/template-result/' + generator.id}
+                                                        <Link key={idx} to={`/generator/${generator.id}/view`}
                                                               className="list-group-item list-group-item-action flex-column align-items-start">
 
                                                             <div className="d-flex w-100 justify-content-between">

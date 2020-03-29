@@ -15,6 +15,8 @@ import Edit from "../scenes/edit";
 import GenerateList from "../scenes/list";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import ViewScene from "../scenes/view";
+
 
 function App() {
     return (
@@ -22,18 +24,21 @@ function App() {
             <Header/>
             <div className={'content'}>
 
-                <Switch>
-                    <Route path="/list">
-                        <GenerateList/>
+                <Switch >
+                    <Route path="/generator/create">
+                        <Create/>
                     </Route>
-                    <Route path="/template-result/:id">
+                    <Route path="/generator/:id/template-result">
                         <TemplateResult/>
                     </Route>
-                    <Route path="/edit/:id">
+                    <Route path="/generator/:id/edit">
                         <Edit/>
                     </Route>
-                    <Route path="/create">
-                        <Create/>
+                    <Route path="/generator/:id">
+                        <ViewScene/>
+                    </Route>
+                    <Route path="/generator" >
+                        <GenerateList/>
                     </Route>
                     <Route path="/">
                         <Home/>

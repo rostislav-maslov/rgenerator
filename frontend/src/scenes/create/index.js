@@ -12,6 +12,7 @@ import ReactJson from 'react-json-view'
 
 import GeneratorApi from "../../services/Generator";
 import LeftMenuComponent from "../../components/LeftMenu";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 class CreateScene extends Component {
     constructor(props) {
@@ -36,6 +37,7 @@ class CreateScene extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0,0)
         this.update()
     }
 
@@ -103,7 +105,7 @@ class CreateScene extends Component {
 
         if (hasFile == false) {
             // все файлы загрузились, нужно перейти на list
-            window.location = `/template-result/${data.generator.id}`
+            window.location = `/generator/${data.generator.id}/template-result`
         }
     }
 
@@ -150,16 +152,27 @@ class CreateScene extends Component {
             <section>
                 <div className="container-fluid">
                     <div className="row">
-                        <LeftMenuComponent/>
+                        <LeftMenuComponent activeLink={'create'}/>
 
                         <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                            <section>
+                                <div className={'container-fluid'}>
+                                    <div className={'row'}>
+                                        <div className={'col-12'}>
+                                            <Breadcrumbs links={[
+                                                {title:'Home', url:'/'},
+                                                {title:'Generators', url:'/generator'},
+                                                {title:'Create new', url:'/generator/create'},
+                                            ]}/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
                             <section>
                                 <div className="container-fluid">
                                     <div className="row">
                                         <div className="col-sm-12">
-                                            <br/>
-                                            <br/>
-                                            <h1>Create template</h1>
+                                            <h1>Create Generator</h1>
                                             <br/>
                                         </div>
                                     </div>

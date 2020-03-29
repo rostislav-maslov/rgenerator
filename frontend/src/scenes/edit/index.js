@@ -34,6 +34,7 @@ class EditScene extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0,0)
         this.update()
     }
 
@@ -124,7 +125,7 @@ class EditScene extends Component {
             <section>
                 <div className="container-fluid">
                     <div className="row">
-                        <LeftMenuComponent/>
+                        <LeftMenuComponent  activeLink={'info'} generator={this.state.apiData.generator}/>
 
                         <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 
