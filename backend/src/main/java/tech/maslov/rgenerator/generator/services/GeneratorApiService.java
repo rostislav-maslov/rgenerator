@@ -4,10 +4,11 @@ import com.mongodb.gridfs.GridFSFile;
 import com.ub.core.file.services.FileService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import tech.maslov.rgenerator.generator.api.request.GeneratorAddRequest;
+import tech.maslov.rgenerator.generator.api.request.*;
 import tech.maslov.rgenerator.generator.api.response.GeneratorResponse;
 import tech.maslov.rgenerator.generator.models.FileStructure;
 import tech.maslov.rgenerator.generator.models.GeneratorDoc;
@@ -23,6 +24,7 @@ public class GeneratorApiService {
     private GeneratorService generatorService;
     @Autowired
     private FileService fileService;
+    @Autowired private GridFsOperations gridFsTemplate;
 
     private GeneratorResponse transform(GeneratorDoc doc) {
         GeneratorResponse response = new GeneratorResponse();
@@ -43,6 +45,72 @@ public class GeneratorApiService {
         generatorDoc.setExample(request.getExample());
 
         return transform(generatorService.save(generatorDoc));
+    }
+
+    public GeneratorResponse editInfo(ObjectId id, GeneratorInfoRequest request){
+        GeneratorDoc generatorDoc = generatorService.findById(id);
+
+        generatorDoc.setTitle(request.getTitle());
+        generatorDoc.setDescription(request.getDescription());
+        generatorService.save(generatorDoc);
+
+        return transform(generatorDoc);
+    }
+
+    public GeneratorResponse editJson(ObjectId id, GeneratorJsonRequest request){
+        GeneratorDoc generatorDoc = generatorService.findById(id);
+        generatorDoc.setExample(request.getExample());
+        generatorService.save(generatorDoc);
+
+        return transform(generatorDoc);
+    }
+
+    private void fileStructChangeFile(FileStructure.Directory dir, ObjectId oldId, ObjectId newId){
+        for(FileStructure.File file : dir.getFiles()){
+            if( file.getFileId().equals(oldId) ){
+                file.setFileId(newId);
+                fileService.delete(oldId);
+                return;
+            }
+        }
+
+        for(FileStructure.Directory childDir : dir.getDirectories()){
+            fileStructChangeFile(childDir, oldId, newId);
+        }
+    }
+
+    private void fileStructDeleteFile(FileStructure.Directory dir, ObjectId oldId){
+        List<FileStructure.File> toDelete = new ArrayList<>();
+
+        for(FileStructure.File file : dir.getFiles()){
+            if( file.getFileId().equals(oldId) ){
+                fileService.delete(oldId);
+                toDelete.add(file);
+            }
+        }
+        dir.getFiles().removeAll(toDelete);
+
+        for(FileStructure.Directory childDir : dir.getDirectories()){
+            fileStructDeleteFile(childDir, oldId);
+        }
+    }
+
+    public GeneratorResponse editFile(ObjectId id, GeneratorFileEditRequest request){
+        GeneratorDoc generatorDoc = generatorService.findById(id);
+
+        fileStructChangeFile(generatorDoc.getFileStructure().getDirectory(), request.getOldFileId(), request.getNewFileId());
+        generatorService.save(generatorDoc);
+
+        return transform(generatorDoc);
+    }
+
+    public GeneratorResponse removeFile(ObjectId id, GeneratorFileRemoveRequest request){
+        GeneratorDoc generatorDoc = generatorService.findById(id);
+
+        fileStructDeleteFile(generatorDoc.getFileStructure().getDirectory(), request.getFileId());
+        generatorService.save(generatorDoc);
+
+        return transform(generatorDoc);
     }
 
     public GeneratorResponse findId(ObjectId id) {
