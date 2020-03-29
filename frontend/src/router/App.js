@@ -11,12 +11,14 @@ import {
 import Home from "../scenes/home";
 import Create from "../scenes/create";
 import TemplateResult from "../scenes/templateResult";
-import Edit from "../scenes/edit";
+import EditInfo from "../scenes/editInfo";
+import EditJson from "../scenes/editJson";
 import GenerateList from "../scenes/list";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ViewScene from "../scenes/view";
-
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     return (
@@ -31,8 +33,11 @@ function App() {
                     <Route path="/generator/:id/template-result">
                         <TemplateResult/>
                     </Route>
-                    <Route path="/generator/:id/edit">
-                        <Edit/>
+                    <Route path="/generator/:id/edit/info">
+                        <EditInfo/>
+                    </Route>
+                    <Route path="/generator/:id/edit/json">
+                        <EditJson/>
                     </Route>
                     <Route path="/generator/:id">
                         <ViewScene/>
@@ -46,6 +51,7 @@ function App() {
                 </Switch>
 
             </div>
+            <ToastContainer />
             <Footer/>
         </Router>
     );

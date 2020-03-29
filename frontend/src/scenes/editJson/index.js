@@ -14,8 +14,12 @@ import {withRouter} from 'react-router-dom';
 import {FILE, FILE_ATTACH} from "../../services/Const";
 import ReactJson from 'react-json-view'
 import LeftMenuComponent from "../../components/LeftMenu";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
-class EditScene extends Component {
+import {toast, ToastContainer} from 'react-toastify';
+
+
+class EditJsonScene extends Component {
     constructor(props) {
         super(props);
 
@@ -26,7 +30,10 @@ class EditScene extends Component {
                 example: "",
             },
             apiData: {
-                generator: null,
+                generator: {
+                    title: '',
+                    id: null
+                },
                 templateResult: null
             },
             data: {}
@@ -67,26 +74,22 @@ class EditScene extends Component {
             })
     }
 
-
-    generate = () => {
-        let self = this
-        TemplateResultApi.create(
-            this.state.apiData.generator.id,
-            JSON.stringify(this.state.viewData.example)
-        ).then((result) => {
-            result.json().then((responseJson) => {
-                const json = responseJson.result
-                let apiData = self.state.apiData
-                apiData.templateResult = json
-                self.setState({apiData: apiData})
-            })
-        })
-    }
-
     onSubmit = (e) => {
         e.preventDefault();
-        this.generate()
+        this.save()
         return false;
+    }
+
+    save = () => {
+        let request = {}
+        let self = this
+        GeneratorApi
+            .updateJson(this.state.apiData.generator.id, this.state.viewData.exampleString)
+            .then((result) => {
+                toast.success("Your generator did update",{
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+            })
     }
 
     onUpdateJson = (e) => {
@@ -111,51 +114,50 @@ class EditScene extends Component {
         }
     }
 
-    onChangeInput = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
-
-        let viewData = this.state.viewData;
-        viewData[name] = value
-        this.setState({viewData: viewData})
-    }
-
     render() {
         return (
             <section>
                 <div className="container-fluid">
                     <div className="row">
-                        <LeftMenuComponent  activeLink={'info'} generator={this.state.apiData.generator}/>
+                        <LeftMenuComponent  activeLink={'json'} generator={this.state.apiData.generator}/>
 
                         <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                            <section>
+                                <div className={'container-fluid'}>
+                                    <div className={'row'}>
+                                        <div className={'col-10'}>
+                                            <Breadcrumbs links={[
+                                                {title: 'Home', url: '/'},
+                                                {title: 'Generators', url: '/generator'},
+                                                {
+                                                    title: this.state.apiData.generator.title,
+                                                    url: `/generator/${this.props.match.params.id}`
+                                                },
+                                                {
+                                                    title: 'Edit Json',
+                                                    url: `/generator/${this.props.match.params.id}/json`
+                                                },
+                                            ]}/>
+                                        </div>
+                                        <div className={'col-2'}>
+                                            <Link to={`/generator/${this.props.match.params.id}/template-result`}
+                                                  style={{
+                                                      padding: '.69rem 1rem',
+                                                      fontSize: '.875rem'
+                                                  }}
+                                                  className={'btn btn-primary btn-md float-right'}>
+                                                Generate
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
 
-
-                            <div className={'container-fluid'}>
+                            <div className="container-fluid">
                                 <div className={'row'}>
-                                    <div className={'col-md-4'}>
-                                        <h1 className="h2">Dashboard</h1>
+                                    <div className={'col'}>
+                                        <h1>{this.state.apiData.generator.title}</h1>
                                     </div>
-                                    <div className={'col-md-4'}>
-                                        <div className="btn-group" role="group" aria-label="Basic example">
-                                            <button type="button" className="btn btn-secondary">JSON Data</button>
-                                            <button type="button" className="btn btn-light">Files</button>
-                                        </div>
-                                    </div>
-                                    <div className={'col-md-4'}>
-                                        <div
-                                            className={'d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center float-right'}>
-                                            <nav aria-label="breadcrumb">
-                                                <ol className="breadcrumb">
-                                                    <li className="breadcrumb-item"><a href="#">Home</a></li>
-                                                    <li className="breadcrumb-item"><a href="#">Library</a></li>
-                                                    <li className="breadcrumb-item active"
-                                                        aria-current="page">Data
-                                                    </li>
-                                                </ol>
-                                            </nav>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
 
@@ -169,50 +171,26 @@ class EditScene extends Component {
                                 </div>
                             </div>
 
-                            <div className="container-fluid">
-                                <div className={'row'}>
-                                    <div className={'col'}>
-                                        <br/>
-                                        <br/>
-                                        <h1>Generate: {this.state.viewData.title}</h1>
-                                        <p>{this.state.viewData.description}</p>
-                                        <br/>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div className={'container-fluid'}>
-                                <div className={'row'}>
-                                    <div className={'col'}>
-                                        <div className="btn-group" role="group" aria-label="Basic example">
-                                            <button type="button" className="btn btn-primary">JSON Data</button>
-                                            <button type="button" className="btn btn-light">Files</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <form onSubmit={this.onSubmit}>
-                                <div className="container">
+                                <div className="container-fluid">
                                     <div className="row">
-
                                         <div className="col-md-6">
                                             <div className="card">
                                                 <div className="card-body">
-                                                    <h5 className="card-title">Paste your data</h5>
-
-                                                    <textarea className="form-control" id="txtExample" name={'example'}
+                                                    <h5 className="card-title">Past example of your data</h5>
+                                                    <textarea className="form-control" id="txtExample"
+                                                              name={'example'}
                                                               onChange={this.onChangeExample}
+                                                              value={this.state.viewData.exampleString}
                                                               style={{minHeight: '50vh'}}
-                                                              value={this.state.viewData.exampleString}/>
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="card">
                                                 <div className="card-body">
-                                                    <h5 className="card-title">Or just edit current json</h5>
+                                                    <h5 className="card-title">Or just create new one</h5>
                                                     <ReactJson
                                                         style={{minHeight: '50vh'}}
                                                         src={this.state.viewData.example}
@@ -228,24 +206,7 @@ class EditScene extends Component {
                                     </div>
                                 </div>
 
-
-                                {this.state.apiData.templateResult != null ? (
-                                    <div className="container">
-                                        <div className="row">
-                                            <div className="col text-center">
-                                                <br/>
-                                                <br/>
-                                                ZIP with your template:
-                                                <a href={FILE_ATTACH(this.state.apiData.templateResult.resultFileId)}
-                                                   target={'_blank'}> download
-                                                    - {this.state.apiData.templateResult.resultFileId}
-                                                </a>
-                                                <br/>
-                                                <br/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ) : (<div className="container">
+                                <div className="container">
                                     <div className="row">
                                         <div className="col text-center">
                                             <br/>
@@ -255,8 +216,7 @@ class EditScene extends Component {
                                             <br/>
                                         </div>
                                     </div>
-                                </div>)}
-
+                                </div>
 
                             </form>
 
@@ -271,4 +231,4 @@ class EditScene extends Component {
 }
 
 
-export default withRouter(EditScene);
+export default withRouter(EditJsonScene);

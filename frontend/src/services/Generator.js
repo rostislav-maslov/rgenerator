@@ -22,6 +22,46 @@ export default {
         return response;
     },
 
+    updateInfo(id, title, description) {
+        const urlRequest = `${CONST.V1}/generator/${id}/info`
+        const method = 'POST'
+
+        let headers = {
+            // Authentication: 'secret',
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        let contentJson = {title, description};
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+            body: JSON.stringify(contentJson)
+        });
+
+        return response;
+    },
+
+    updateJson(id, example) {
+        const urlRequest = `${CONST.V1}/generator/${id}/json`
+        const method = 'POST'
+
+        let headers = {
+            // Authentication: 'secret',
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        let contentJson = {example};
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+            body: JSON.stringify(contentJson)
+        });
+
+        return response;
+    },
+
     findById(id) {
         const urlRequest = CONST.V1 + "/generator/" + id
         const method = 'GET'
