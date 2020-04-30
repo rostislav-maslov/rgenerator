@@ -12,8 +12,9 @@
     <name>rgenerator Suite</name>
 
     <modules>
-        <module>../../ubcore</module>
         <module>../backend</module>
+        <module>../core</module>
+        <module>../client</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
