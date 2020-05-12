@@ -9,7 +9,7 @@ import {
 import Home from "../scenes/HomeScene";
 import Create from "../scenes/CreateScene";
 import TemplateResult from "../scenes/templateResult";
-import EditInfo from "../scenes/editInfo";
+import GenerateEditInfoScene from "../scenes/GenerateEditInfoScene";
 import EditJson from "../scenes/editJson";
 import EditFileList from "../scenes/editFileList";
 import EditFileEdit from "../scenes/editFileEdit";
@@ -90,7 +90,7 @@ const App: React.FC<Props> = (props: Props) => {
                                 <TemplateResult/>
                             </Route>
                             <Route path="/generator/:id/edit/info">
-                                <EditInfo/>
+                                <GenerateEditInfoScene/>
                             </Route>
                             <Route path="/generator/:id/edit/json">
                                 <EditJson/>

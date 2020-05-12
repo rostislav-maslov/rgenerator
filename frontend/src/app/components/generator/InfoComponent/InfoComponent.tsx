@@ -1,29 +1,28 @@
 import React from 'react'
 import InfoProps from "./InfoProps";
+import InfoStyles from "./InfoStyles";
 
 import Input from '@material-ui/core/Input'
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
 
 const InfoComponent: React.FC<InfoProps> = (props: InfoProps) => {
-    let title = ''
-    let description = ''
-    let onChangeInput = () => {}
-    return (
-        <div>
-            <div className="card">
-                <div className="card-body">
-                    <h5 className="card-title">Info</h5>
-                    <div className="form-group">
-                        <label htmlFor="inpTitle">Title</label>
-                               <Input type={'text'}/>
+    let classes = InfoStyles()
 
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="txtDescription">Description</label>
-                        <Input type={'textarea'}/>
-                    </div>
-                </div>
-            </div>
-        </div>
+    return (
+        <Paper className={classes.paper}>
+            <h5 className={classes.title}>Info</h5>
+            <TextField label="Title" variant="outlined" required fullWidth margin="normal" value={props.title}
+                       name={'title'}
+                       onChange={props.onChangeTitle}/>
+            <TextField label="Description" variant="outlined" required fullWidth margin="normal"
+                       name={'description'}
+                       multiline={true}
+                       rowsMax={10}
+                       rows={4}
+                       defaultValue=""
+                       value={props.description} onChange={props.onChangeDescription}/>
+        </Paper>
     )
 }
 

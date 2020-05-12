@@ -19,8 +19,8 @@ function item(key: string, title: string, link: string, activeLink: string): Lef
     return item;
 }
 
-function itemBadge(key: string, title: string, link: string, activeLink: string, badge:string): LeftMenuItemProps {
-    let itemObj:LeftMenuItemProps = item(key, title, link, activeLink)
+function itemBadge(key: string, title: string, link: string, activeLink: string, badge: string): LeftMenuItemProps {
+    let itemObj: LeftMenuItemProps = item(key, title, link, activeLink)
 
     itemObj.showBadge = true
     itemObj.badge = badge
@@ -29,7 +29,7 @@ function itemBadge(key: string, title: string, link: string, activeLink: string,
 }
 
 function itemPlusBtn(key: string, title: string, link: string, activeLink: string): LeftMenuItemProps {
-    let itemObj:LeftMenuItemProps = item(key, title, link, activeLink)
+    let itemObj: LeftMenuItemProps = item(key, title, link, activeLink)
 
     itemObj.showPlusButton = true
 
@@ -51,15 +51,15 @@ export const generateLeftMenuProps = (activeLink: string, generator: any) => {
         ]
     }
 
-    if(generator != null ) {
+    if (generator != null) {
         menu.groups.push({
             items: [
                 itemPlusBtn('---', generator.title, '/generator', activeLink),
-                item('view', '👁️ View', '/generator', activeLink),
-                item('info', 'ℹ️ Info', '/generator', activeLink),
-                item('json', '📝 JSON Data', '/generator', activeLink),
-                item('files', '📁 Files', '/generator', activeLink),
-                item('generate', '🤖 GENERATE', '/generator', activeLink),
+                item('view', '👁️ View', '/generator/' + generator.id, activeLink),
+                item('info', 'ℹ️ Info', '/generator/' + generator.id + '/edit/info', activeLink),
+                item('json', '📝 JSON Data', '/generator/'+generator.id+'/edit/json', activeLink),
+                item('files', '📁 Files', '/generator/'+generator.id+'/edit/files', activeLink),
+                item('generate', '🤖 GENERATE', '/generator/'+generator.id+'/template-result', activeLink),
             ]
         })
     }
