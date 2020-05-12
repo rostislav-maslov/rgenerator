@@ -21,7 +21,7 @@ import SignUpScene from "../scenes/SignUpScene";
 
 import Header from "../components/base/HeaderComponent";
 import Footer from "../components/base/FooterComponent";
-import ViewScene from "../scenes/GeneratorViewScene";
+import ViewScene from "../scenes/GeneratorViewScene/GeneratorViewScene";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 

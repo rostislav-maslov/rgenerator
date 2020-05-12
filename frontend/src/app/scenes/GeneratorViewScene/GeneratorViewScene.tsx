@@ -1,46 +1,18 @@
 import React, {Component} from 'react';
 
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
-import {RouteComponentProps} from "react-router";
 import GeneratorApi from "../../../gateways/services/Generator";
-import TemplateResultApi from "../../../gateways/services/TemplateResult";
-import {withRouter} from 'react-router-dom';
-import {FILE, FILE_ATTACH} from "../../../gateways/services/Const";
-import ReactJson from 'react-json-view'
 import LeftMenuComponent from "../../components/explore/LeftMenuComponent";
 import Breadcrumbs from "../../components/base/BreadcrumbsComponent/BreadcrumbsComponent";
-import LeftMenuGroupProps from "../../components/explore/LeftMenuComponent/LeftMenuGroupProps";
-import LeftMenuItemProps from "../../components/explore/LeftMenuComponent/LeftMenuItemProps";
 import {generateLeftMenuProps} from "../../components/explore/LeftMenuComponent/LeftMenuProps";
-import GeneratorItemProps from "../../components/explore/GeneratorItemComponent/GeneratorItemProps";
-import GeneratorItemComponent from "../../components/explore/GeneratorItemComponent";
 import Grid from '@material-ui/core/Grid';
-import GeneratorViewStyles from "./GeneratorViewStyles";
 import CardLinkComponent from "../../components/generator/CardLinkComponent";
+import PropsType from './GeneratorViewProps'
+import StateType from './GeneratorViewState'
+import HeaderComponent from "./components/HeaderComponent";
 
-// Type whatever you expect in 'this.props.match.params.*'
-type PathParamsType = {
-    id: string,
-}
-
-// Your component own properties
-type PropsType = RouteComponentProps<PathParamsType> & {
-    someString?: string,
-}
-
-interface Stt {
-    viewData: any,
-    apiData: any,
-    data: any
-}
-
-class GeneratorViewScene extends Component<PropsType, Stt> {
+class GeneratorViewScene extends Component<PropsType, StateType> {
     constructor(props: any) {
         super(props);
 
@@ -120,20 +92,7 @@ class GeneratorViewScene extends Component<PropsType, Stt> {
                             <LeftMenuComponent {...generateLeftMenuProps('view', this.state.apiData.generator)}/>
                         </Grid>
                         <Grid item xs={12} md={8} lg={9}>
-                            <div className="container-fluid">
-                                <div className={'row'}>
-                                    <div className={'col'}>
-                                        <h1>{this.state.viewData.title}</h1>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="container-fluid">
-                                <div className={'row'}>
-                                    <div className={'col'}>
-                                        <p>{this.state.viewData.description}</p>
-                                    </div>
-                                </div>
-                            </div>
+                            <HeaderComponent title={this.state.viewData.title} description={this.state.viewData.description}/>
 
                             <Grid container spacing={1}
                                   direction="row"
