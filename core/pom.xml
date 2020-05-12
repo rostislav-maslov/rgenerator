@@ -4,18 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.github.rostislav-maslov.rcore</groupId>
-        <artifactId>domain</artifactId>
-        <version>0.9.3</version>
-        <relativePath/>
-    </parent>
+<!--    <parent>-->
+<!--        <groupId>com.github.rostislav-maslov.rcore</groupId>-->
+<!--        <artifactId>domain</artifactId>-->
+<!--        <version>0.9.3</version>-->
+<!--        <relativePath/>-->
+<!--    </parent>-->
 
     <groupId>tech.maslov.rgenerator</groupId>
     <artifactId>core</artifactId>
     <version>0.1.0</version>
 
-    <packaging>jar</packaging>
     <name>RGenerator Core</name>
 
     <properties>
@@ -104,8 +103,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
                 <version>2.5.1</version>
             </plugin>
