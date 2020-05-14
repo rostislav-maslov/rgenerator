@@ -1,0 +1,2 @@
+import GeneratorEditFileEditScene from "./GeneratorEditFileEditScene";
+export default GeneratorEditFileEditScene

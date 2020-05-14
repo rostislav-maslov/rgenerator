@@ -12,7 +12,7 @@ import TemplateResult from "../scenes/templateResult";
 import GenerateEditInfoScene from "../scenes/GenerateEditInfoScene";
 import GenerateEditJsonScene from "../scenes/GenerateEditJsonScene";
 import EditFileList from "../scenes/GenerateEditFileListScene";
-import EditFileEdit from "../scenes/editFileEdit";
+import EditFileEdit from "../scenes/GeneratorEditFileEditScene";
 import EditFileAdd from "../scenes/GenerateEditFileAddScene";
 import ExploreScene from "../scenes/ExploreScene";
 import LoginScene from "../scenes/LoginScene";
