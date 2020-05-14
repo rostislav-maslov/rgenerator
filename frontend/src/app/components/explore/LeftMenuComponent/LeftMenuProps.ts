@@ -13,7 +13,7 @@ function item(key: string, title: string, link: string, activeLink: string): Lef
         link: link,
         showBadge: false,
         showPlusButton: false,
-        isActive: key == activeLink
+        isActive: key === activeLink
     } as LeftMenuItemProps
 
     return item;

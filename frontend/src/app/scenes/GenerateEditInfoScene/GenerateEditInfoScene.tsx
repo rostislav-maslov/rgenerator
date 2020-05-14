@@ -13,6 +13,7 @@ import {generateLeftMenuProps} from "../../components/explore/LeftMenuComponent/
 import Grid from '@material-ui/core/Grid';
 import InfoComponent from "../../components/generator/InfoComponent";
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 class GenerateEditInfoScene extends Component<PropsType, StateType> {
     constructor(props: any) {
@@ -123,11 +124,12 @@ class GenerateEditInfoScene extends Component<PropsType, StateType> {
                             <LeftMenuComponent {...generateLeftMenuProps('info', this.state.apiData.generator)}/>
                         </Grid>
                         <Grid item xs={12} md={8} lg={9}>
-                            <div className="container-fluid">
-                                <h1>Edit Info</h1>
-                            </div>
 
-
+                            <Typography variant="h3" component="h1">
+                                Edit Info
+                            </Typography>
+                            <br/>
+                            <br/>
                             <form onSubmit={this.onSubmit}>
 
                                 <InfoComponent

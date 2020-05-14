@@ -15,12 +15,12 @@ const LeftMenuComponent: React.FC<LeftMenuProps> = (props: LeftMenuProps) => {
 
     return (
         <Paper className={classes.container}>
-            {props.groups.map((group: LeftMenuGroupProps) => {
+            {props.groups.map((group: LeftMenuGroupProps, idx) => {
                 return (
-                    <div className={classes.group}>
-                        {group.items.map((item: LeftMenuItemProps) => {
+                    <div key={idx} className={classes.group}>
+                        {group.items.map((item: LeftMenuItemProps, idx: number) => {
                             return (
-                                <LeftMenuItemComponent {...item}/>
+                                <LeftMenuItemComponent key={idx} {...item}/>
                             );
                         })}
                     </div>

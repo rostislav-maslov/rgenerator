@@ -13,9 +13,9 @@ const BreadcrumbsComponent: React.FC<BreadcrumbsProps> = (props: BreadcrumbsProp
     return (
         <section className={classes.container}>
             <Breadcrumbs separator="›" aria-label="breadcrumb" >
-                {props.links.map((link: BreadcrumbsItemProps) => {
+                {props.links.map((link: BreadcrumbsItemProps, idx: number) => {
                     return (
-                        <BreadcrumbsItemComponent {...link}/>
+                        <BreadcrumbsItemComponent key={idx} {...link}/>
                     )
                 })}
             </Breadcrumbs>

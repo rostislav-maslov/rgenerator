@@ -11,7 +11,7 @@ import Create from "../scenes/CreateScene";
 import TemplateResult from "../scenes/templateResult";
 import GenerateEditInfoScene from "../scenes/GenerateEditInfoScene";
 import GenerateEditJsonScene from "../scenes/GenerateEditJsonScene";
-import EditFileList from "../scenes/editFileList";
+import EditFileList from "../scenes/GenerateEditFileListScene";
 import EditFileEdit from "../scenes/editFileEdit";
 import EditFileAdd from "../scenes/editFileAdd";
 import ExploreScene from "../scenes/ExploreScene";

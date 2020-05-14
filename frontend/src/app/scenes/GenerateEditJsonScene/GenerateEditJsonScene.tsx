@@ -16,6 +16,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import JsonComponent from "../../components/generator/JsonComponent";
 import JsonStringComponent from "../../components/generator/JsonStringComponent";
+import Typography from '@material-ui/core/Typography';
 
 
 class GenerateEditJsonScene extends Component<PropsType, StateType> {
@@ -140,11 +141,11 @@ class GenerateEditJsonScene extends Component<PropsType, StateType> {
                         </Grid>
                         <Grid item xs={12} md={8} lg={9}>
                             <form onSubmit={this.onSubmit}>
-
-                                <div className="container-fluid">
-                                    <h1>{this.state.apiData.generator.title}</h1>
-                                </div>
-
+                                <Typography variant="h3" component="h1">
+                                    {this.state.apiData.generator.title}
+                                </Typography>
+                                <br/>
+                                <br/>
                                 <Grid container spacing={3}
                                       direction="row"
                                       justify="flex-start"
