@@ -13,7 +13,7 @@ import GenerateEditInfoScene from "../scenes/GenerateEditInfoScene";
 import GenerateEditJsonScene from "../scenes/GenerateEditJsonScene";
 import EditFileList from "../scenes/GenerateEditFileListScene";
 import EditFileEdit from "../scenes/editFileEdit";
-import EditFileAdd from "../scenes/editFileAdd";
+import EditFileAdd from "../scenes/GenerateEditFileAddScene";
 import ExploreScene from "../scenes/ExploreScene";
 import LoginScene from "../scenes/LoginScene";
 import SignUpScene from "../scenes/SignUpScene";
