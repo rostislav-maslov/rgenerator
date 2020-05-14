@@ -10,7 +10,7 @@ import Home from "../scenes/HomeScene";
 import Create from "../scenes/CreateScene";
 import TemplateResult from "../scenes/templateResult";
 import GenerateEditInfoScene from "../scenes/GenerateEditInfoScene";
-import EditJson from "../scenes/editJson";
+import GenerateEditJsonScene from "../scenes/GenerateEditJsonScene";
 import EditFileList from "../scenes/editFileList";
 import EditFileEdit from "../scenes/editFileEdit";
 import EditFileAdd from "../scenes/editFileAdd";
@@ -93,7 +93,7 @@ const App: React.FC<Props> = (props: Props) => {
                                 <GenerateEditInfoScene/>
                             </Route>
                             <Route path="/generator/:id/edit/json">
-                                <EditJson/>
+                                <GenerateEditJsonScene/>
                             </Route>
                             <Route path="/generator/:id/edit/files/add">
                                 <EditFileAdd/>
