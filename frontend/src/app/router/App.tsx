@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 
 import Home from "../scenes/HomeScene";
-import Create from "../scenes/CreateScene";
+import GenerateCreateScene from "../scenes/GenerateCreateScene";
 import TemplateResult from "../scenes/TemplateResultScene";
 import GenerateEditInfoScene from "../scenes/GenerateEditInfoScene";
 import GenerateEditJsonScene from "../scenes/GenerateEditJsonScene";
@@ -28,6 +28,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {makeStyles, createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import primaryColor from '@material-ui/core/colors/green';
+import ForgotScene from "../scenes/ForgotScene";
 
 interface Props {
 
@@ -83,8 +84,11 @@ const App: React.FC<Props> = (props: Props) => {
                             <Route path="/sign-up">
                                 <SignUpScene/>
                             </Route>
+                            <Route path="/forgot">
+                                <ForgotScene/>
+                            </Route>
                             <Route path="/generator/create">
-                                <Create/>
+                                <GenerateCreateScene/>
                             </Route>
                             <Route path="/generator/:id/template-result">
                                 <TemplateResult/>

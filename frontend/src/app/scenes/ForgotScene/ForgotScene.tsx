@@ -1,11 +1,11 @@
 import React from 'react'
-import LoginProps from "./LoginProps";
+import ForgotProps from "./ForgotProps";
 
 import LoginFormComponent from '../../components/loginPage/LoginComponent'
 import BannerComponent from "../../components/loginPage/BannerComponent";
 import Grid from '@material-ui/core/Grid';
 
-const LoginScene: React.FC<LoginProps> = (props: LoginProps) => {
+const ForgotScene: React.FC<ForgotProps> = (props: ForgotProps) => {
     return (
         <section>
             <Grid container spacing={0}
@@ -18,7 +18,7 @@ const LoginScene: React.FC<LoginProps> = (props: LoginProps) => {
                     <BannerComponent/>
                 </Grid>
                 <Grid item xs={12} md={6} lg={6}>
-                    <LoginFormComponent type={'login'}/>
+                    <LoginFormComponent type={'forgot'}/>
                 </Grid>
 
             </Grid>
@@ -28,4 +28,4 @@ const LoginScene: React.FC<LoginProps> = (props: LoginProps) => {
     )
 }
 
-export default LoginScene
+export default ForgotScene

@@ -1,12 +1,14 @@
 import React from 'react'
 import BannerProps from "./BannerProps";
+import BannerStyles from "./BannerStyles";
 
 const BannerComponent: React.FC<BannerProps> = (props: BannerProps) => {
+    let classes = BannerStyles()
     return (
-        <div>
-           <div>Best way
+        <div className={classes.container}>
+           <div className={classes.title}>Best way
                improve your code</div>
-           <div>Stop doing stupid work</div>
+           <div className={classes.subTitle}>Stop doing stupid work</div>
         </div>
     )
 }

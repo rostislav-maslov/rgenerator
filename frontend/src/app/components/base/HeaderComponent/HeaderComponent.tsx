@@ -40,7 +40,7 @@ const HeaderComponent: React.FC<HeaderProps> = (props: HeaderProps) => {
                 </Link>
 
                 <section className={classes.rightToolbar}>
-                    <Button className={classes.buttons} color="primary" startIcon={<AddIcon />} variant="contained">
+                    <Button href={'/generator/create'} className={classes.buttons} color="primary" startIcon={<AddIcon />} variant="contained">
                         CREATE
                     </Button>
                     <Button className={classes.buttons}>

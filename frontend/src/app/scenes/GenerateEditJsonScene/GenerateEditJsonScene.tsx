@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Link, withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
 import GeneratorApi from "../../../gateways/services/Generator";
 
@@ -11,7 +11,6 @@ import {toast} from 'react-toastify';
 import PropsType from "./GenerateEditJsonProps";
 import StateType from "./GenerateEditJsonState";
 import {generateLeftMenuProps} from "../../components/explore/LeftMenuComponent/LeftMenuProps";
-import InfoComponent from "../../components/generator/InfoComponent";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import JsonComponent from "../../components/generator/JsonComponent";

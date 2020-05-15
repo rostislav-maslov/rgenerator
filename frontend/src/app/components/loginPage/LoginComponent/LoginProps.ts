@@ -1,1 +1,3 @@
-export  default interface LoginProps{}
+export  default interface LoginProps{
+    type: 'login' | 'signup' | 'forgot'
+}

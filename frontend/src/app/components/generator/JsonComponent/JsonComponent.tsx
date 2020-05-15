@@ -12,7 +12,8 @@ const JsonComponent: React.FC<JsonProps> = (props: JsonProps) => {
 
     return (
         <Paper className={classes.paper}>
-            <h5 className="card-title">Or just create new one</h5>
+            <h5  className={classes.title}>Or just create new one</h5>
+            <br/>
             <ReactJson
                 style={{minHeight: '50vh'}}
                 src={props.example}

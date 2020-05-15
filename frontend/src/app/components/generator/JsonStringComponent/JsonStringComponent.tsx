@@ -9,7 +9,7 @@ const JsonStringComponent: React.FC<JsonStringProps> = (props: JsonStringProps) 
 
     return (
         <Paper className={classes.paper}>
-            <h5 className="card-title">Past example of your data</h5>
+            <h5  className={classes.title}>Past example of your data</h5>
 
             <TextField  variant="outlined"  fullWidth margin="normal"
                        name={'example'}
