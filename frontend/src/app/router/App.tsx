@@ -8,7 +8,7 @@ import {
 
 import Home from "../scenes/HomeScene";
 import Create from "../scenes/CreateScene";
-import TemplateResult from "../scenes/templateResult";
+import TemplateResult from "../scenes/TemplateResultScene";
 import GenerateEditInfoScene from "../scenes/GenerateEditInfoScene";
 import GenerateEditJsonScene from "../scenes/GenerateEditJsonScene";
 import EditFileList from "../scenes/GenerateEditFileListScene";

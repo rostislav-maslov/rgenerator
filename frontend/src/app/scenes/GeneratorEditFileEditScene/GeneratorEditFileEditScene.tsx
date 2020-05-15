@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Link, withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
 import GeneratorApi from "../../../gateways/services/Generator";
 import LeftMenuComponent from "../../components/explore/LeftMenuComponent";
@@ -8,7 +8,6 @@ import Breadcrumbs from "../../components/base/BreadcrumbsComponent/BreadcrumbsC
 import PropsType from "./GeneratorEditFileEditProps";
 import StateType from "./GeneratorEditFileEditState";
 import {generateLeftMenuProps} from "../../components/explore/LeftMenuComponent/LeftMenuProps";
-import InfoComponent from "../../components/generator/InfoComponent";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -204,14 +203,12 @@ class EditFileListScene extends Component<PropsType, StateType> {
                             <LeftMenuComponent {...generateLeftMenuProps('files', this.state.apiData.generator)}/>
                         </Grid>
                         <Grid item xs={12} md={8} lg={9}>
-
                             <Typography variant="h3" component="h1">
                                 Edit file
                             </Typography>
                             <br/>
                             <br/>
                             <form onSubmit={this.onSubmit}>
-
                                 <Paper style={{padding: '16px'}}>
                                     <TextField variant="outlined" fullWidth margin="normal"
                                                label={'Path'}
@@ -236,8 +233,6 @@ class EditFileListScene extends Component<PropsType, StateType> {
                                 </Paper>
                                 <br/>
                                 <Paper style={{padding: '16px'}}>
-
-
                                     <TextField variant="outlined" fullWidth margin="normal"
                                                name={'description1'}
                                                label={'File Content'}
@@ -246,7 +241,6 @@ class EditFileListScene extends Component<PropsType, StateType> {
                                                defaultValue=""
                                                disabled={true}
                                                value={this.state.viewData.viewResult == false ? this.state.apiData.file.content : this.state.apiData.templateResult.content}/>
-
                                     <div className="text-center">
                                         <Button onClick={this.onClickViewResult}>
                                             {this.state.viewData.viewResult == false ? "View Render" : "View Content"}
@@ -255,24 +249,15 @@ class EditFileListScene extends Component<PropsType, StateType> {
                                            className={'btn btn-default'}>
                                             Mustache Docs
                                         </a>
-
                                     </div>
-
-
                                 </Paper>
-
                                 <br/>
                                 <br/>
-
-
                             </form>
-
                         </Grid>
                     </Grid>
                 </section>
             </section>
-
-
         );
     }
 }

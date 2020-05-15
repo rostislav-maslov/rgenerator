@@ -54,7 +54,7 @@ export const generateLeftMenuProps = (activeLink: string, generator: any) => {
     if (generator != null) {
         menu.groups.push({
             items: [
-                itemPlusBtn('---', generator.title, '/generator', activeLink),
+                itemPlusBtn('---', generator.title, '/generator/' + generator.id, activeLink),
                 item('view', '👁️ View', '/generator/' + generator.id, activeLink),
                 item('info', 'ℹ️ Info', '/generator/' + generator.id + '/edit/info', activeLink),
                 item('json', '📝 JSON Data', '/generator/'+generator.id+'/edit/json', activeLink),

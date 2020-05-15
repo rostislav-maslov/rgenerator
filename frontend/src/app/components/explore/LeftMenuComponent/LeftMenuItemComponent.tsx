@@ -18,7 +18,9 @@ const LeftMenuItemComponent: React.FC<LeftMenuItemProps> = (props: LeftMenuItemP
             </Link>
 
             {props.showBadge == true ? <div className={classes.badge}>{props.badge}</div>:false}
-            {props.showPlusButton == true ? <div  className={classes.plus}><AddIcon/></div>:false}
+            {props.showPlusButton == true ? <div  className={classes.plus} onClick={() => {
+                window.location.href = '/generator/create'
+            }} style={{cursor:'pointer'}}><AddIcon/></div>:false}
         </div>
     );
 }
