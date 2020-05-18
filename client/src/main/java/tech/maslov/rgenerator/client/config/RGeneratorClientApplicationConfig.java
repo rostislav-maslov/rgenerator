@@ -1,0 +1,79 @@
+package tech.maslov.rgenerator.client.config;
+
+import com.rcore.adapter.domain.token.dto.AccessTokenDTO;
+import com.rcore.adapter.domain.token.dto.RefreshTokenDTO;
+import com.rcore.domain.picture.port.PictureIdGenerator;
+import com.rcore.domain.picture.port.PictureRepository;
+import com.rcore.domain.picture.port.PictureStorage;
+import com.rcore.domain.role.port.RoleRepository;
+import com.rcore.domain.token.port.*;
+import com.rcore.domain.token.port.impl.TokenSaltGeneratorImpl;
+import com.rcore.domain.token.usecase.AuthorizationByTokenUseCase;
+import com.rcore.domain.user.port.UserIdGenerator;
+import com.rcore.domain.user.port.UserRepository;
+import com.rcore.security.infrastructure.AuthTokenGenerator;
+import com.rcore.security.infrastructure.jwt.converter.impl.JWTByAccessTokenGenerator;
+import com.rcore.security.infrastructure.jwt.converter.impl.JWTByRefreshTokenGenerator;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import tech.maslov.rgenerator.adapter.generator.GeneratorAdapter;
+import tech.maslov.rgenerator.adapter.templateResult.TemplateResultAdapter;
+import tech.maslov.rgenerator.domain.generator.config.GeneratorConfig;
+import tech.maslov.rgenerator.domain.generator.port.GeneratorIdGenerator;
+import tech.maslov.rgenerator.domain.generator.port.GeneratorRepository;
+import tech.maslov.rgenerator.domain.templateResult.config.TemplateResultConfig;
+import tech.maslov.rgenerator.domain.templateResult.port.TemplateResultIdGenerator;
+import tech.maslov.rgenerator.domain.templateResult.port.TemplateResultRepository;
+
+@RequiredArgsConstructor
+@Configuration
+public class RGeneratorClientApplicationConfig {
+    private final GeneratorRepository generatorRepository;
+    private final GeneratorIdGenerator generatorIdGenerator;
+
+    private final TemplateResultRepository templateResultRepository;
+    private final TemplateResultIdGenerator templateResultIdGenerator;
+
+    private final UserRepository userRepository;
+    private final UserIdGenerator userIdGenerator;
+
+    private final RefreshTokenRepository refreshTokenRepository;
+    private final RefreshTokenIdGenerator refreshTokenIdGenerator;
+    private final TokenSaltGenerator tokenSaltGenerator = new TokenSaltGeneratorImpl();
+
+    private final AccessTokenIdGenerator accessTokenIdGenerator;
+    private final AccessTokenStorage accessTokenStorage;
+
+    private final RoleRepository roleRepository;
+
+    private final PictureRepository pictureRepository;
+    private final PictureIdGenerator pictureIdGenerator;
+    private final PictureStorage pictureStorage;
+
+    @Bean
+    public AuthTokenGenerator<AccessTokenDTO> accessTokenGenerator() {
+        return new JWTByAccessTokenGenerator();
+    }
+
+    @Bean
+    public AuthTokenGenerator<RefreshTokenDTO> refreshTokenGenerator() {
+        return new JWTByRefreshTokenGenerator();
+    }
+
+    @Bean
+    public GeneratorAdapter generatorAdapter(){
+        AuthorizationByTokenUseCase authorizationByTokenUseCase = new AuthorizationByTokenUseCase(refreshTokenRepository, accessTokenStorage, userRepository);
+
+        return new GeneratorAdapter(new GeneratorConfig(generatorRepository, generatorIdGenerator, authorizationByTokenUseCase));
+    }
+
+    @Bean
+    public TemplateResultAdapter templateResultAdapter(){
+        AuthorizationByTokenUseCase authorizationByTokenUseCase = new AuthorizationByTokenUseCase(refreshTokenRepository, accessTokenStorage, userRepository);
+
+        return new TemplateResultAdapter(
+                new TemplateResultConfig(templateResultRepository, templateResultIdGenerator, authorizationByTokenUseCase)
+        );
+    }
+}

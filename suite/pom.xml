@@ -16,6 +16,7 @@
         <module>../domain</module>
         <module>../adapter</module>
         <module>../database</module>
+        <module>../infrastructure</module>
         <module>../client</module>
     </modules>
     <properties>

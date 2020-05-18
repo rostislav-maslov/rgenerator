@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>tech.maslov.rgenerator</groupId>
-    <artifactId>database</artifactId>
+    <artifactId>infrastructure</artifactId>
     <version>0.1.0</version>
     <packaging>jar</packaging>
 
-    <name>RGenerator DataBase</name>
+    <name>RGenerator infrastructure</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,20 +17,24 @@
         <rcore.version>0.9.4</rcore.version>
     </properties>
 
-
     <dependencies>
         <dependency>
-            <groupId>com.github.rostislav-maslov.rcore</groupId>
-            <artifactId>mongo</artifactId>
-            <version>${rcore.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>tech.maslov.rgenerator</groupId>
-            <artifactId>adapter</artifactId>
+            <artifactId>domain</artifactId>
             <version>0.1.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>2.2.2.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.rostislav-maslov.rcore</groupId>
+            <artifactId>rest-api</artifactId>
+            <version>${rcore.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
