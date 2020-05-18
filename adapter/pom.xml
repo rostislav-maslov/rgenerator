@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>tech.maslov.rgenerator</groupId>
+    <artifactId>adapter</artifactId>
+    <version>0.1.0</version>
+
+    <name>RGenerator Adapter</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
+        <rcore.version>0.9.4</rcore.version>
+    </properties>
+
+    <profiles>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>tech.maslov.rgenerator</groupId>
+            <artifactId>domain</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.rostislav-maslov.rcore</groupId>
+            <artifactId>adapter</artifactId>
+            <version>${rcore.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>adapter</finalName>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*Tests.java</include>
+                        <!-- Plugins for documentation -->
+                        <include>**/*Documentation.java</include>
+                    </includes>
+                </configuration>
+                <version>2.10</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+                <version>2.5.1</version>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -13,7 +13,9 @@
 
     <modules>
 <!--        <module>../backend</module>-->
-        <module>../core</module>
+        <module>../domain</module>
+        <module>../adapter</module>
+        <module>../database</module>
         <module>../client</module>
     </modules>
     <properties>

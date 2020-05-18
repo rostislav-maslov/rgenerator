@@ -7,21 +7,21 @@
 <!--    <parent>-->
 <!--        <groupId>com.github.rostislav-maslov.rcore</groupId>-->
 <!--        <artifactId>rest-api</artifactId>-->
-<!--        <version>0.9.3</version>-->
+<!--        <version>0.9.4</version>-->
 <!--        <relativePath/>-->
 <!--    </parent>-->
 
     <groupId>tech.maslov.rgenerator</groupId>
     <artifactId>client</artifactId>
     <version>0.1.0</version>
+    <packaging>jar</packaging>
 
-    <packaging>war</packaging>
-    <name>RGenerator Core</name>
+    <name>RGenerator API client</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
-        <rcore.version>0.9.3</rcore.version>
+        <rcore.version>0.9.4</rcore.version>
     </properties>
 
     <profiles>
