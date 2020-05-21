@@ -2,6 +2,8 @@ package tech.maslov.rgenerator.client.config;
 
 import com.rcore.adapter.domain.token.dto.AccessTokenDTO;
 import com.rcore.adapter.domain.token.dto.RefreshTokenDTO;
+import com.rcore.domain.file.port.FileRepository;
+import com.rcore.domain.file.port.FileStorage;
 import com.rcore.domain.picture.port.PictureIdGenerator;
 import com.rcore.domain.picture.port.PictureRepository;
 import com.rcore.domain.picture.port.PictureStorage;
@@ -51,6 +53,9 @@ public class RGeneratorClientApplicationConfig {
     private final PictureIdGenerator pictureIdGenerator;
     private final PictureStorage pictureStorage;
 
+    private final FileRepository fileRepository;
+    private final FileStorage fileStorage;
+
     @Bean
     public AuthTokenGenerator<AccessTokenDTO> accessTokenGenerator() {
         return new JWTByAccessTokenGenerator();
@@ -65,7 +70,7 @@ public class RGeneratorClientApplicationConfig {
     public GeneratorAdapter generatorAdapter(){
         AuthorizationByTokenUseCase authorizationByTokenUseCase = new AuthorizationByTokenUseCase(refreshTokenRepository, accessTokenStorage, userRepository);
 
-        return new GeneratorAdapter(new GeneratorConfig(generatorRepository, generatorIdGenerator, authorizationByTokenUseCase));
+        return new GeneratorAdapter(new GeneratorConfig(generatorRepository, generatorIdGenerator, authorizationByTokenUseCase, fileRepository, fileStorage));
     }
 
     @Bean

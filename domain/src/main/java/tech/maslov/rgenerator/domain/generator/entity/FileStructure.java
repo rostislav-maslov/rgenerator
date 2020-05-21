@@ -5,8 +5,8 @@ import java.util.List;
 
 public class FileStructure {
     public static class File {
-        private String name;
-        private String fileId;
+        protected String name;
+        protected String fileId;
 
         public String getName() {
             return name;

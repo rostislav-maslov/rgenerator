@@ -13,7 +13,7 @@ import tech.maslov.rgenerator.domain.generator.entity.GeneratorEntity;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class GeneratorViewAdapter {
+public class GeneratorAdminAdapter {
     private final GeneratorConfig config;
     private final GeneratorMapper mapper = new GeneratorMapper();
 

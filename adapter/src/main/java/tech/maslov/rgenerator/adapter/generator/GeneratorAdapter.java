@@ -3,11 +3,11 @@ package tech.maslov.rgenerator.adapter.generator;
 import tech.maslov.rgenerator.domain.generator.config.GeneratorConfig;
 
 public class GeneratorAdapter {
-    public final GeneratorCRUDAdapter crud;
-    public final GeneratorViewAdapter view;
+    public final GeneratorClientAdapter client;
+    public final GeneratorAdminAdapter admin;
 
     public GeneratorAdapter(GeneratorConfig config) {
-        this.crud = new GeneratorCRUDAdapter(config);
-        this.view = new GeneratorViewAdapter(config);
+        this.client = new GeneratorClientAdapter(config);
+        this.admin = new GeneratorAdminAdapter(config);
     }
 }
