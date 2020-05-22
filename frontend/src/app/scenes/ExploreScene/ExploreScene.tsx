@@ -31,7 +31,7 @@ const ExploreScene: React.FC<ExploreProps> = (props: ExploreProps) => {
         GeneratorApi.list()
             .then((response) => {
                 response.json().then(result => {
-                    setGeneratorList(result.items)
+                    setGeneratorList(result.result.items)
                 })
             })
     }, generatorList)

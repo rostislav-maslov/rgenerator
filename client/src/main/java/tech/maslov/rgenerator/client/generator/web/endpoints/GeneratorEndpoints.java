@@ -21,13 +21,12 @@ import tech.maslov.rgenerator.client.generator.web.api.request.GeneratorJsonRequ
 import tech.maslov.rgenerator.client.generator.web.api.response.GeneratorWeb;
 import tech.maslov.rgenerator.client.generator.web.routes.GeneratorApiRoutes;
 import tech.maslov.rgenerator.domain.generator.dto.FileContentDTO;
-import tech.maslov.rgenerator.domain.generator.entity.FileStructure;
 
 import java.io.IOException;
 import java.util.List;
 
 @Secured({})
-@Api(tags = "Order API", description = "API Заказов")
+@Api(tags = "RGenerator API")
 @RequiredArgsConstructor
 @RestController
 public class GeneratorEndpoints {

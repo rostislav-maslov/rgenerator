@@ -81,7 +81,6 @@ class GenerateEditFileListScene extends Component<PropsType, StateType> {
     }
 
     onDeleteFile = (e: any, fileId: String) => {
-        debugger;
         e.preventDefault();
         let self = this
         GeneratorApi.deleteFile(this.state.apiData.generator.id, fileId).then(() => {

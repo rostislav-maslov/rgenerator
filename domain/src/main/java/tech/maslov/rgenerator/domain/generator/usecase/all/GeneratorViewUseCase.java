@@ -69,7 +69,7 @@ public class GeneratorViewUseCase extends GeneratorBaseUseCase {
         if (file == null) return null;
 
         try {
-            InputStream inputStream = fileStorage.getInputStream(fileId).get();
+            InputStream inputStream = fileStorage.getInputStream(file.getPath()).get();
             String text = "";
             try (Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name())) {
                 text = scanner.useDelimiter("\\A").next();

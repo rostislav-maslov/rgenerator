@@ -1,5 +1,6 @@
 package tech.maslov.rgenerator.adapter.generator;
 
+import com.rcore.domain.file.entity.FileEntity;
 import com.rcore.domain.token.exception.AuthenticationException;
 import com.rcore.domain.token.exception.AuthorizationException;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,10 @@ public class GeneratorClientAdapter {
 
     public FileContentDTO file(String id, String fileId){
         return config.all.viewUseCase().fileView(id, fileId);
+    }
+
+    public FileContentDTO fileAdd(String id, String path, FileEntity fileEntity){
+        return config.all.editUseCase().fileAdd(id, path, fileEntity);
     }
 
     public List<GeneratorDTO> list(){

@@ -2,6 +2,7 @@ package tech.maslov.rgenerator.domain.generator.usecase.all;
 
 import com.rcore.domain.file.entity.FileEntity;
 import com.rcore.domain.file.port.FileRepository;
+import tech.maslov.rgenerator.domain.generator.dto.FileContentDTO;
 import tech.maslov.rgenerator.domain.generator.entity.FileStructure;
 import tech.maslov.rgenerator.domain.generator.entity.GeneratorEntity;
 import tech.maslov.rgenerator.domain.generator.port.GeneratorRepository;
@@ -82,7 +83,7 @@ public class GeneratorEditUseCase extends GeneratorBaseUseCase {
         return generatorRepository.save(generatorEntity);
     }
 
-    public FileStructure.File fileAdd(String id, String path, FileEntity fileEntity) {
+    public FileContentDTO fileAdd(String id, String path, FileEntity fileEntity) {
         GeneratorEntity generatorEntity = generatorRepository.findById(id).get();
 
         String[] pathArr = path.split("/");
@@ -161,6 +162,10 @@ public class GeneratorEditUseCase extends GeneratorBaseUseCase {
         }
         generatorRepository.save(generatorEntity);
 
-        return result;
+        FileContentDTO fileContentDTO = new FileContentDTO();
+        fileContentDTO.setName(result.getName());
+        fileContentDTO.setFileId(result.getFileId());
+
+        return fileContentDTO;
     }
 }

@@ -27,6 +27,7 @@ import tech.maslov.rgenerator.domain.generator.port.GeneratorRepository;
 import tech.maslov.rgenerator.domain.templateResult.config.TemplateResultConfig;
 import tech.maslov.rgenerator.domain.templateResult.port.TemplateResultIdGenerator;
 import tech.maslov.rgenerator.domain.templateResult.port.TemplateResultRepository;
+import tech.maslov.rgenerator.domain.templateResult.service.ZipService;
 
 @RequiredArgsConstructor
 @Configuration
@@ -74,11 +75,16 @@ public class RGeneratorClientApplicationConfig {
     }
 
     @Bean
+    public ZipService zipService(){
+        return new ZipService(fileRepository, fileStorage);
+    }
+
+    @Bean
     public TemplateResultAdapter templateResultAdapter(){
         AuthorizationByTokenUseCase authorizationByTokenUseCase = new AuthorizationByTokenUseCase(refreshTokenRepository, accessTokenStorage, userRepository);
 
         return new TemplateResultAdapter(
-                new TemplateResultConfig(templateResultRepository, templateResultIdGenerator, authorizationByTokenUseCase)
+                new TemplateResultConfig(templateResultRepository, generatorRepository, templateResultIdGenerator, authorizationByTokenUseCase, fileRepository, fileStorage)
         );
     }
 }
