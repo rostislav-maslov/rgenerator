@@ -1,4 +1,5 @@
 import * as CONST from './Const'
+import TokenRepository from "./TokenRepository";
 
 export default {
 
@@ -7,7 +8,7 @@ export default {
         const method = 'POST'
 
         let headers = {
-            // Authentication: 'secret',
+            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
         }
 
@@ -27,7 +28,7 @@ export default {
         const method = 'POST'
 
         let headers = {
-            // Authentication: 'secret',
+            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
         }
 
@@ -47,7 +48,7 @@ export default {
         const method = 'POST'
 
         let headers = {
-            // Authentication: 'secret',
+            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
         }
 
@@ -67,7 +68,7 @@ export default {
         const method = 'GET'
 
         let headers = {
-            // Authentication: 'secret',
+            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
         }
 
@@ -84,7 +85,7 @@ export default {
         const method = 'GET'
 
         let headers = {
-            // Authentication: 'secret',
+            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
         }
 
@@ -101,8 +102,8 @@ export default {
         const method = 'POST'
 
         let headers = {
-            // Authentication: 'secret',
-            // 'Content-Type': 'application/json;charset=utf-8'
+            'X-Auth-Token': TokenRepository.getAccessToken(),
+            'Content-Type': 'application/json;charset=utf-8'
         }
 
         let data = new FormData()
@@ -123,7 +124,7 @@ export default {
         const method = 'GET'
 
         let headers = {
-            // Authentication: 'secret',
+            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
         }
 
@@ -163,7 +164,7 @@ export default {
         const method = 'DELETE'
 
         let headers = {
-            // Authentication: 'secret',
+            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
         }
 
@@ -183,8 +184,8 @@ export default {
         const method = 'POST'
 
         let headers = {
-            // Authentication: 'secret',
-            // 'Content-Type': 'application/json;charset=utf-8'
+            'X-Auth-Token': TokenRepository.getAccessToken(),
+            'Content-Type': 'application/json;charset=utf-8'
         }
 
         let data = new FormData()

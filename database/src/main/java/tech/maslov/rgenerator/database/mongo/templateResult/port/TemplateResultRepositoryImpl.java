@@ -24,7 +24,7 @@ public class TemplateResultRepositoryImpl implements TemplateResultRepository {
 
     @Override
     public TemplateResultEntity save(TemplateResultEntity entity) {
-        return mongoTemplate.save(entity);
+        return mongoTemplate.save(entity, CollectionNameUtils.getCollectionName(TemplateResultDoc.class));
     }
 
     @Override

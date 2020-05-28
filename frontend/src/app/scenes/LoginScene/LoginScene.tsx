@@ -1,31 +1,115 @@
-import React from 'react'
-import LoginProps from "./LoginProps";
-
-import LoginFormComponent from '../../components/loginPage/LoginComponent'
-import BannerComponent from "../../components/loginPage/BannerComponent";
+import React, {Component} from 'react';
+import PropsType from "./LoginProps";
+import StateType from "./LoginState";
 import Grid from '@material-ui/core/Grid';
+import BannerComponent from "../../components/loginPage/BannerComponent";
+import LoginFormComponent from "../../components/loginPage/LoginComponent";
+import AuthApi from "../../../gateways/services/Auth"
+import TokenRepository from "../../../gateways/services/TokenRepository";
+import DeveloperApi from "../../../gateways/services/Developer";
 
-const LoginScene: React.FC<LoginProps> = (props: LoginProps) => {
-    return (
-        <section>
-            <Grid container spacing={0}
-                  direction="row"
-                  justify="flex-start"
-                  alignItems="flex-start"
-            >
+class LoginScene extends Component<PropsType, StateType> {
+    _input: any = null
 
-                <Grid item xs={12} md={6} lg={6}>
-                    <BannerComponent/>
+    constructor(props: any) {
+        super(props);
+
+        this.state = {
+            viewData: {
+                email: '',
+                password: '',
+            },
+            apiData: {
+                catalogsResponse: [],
+                productsResponse: []
+            },
+            data: {
+                filesToUpload: [],
+                generator: null
+            }
+        };
+    }
+
+    componentDidMount() {
+        window.scrollTo(0, 0)
+    }
+
+    update = () => {
+
+    }
+
+    updateCurrentDeveloper = () => {
+        DeveloperApi.me().then((response) => {
+            if (response.ok === false) {
+                alert("User already exist");
+                return
+            }
+
+            response.json().then(result => {
+                let developer = {
+                    email: result.result.email,
+                    id: result.result.id,
+                    login: result.result.login
+                }
+
+                TokenRepository.setCurrentDeveloper(developer)
+
+                window.location.href = '/explore'
+            })
+        })
+    }
+
+    login = () => {
+        AuthApi.login(this.state.viewData.email!, this.state.viewData.password!).then((response) => {
+            if (response.ok === false) {
+                alert("Check email and password");
+                return
+            }
+            response.json().then(result => {
+                TokenRepository.setAccessToken(result.result.accessToken)
+                TokenRepository.setRefreshToken(result.result.refreshToken)
+
+                this.updateCurrentDeveloper()
+
+            })
+        })
+    }
+
+
+    onSubmit = (event: any) => {
+        event.preventDefault()
+        this.login()
+        return false;
+    }
+
+    onChangeInput = (name: 'email' | 'login' | 'password', value: string) => {
+        let viewData = this.state.viewData;
+        viewData[name] = value
+        this.setState({viewData: viewData})
+    }
+
+    render() {
+        return (
+            <section>
+                <Grid container spacing={0}
+                      direction="row"
+                      justify="flex-start"
+                      alignItems="flex-start"
+                >
+
+                    <Grid item xs={12} md={6} lg={6}>
+                        <BannerComponent/>
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={6}>
+                        <LoginFormComponent type={'login'} onChange={this.onChangeInput} onSubmit={this.onSubmit}/>
+                    </Grid>
+
                 </Grid>
-                <Grid item xs={12} md={6} lg={6}>
-                    <LoginFormComponent type={'login'}/>
-                </Grid>
-
-            </Grid>
 
 
-        </section>
-    )
+            </section>
+        );
+    }
 }
 
-export default LoginScene
+export default LoginScene;

@@ -15,7 +15,6 @@ import EditFileList from "../scenes/GenerateEditFileListScene";
 import EditFileEdit from "../scenes/GeneratorEditFileEditScene";
 import EditFileAdd from "../scenes/GenerateEditFileAddScene";
 import ExploreScene from "../scenes/ExploreScene";
-import LoginScene from "../scenes/LoginScene";
 import SignUpScene from "../scenes/SignUpScene";
 
 
@@ -29,6 +28,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import {makeStyles, createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import primaryColor from '@material-ui/core/colors/green';
 import ForgotScene from "../scenes/ForgotScene";
+import LoginScene from "../scenes/LoginScene";
 
 interface Props {
 

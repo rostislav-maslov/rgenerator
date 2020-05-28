@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import tech.maslov.rgenerator.domain.developer.entity.DeveloperEntity;
 
 import java.util.*;
 
@@ -19,4 +20,6 @@ public class GeneratorEntity extends BaseEntity {
     protected String description = null;
     protected String example = null;
     protected FileStructure fileStructure = new FileStructure();
+
+    protected String developerId;
 }

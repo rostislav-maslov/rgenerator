@@ -2,7 +2,12 @@ package tech.maslov.rgenerator.domain.generator.config;
 
 import com.rcore.domain.file.port.FileRepository;
 import com.rcore.domain.file.port.FileStorage;
+import com.rcore.domain.token.port.AccessTokenStorage;
+import com.rcore.domain.token.port.RefreshTokenRepository;
 import com.rcore.domain.token.usecase.AuthorizationByTokenUseCase;
+import com.rcore.domain.user.port.UserRepository;
+import tech.maslov.rgenerator.domain.developer.port.DeveloperRepository;
+import tech.maslov.rgenerator.domain.developer.usecase.all.AuthorizationDevByTokenUseCase;
 import tech.maslov.rgenerator.domain.generator.port.GeneratorRepository;
 import tech.maslov.rgenerator.domain.generator.port.GeneratorIdGenerator;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +47,10 @@ public class GeneratorConfig {
         protected final GeneratorIdGenerator generatorIdGenerator;
         protected final FileRepository fileRepository;
         protected final FileStorage fileStorage;
+        protected final AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase;
 
         public GeneratorCreateUseCase createUseCase() {
-            return new GeneratorCreateUseCase(this.generatorRepository, generatorIdGenerator);
+            return new GeneratorCreateUseCase(this.generatorRepository, generatorIdGenerator, authorizationDevByTokenUseCase);
         }
 
         public GeneratorEditUseCase editUseCase() {
@@ -52,7 +58,7 @@ public class GeneratorConfig {
         }
 
         public GeneratorViewUseCase viewUseCase() {
-            return new GeneratorViewUseCase(this.generatorRepository, this.fileStorage);
+            return new GeneratorViewUseCase(this.generatorRepository, this.fileStorage, authorizationDevByTokenUseCase);
         }
     }
 
@@ -61,19 +67,29 @@ public class GeneratorConfig {
     protected final AuthorizationByTokenUseCase authorizationByTokenUseCase;
     protected final FileRepository fileRepository;
     protected final FileStorage fileStorage;
+    protected final AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase;
+    protected final RefreshTokenRepository refreshTokenRepository;
+    protected final AccessTokenStorage accessTokenStorage;
+    protected final UserRepository userRepository;
+    protected final DeveloperRepository developerRepository;
 
     public final Secured secured;
     public final All all;
 
-    public GeneratorConfig(GeneratorRepository generatorRepository, GeneratorIdGenerator idGenerator, AuthorizationByTokenUseCase authorizationByTokenUseCase, FileRepository fileRepository, FileStorage fileStorage) {
+    public GeneratorConfig(GeneratorRepository generatorRepository, GeneratorIdGenerator idGenerator, AuthorizationByTokenUseCase authorizationByTokenUseCase, FileRepository fileRepository, FileStorage fileStorage, RefreshTokenRepository refreshTokenRepository, AccessTokenStorage accessTokenStorage, UserRepository userRepository, DeveloperRepository developerRepository) {
         this.generatorRepository = generatorRepository;
         this.idGenerator = idGenerator;
         this.authorizationByTokenUseCase = authorizationByTokenUseCase;
         this.fileRepository = fileRepository;
         this.fileStorage = fileStorage;
+        this.refreshTokenRepository = refreshTokenRepository;
+        this.accessTokenStorage = accessTokenStorage;
+        this.userRepository = userRepository;
+        this.developerRepository = developerRepository;
+        this.authorizationDevByTokenUseCase = new AuthorizationDevByTokenUseCase( refreshTokenRepository,  accessTokenStorage,  userRepository,  developerRepository);
 
         this.secured = new Secured(this.generatorRepository, this.idGenerator, this.authorizationByTokenUseCase);
-        this.all = new All(this.generatorRepository, idGenerator, fileRepository, fileStorage);
+        this.all = new All(this.generatorRepository, idGenerator, fileRepository, fileStorage, authorizationDevByTokenUseCase);
     }
 
 }

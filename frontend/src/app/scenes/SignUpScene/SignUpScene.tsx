@@ -1,48 +1,89 @@
 import React, {Component} from 'react';
-
-import LoginFormComponent from '../../components/loginPage/LoginComponent'
-import BannerComponent from "../../components/loginPage/BannerComponent";
-
-import {withRouter} from "react-router-dom";
 import PropsType from "./SignUpProps";
 import StateType from "./SignUpState";
 import Grid from '@material-ui/core/Grid';
-import LeftMenuComponent from "../../components/explore/LeftMenuComponent";
-import {generateLeftMenuProps} from "../../components/explore/LeftMenuComponent/LeftMenuProps";
+import BannerComponent from "../../components/loginPage/BannerComponent";
+import LoginFormComponent from "../../components/loginPage/LoginComponent";
+import AuthApi from "../../../gateways/services/Auth"
+import TokenRepository from "../../../gateways/services/TokenRepository"
+import DeveloperApi from "../../../gateways/services/Developer"
 
 class SignUpScene extends Component<PropsType, StateType> {
+    _input: any = null
+
     constructor(props: any) {
         super(props);
 
         this.state = {
-            viewData: {},
-            apiData: {},
-            data: {}
+            viewData: {
+                email: '',
+                login: '',
+                password: '',
+            },
+            apiData: {
+                catalogsResponse: [],
+                productsResponse: []
+            },
+            data: {
+                filesToUpload: [],
+                generator: null
+            }
         };
     }
 
     componentDidMount() {
         window.scrollTo(0, 0)
-        this.update()
     }
 
     update = () => {
+
     }
 
-    onSubmit = (e: any) => {
-        e.preventDefault();
-        this.save()
+    updateCurrentDeveloper = () => {
+        DeveloperApi.me().then((response) => {
+            if (response.ok === false) {
+                alert("User already exist");
+                return
+            }
+
+            response.json().then(result => {
+                let developer = {
+                    email: result.result.email,
+                    id: result.result.id,
+                    login: result.result.login
+                }
+
+                TokenRepository.setCurrentDeveloper(developer)
+
+                window.location.href = '/explore'
+            })
+        })
+    }
+
+    signUp = () => {
+        AuthApi.signUp(this.state.viewData.email!, this.state.viewData.login!, this.state.viewData.password!).then((response) => {
+            if (response.ok === false) {
+                alert("User already exist");
+                return
+            }
+            response.json().then(result => {
+                TokenRepository.setAccessToken(result.result.accessToken)
+                TokenRepository.setRefreshToken(result.result.refreshToken)
+
+                this.updateCurrentDeveloper()
+
+            })
+        })
+    }
+
+
+    onSubmit = (event: any) => {
+        event.preventDefault()
+        this.signUp()
         return false;
     }
 
-    save = () => {
-
-    }
-
-    onChangeInput = (e: any) => {
-        const name = e.target.name;
-        const value = e.target.value;
-
+    onChangeInput = (name: 'email' | 'login' | 'password', value: string) => {
         let viewData = this.state.viewData;
         viewData[name] = value
         this.setState({viewData: viewData})
@@ -61,7 +102,7 @@ class SignUpScene extends Component<PropsType, StateType> {
                         <BannerComponent/>
                     </Grid>
                     <Grid item xs={12} md={6} lg={6}>
-                        <LoginFormComponent type={'signup'}/>
+                        <LoginFormComponent type={'signup'} onChange={this.onChangeInput} onSubmit={this.onSubmit}/>
                     </Grid>
 
                 </Grid>
@@ -72,5 +113,4 @@ class SignUpScene extends Component<PropsType, StateType> {
     }
 }
 
-
-export default withRouter(SignUpScene);
+export default SignUpScene;

@@ -10,6 +10,8 @@ import Link from '@material-ui/core/Link';
 import useStyles from "./HeaderStyles";
 import HeaderProps from "./HeaderProps";
 
+import {HOST} from "../../../../gateways/services/Const"
+
 interface Props {
 }
 
@@ -37,6 +39,9 @@ const HeaderComponent: React.FC<HeaderProps> = (props: HeaderProps) => {
                 </Link>
                 <Link href={'https://github.com/rostislav-maslov/rgenerator/issues'} className={classes.link}>
                     Bug tracker
+                </Link>
+                <Link href={HOST + '/swagger-ui.html'} className={classes.link} target={'_blank'}>
+                    API
                 </Link>
 
                 <section className={classes.rightToolbar}>

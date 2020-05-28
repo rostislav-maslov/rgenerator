@@ -15,13 +15,20 @@ public class SwaggerConfig {
 
     @Bean
     public Docket api() {
+
+
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(new ApiInfoBuilder()
-                        .title("RGenerator API docs")
-                        .build())
+                .apiInfo(
+                        new ApiInfoBuilder()
+                                .title("RGenerator API docs")
+                                .build()
+                )
                 .groupName("rgenerator-client")
-                .select().apis(RequestHandlerSelectors.basePackage("tech.maslov.rgenerator"))
+                .select()
+//                .apis(RequestHandlerSelectors.basePackage("com"))
+                .apis(RequestHandlerSelectors.basePackage("tech.maslov.rgenerator"))
                 .paths(PathSelectors.any())
+
                 .build();
     }
 }

@@ -24,7 +24,7 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
 
     @Override
     public GeneratorEntity save(GeneratorEntity entity) {
-        return mongoTemplate.save(entity);
+        return mongoTemplate.save(entity, CollectionNameUtils.getCollectionName(GeneratorDoc.class));
     }
 
     @Override

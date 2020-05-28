@@ -1,4 +1,5 @@
 import * as CONST from './Const'
+import TokenRepository from "./TokenRepository";
 
 export default {
     create(generateId, content) {
@@ -6,9 +7,10 @@ export default {
         const method = 'POST'
 
         let headers = {
-             // Authentication: 'secret',
+            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
         }
+
         let contentJson = {generateId: generateId, content: content};
 
         let response = fetch(urlRequest, {

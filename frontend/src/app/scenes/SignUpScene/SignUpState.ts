@@ -1,5 +1,11 @@
+interface ViewData{
+    email?: string,
+    login?: string,
+    password?: string,
+}
+
 interface SignUpState {
-    viewData: any,
+    viewData: ViewData,
     apiData: any,
     data: any
 }

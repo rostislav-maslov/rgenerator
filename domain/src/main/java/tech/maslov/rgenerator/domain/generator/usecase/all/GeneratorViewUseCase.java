@@ -2,6 +2,9 @@ package tech.maslov.rgenerator.domain.generator.usecase.all;
 
 import com.rcore.domain.base.port.SearchRequest;
 import com.rcore.domain.file.port.FileStorage;
+import com.rcore.domain.token.exception.AuthenticationException;
+import tech.maslov.rgenerator.domain.developer.entity.DeveloperEntity;
+import tech.maslov.rgenerator.domain.developer.usecase.all.AuthorizationDevByTokenUseCase;
 import tech.maslov.rgenerator.domain.generator.dto.FileContentDTO;
 import tech.maslov.rgenerator.domain.generator.entity.FileStructure;
 import tech.maslov.rgenerator.domain.generator.entity.GeneratorEntity;
@@ -11,16 +14,18 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
-import java.util.stream.IntStream;
 
 public class GeneratorViewUseCase extends GeneratorBaseUseCase {
 
     private final FileStorage fileStorage;
+    private final AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase;
 
-    public GeneratorViewUseCase(GeneratorRepository generatorRepository, FileStorage fileStorage) {
+    public GeneratorViewUseCase(GeneratorRepository generatorRepository, FileStorage fileStorage, AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase) {
         super(generatorRepository);
         this.fileStorage = fileStorage;
+        this.authorizationDevByTokenUseCase = authorizationDevByTokenUseCase;
     }
 
     public GeneratorEntity findId(String id) {
@@ -28,6 +33,12 @@ public class GeneratorViewUseCase extends GeneratorBaseUseCase {
     }
 
     public List<GeneratorEntity> findAll() {
+        try {
+            Optional<DeveloperEntity> developerEntity = authorizationDevByTokenUseCase.currentDeveloper();
+            developerEntity = developerEntity;
+        } catch (AuthenticationException e) {
+            e.printStackTrace();
+        }
         return generatorRepository.find(new SearchRequest("", 1000l, 0l, null, null)).getItems();
     }
 
