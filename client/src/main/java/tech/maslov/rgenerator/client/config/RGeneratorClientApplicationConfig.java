@@ -82,7 +82,7 @@ public class RGeneratorClientApplicationConfig {
     public GeneratorAdapter generatorAdapter() {
         AuthorizationByTokenUseCase authorizationByTokenUseCase = new AuthorizationByTokenUseCase(refreshTokenRepository, accessTokenStorage, userRepository);
 
-        return new GeneratorAdapter(new GeneratorConfig(generatorRepository, generatorIdGenerator, authorizationByTokenUseCase, fileRepository, fileStorage, refreshTokenRepository, accessTokenStorage, userRepository, developerRepository));
+        return new GeneratorAdapter(new GeneratorConfig(generatorRepository, generatorIdGenerator, authorizationByTokenUseCase, fileRepository, fileStorage, refreshTokenRepository, accessTokenStorage, userRepository, developerRepository, templateResultRepository));
     }
 
     @Bean

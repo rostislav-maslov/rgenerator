@@ -8,11 +8,14 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
+import tech.maslov.rgenerator.database.mongo.templateResult.query.FindAllByGeneratorId;
+import tech.maslov.rgenerator.domain.generator.entity.GeneratorEntity;
 import tech.maslov.rgenerator.domain.templateResult.entity.TemplateResultEntity;
 import tech.maslov.rgenerator.domain.templateResult.port.TemplateResultRepository;
 import tech.maslov.rgenerator.database.mongo.templateResult.model.TemplateResultDoc;
 import tech.maslov.rgenerator.database.mongo.templateResult.query.FindAllWithSearch;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -58,5 +61,15 @@ public class TemplateResultRepositoryImpl implements TemplateResultRepository {
     @Override
     public Long count() {
         return mongoTemplate.count(new Query(), TemplateResultDoc.class);
+    }
+
+    @Override
+    public List<TemplateResultEntity> findByGeneratorId(GeneratorEntity generatorEntity) {
+        Query query = new FindAllByGeneratorId(generatorEntity).getQuery();
+        return
+                mongoTemplate.find(query, TemplateResultDoc.class)
+                        .stream()
+                        .collect(Collectors.toList())
+                ;
     }
 }

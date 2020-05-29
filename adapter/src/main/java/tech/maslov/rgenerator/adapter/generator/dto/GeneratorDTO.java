@@ -19,4 +19,6 @@ public class GeneratorDTO extends BaseEntityDTO {
     protected String description = null;
     protected String example = null;
     protected FileStructure fileStructure = new FileStructure();
+
+    protected String loginOwner;
 }

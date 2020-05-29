@@ -33,6 +33,7 @@ public class TemplateResultCreateUseCase extends TemplateResultBaseUseCase {
         TemplateResultEntity templateResultEntity = new TemplateResultEntity();
         templateResultEntity.setContent(content);
         templateResultEntity.setGeneratorId(generateId);
+        templateResultEntity.setUserId(currentDeveloper().getId());
         templateResultRepository.save(templateResultEntity);
 
         templateResultEntity.setStatus(TemplateResultEntity.Status.IN_PROGRESS);

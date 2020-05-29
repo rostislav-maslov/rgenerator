@@ -4,11 +4,13 @@ import com.rcore.domain.base.port.SearchRequest;
 import com.rcore.domain.file.port.FileStorage;
 import com.rcore.domain.token.exception.AuthenticationException;
 import com.rcore.domain.token.exception.AuthorizationException;
+import com.rcore.domain.user.entity.UserEntity;
 import com.rcore.domain.user.port.UserRepository;
 import tech.maslov.rgenerator.domain.developer.entity.DeveloperEntity;
 import tech.maslov.rgenerator.domain.developer.port.DeveloperRepository;
 import tech.maslov.rgenerator.domain.developer.usecase.all.AuthorizationDevByTokenUseCase;
 import tech.maslov.rgenerator.domain.generator.dto.FileContentDTO;
+import tech.maslov.rgenerator.domain.generator.dto.GeneratorWithOwnerDTO;
 import tech.maslov.rgenerator.domain.generator.entity.FileStructure;
 import tech.maslov.rgenerator.domain.generator.entity.GeneratorEntity;
 import tech.maslov.rgenerator.domain.generator.port.GeneratorRepository;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class GeneratorViewUseCase extends GeneratorBaseUseCase {
 
@@ -30,15 +33,35 @@ public class GeneratorViewUseCase extends GeneratorBaseUseCase {
         this.fileStorage = fileStorage;
     }
 
-    public GeneratorEntity findId(String id) throws AuthenticationException, AuthorizationException {
+    public GeneratorWithOwnerDTO findId(String id) throws AuthenticationException, AuthorizationException {
         GeneratorEntity generatorEntity = generatorRepository.findById(id).get();
         this.checkViewAccess(generatorEntity);
 
-        return generatorEntity;
+        UserEntity userEntity = userRepository.findById(generatorEntity.getOwnerId()).get();
+        return GeneratorWithOwnerDTO.of(generatorEntity, userEntity);
     }
 
-    public List<GeneratorEntity> findAll() {
-        return generatorRepository.find(new SearchRequest("", 1000l, 0l, null, null)).getItems();
+    public List<GeneratorWithOwnerDTO> findAll() {
+        return generatorRepository.find(new SearchRequest("", 1000l, 0l, null, null))
+                .getItems()
+                .stream()
+                .map((item) -> {
+                    UserEntity userEntity = userRepository.findById(item.getOwnerId()).get();
+                    return GeneratorWithOwnerDTO.of(item, userEntity);
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<GeneratorWithOwnerDTO> findMyGenerators() throws AuthenticationException {
+        DeveloperEntity developerEntity = this.currentDeveloper();
+        return generatorRepository.findMyGenerators(developerEntity, new SearchRequest("", 1000l, 0l, null, null))
+                .getItems()
+                .stream()
+                .map((item) -> {
+                    UserEntity userEntity = userRepository.findById(item.getOwnerId()).get();
+                    return GeneratorWithOwnerDTO.of(item, userEntity);
+                })
+                .collect(Collectors.toList());
     }
 
     private List<FileContentDTO> transformFiles(FileStructure.Directory dir, String parentPath) {

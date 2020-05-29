@@ -6,6 +6,7 @@ import com.rcore.domain.token.exception.AuthorizationException;
 import lombok.RequiredArgsConstructor;
 import tech.maslov.rgenerator.adapter.generator.dto.GeneratorDTO;
 import tech.maslov.rgenerator.adapter.generator.mapper.GeneratorMapper;
+import tech.maslov.rgenerator.adapter.generator.mapper.GeneratorWithOwnerMapper;
 import tech.maslov.rgenerator.domain.generator.config.GeneratorConfig;
 import tech.maslov.rgenerator.domain.generator.dto.FileContentDTO;
 import tech.maslov.rgenerator.domain.generator.entity.FileStructure;
@@ -15,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GeneratorClientAdapter {
     private final GeneratorConfig config;
-    private final GeneratorMapper mapper = new GeneratorMapper();
+    private final GeneratorWithOwnerMapper mapper = new GeneratorWithOwnerMapper();
 
     public GeneratorDTO create(String title, String description, String example) throws AuthenticationException, AuthorizationException {
         return mapper.map(config.all.createUseCase()
@@ -50,8 +51,16 @@ public class GeneratorClientAdapter {
         return config.all.editUseCase().fileAdd(id, path, fileEntity);
     }
 
-    public List<GeneratorDTO> list(){
+    public List<GeneratorDTO> list() {
         return mapper.mapAll(config.all.viewUseCase().findAll());
+    }
+
+    public List<GeneratorDTO> myGeneratorsList() throws AuthenticationException {
+        return mapper.mapAll(config.all.viewUseCase().findMyGenerators());
+    }
+
+    public void delete(String generatorId) throws AuthenticationException, AuthorizationException {
+        config.all.deleteUseCase().delete(generatorId);
     }
 
 

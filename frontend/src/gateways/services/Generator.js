@@ -96,6 +96,27 @@ export default {
         return response;
     },
 
+    deleteById(id) {
+        const urlRequest = CONST.V1 + "/generator/" + id
+        const method = 'DELETE'
+
+        let headers = {
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
+        }
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+        });
+
+        return response;
+    },
+
     fileContent(id, fileId) {
         const urlRequest = CONST.V1 + "/generator/" + id + '/file/' +fileId
         const method = 'GET'
@@ -145,6 +166,27 @@ export default {
 
     list() {
         const urlRequest = CONST.V1 + "/generator"
+        const method = 'GET'
+
+        let headers = {
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
+        }
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+        });
+
+        return response;
+    },
+
+    myRGenerators() {
+        const urlRequest = CONST.V1 + "/generator/my"
         const method = 'GET'
 
         let headers = {

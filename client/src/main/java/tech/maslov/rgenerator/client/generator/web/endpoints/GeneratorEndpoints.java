@@ -48,6 +48,13 @@ public class GeneratorEndpoints {
         return SuccessApiResponse.of(generatorWebMapper.map(generatorDTO));
     }
 
+    @ApiOperation("Delete by id")
+    @DeleteMapping(value = GeneratorApiRoutes.BY_ID, produces = MediaType.APPLICATION_JSON_VALUE)
+    public SuccessApiResponse<String> deleteById(@PathVariable String id) throws AuthenticationException, AuthorizationException {
+         generatorAdapter.client.delete(id);
+        return SuccessApiResponse.of("OK");
+    }
+
     @ApiOperation("Edit info")
     @PostMapping(value = GeneratorApiRoutes.INFO, produces = MediaType.APPLICATION_JSON_VALUE)
     public SuccessApiResponse<GeneratorWeb> editInfo(@PathVariable String id, @RequestBody GeneratorInfoRequest request) throws AuthenticationException, AuthorizationException {
@@ -87,6 +94,19 @@ public class GeneratorEndpoints {
     @GetMapping(value = GeneratorApiRoutes.ROOT, produces = MediaType.APPLICATION_JSON_VALUE)
     public SuccessApiResponse<SearchApiResponse<GeneratorWeb>> list() {
         List<GeneratorDTO> generatorDTO = generatorAdapter.client.list();
+
+        return SuccessApiResponse.of(
+                SearchApiResponse.withItemsAndCount(
+                        generatorWebMapper.mapAll(generatorDTO),
+                        (long)generatorDTO.size()
+                )
+        );
+    }
+
+    @ApiOperation("My RGenerators list")
+    @GetMapping(value = GeneratorApiRoutes.MY_GENERATORS, produces = MediaType.APPLICATION_JSON_VALUE)
+    public SuccessApiResponse<SearchApiResponse<GeneratorWeb>> myList() throws AuthenticationException {
+        List<GeneratorDTO> generatorDTO = generatorAdapter.client.myGeneratorsList();
 
         return SuccessApiResponse.of(
                 SearchApiResponse.withItemsAndCount(

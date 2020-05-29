@@ -14,7 +14,8 @@ const GeneratorItemComponent: React.FC<GeneratorItemProps> = (props: GeneratorIt
                 {props.title}
             </Link>
 
-            <small className={classes.date}>3 days ago</small>
+            <small className={classes.date}>owner: {props.loginOwner}</small>
+            {/*<small className={classes.date}>3 days ago</small>*/}
             <p className={classes.description}>{props.description}</p>
 
         </Paper>

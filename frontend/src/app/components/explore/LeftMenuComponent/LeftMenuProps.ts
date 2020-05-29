@@ -42,10 +42,10 @@ export const generateLeftMenuProps = (activeLink: string, generator: any) => {
         groups: [
             {
                 items: [
-                    itemBadge('home', '🏠 My Generators', '/', activeLink, "5"),
+                    item('home', '🏠 My Generators', '/my-rgenerators', activeLink),
                     item('explore', '🕵 Explore', '/explore', activeLink),
-                    item('top', '🔥 Top', '/top', activeLink),
-                    item('favorite', '⭐ Favorite', '/top', activeLink),
+                    // item('top', '🔥 Top', '/top', activeLink),
+                    // item('favorite', '⭐ Favorite', '/top', activeLink),
                 ]
             }
         ]

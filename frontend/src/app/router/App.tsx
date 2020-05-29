@@ -15,6 +15,7 @@ import EditFileList from "../scenes/GenerateEditFileListScene";
 import EditFileEdit from "../scenes/GeneratorEditFileEditScene";
 import EditFileAdd from "../scenes/GenerateEditFileAddScene";
 import ExploreScene from "../scenes/ExploreScene";
+import MyGeneragorsScene from "../scenes/MyGeneragorsScene";
 import SignUpScene from "../scenes/SignUpScene";
 
 
@@ -113,6 +114,9 @@ const App: React.FC<Props> = (props: Props) => {
                             </Route>
                             <Route path="/explore">
                                 <ExploreScene/>
+                            </Route>
+                            <Route path="/my-rgenerators">
+                                <MyGeneragorsScene/>
                             </Route>
                             <Route path="/">
                                 <Home/>

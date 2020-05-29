@@ -19,6 +19,8 @@ public class GeneratorWebMapper implements ExampleDataMapper<GeneratorDTO, Gener
                 .title(generatorDTO.getTitle())
                 .description(generatorDTO.getDescription())
                 .example(generatorDTO.getExample())
+                .loginOwner(generatorDTO.getLoginOwner())
+                .ownerId(generatorDTO.getOwnerId())
                 .files(transformFiles(generatorDTO.getFileStructure().getDirectory(), ""))
 
                 .build();

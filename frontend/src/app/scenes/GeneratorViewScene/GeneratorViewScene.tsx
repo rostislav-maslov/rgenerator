@@ -12,6 +12,9 @@ import PropsType from './GeneratorViewProps'
 import StateType from './GeneratorViewState'
 import HeaderComponent from "./components/HeaderComponent";
 import {toast} from 'react-toastify';
+import DeleteIcon from '@material-ui/icons/Delete'
+import IconButton from '@material-ui/core/IconButton';
+import TokenRepository from "../../../gateways/services/TokenRepository";
 
 class GeneratorViewScene extends Component<PropsType, StateType> {
     constructor(props: any) {
@@ -22,6 +25,7 @@ class GeneratorViewScene extends Component<PropsType, StateType> {
                 title: "",
                 description: "",
                 example: "",
+                isOwner: false
             },
             apiData: {
                 generator: {
@@ -48,7 +52,7 @@ class GeneratorViewScene extends Component<PropsType, StateType> {
         GeneratorApi.findById(id)
             .then((response) => {
 
-                if(response.ok === false) {
+                if (response.ok === false) {
                     toast.error("You don't have access to view this RGenerator", {
                         position: toast.POSITION.BOTTOM_RIGHT
                     });
@@ -56,11 +60,16 @@ class GeneratorViewScene extends Component<PropsType, StateType> {
                 }
 
                 response.json().then(result => {
+
+                    const developer = TokenRepository.getCurrentDeveloper()
+                    const ownerId = developer != null ? developer.id : null
+
                     let apiData = this.state.apiData
                     apiData.generator = result.result
                     let viewData = this.state.viewData
                     viewData.title = apiData.generator.title
                     viewData.description = apiData.generator.description
+                    viewData.isOwner = apiData.generator.ownerId === ownerId
                     try {
                         viewData.example = JSON.parse(apiData.generator.example)
                     } catch (e) {
@@ -74,6 +83,31 @@ class GeneratorViewScene extends Component<PropsType, StateType> {
                     })
                 })
             })
+    }
+
+    deleteGenerator = () => {
+        let self = this
+        GeneratorApi.deleteById(this.props.match.params.id)
+            .then((response) => {
+
+                if (response.ok === false) {
+                    toast.error("You don't have access to delete this RGenerator", {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+                    return;
+                }
+
+                window.location.href = '/my-rgenerators'
+            })
+    }
+
+    onDelete = (e: any) => {
+        e.preventDefault();
+
+        const isConfirm = window.confirm("You going delete RGenerator with all data and template. Please confirm this action!")
+        if (isConfirm == true) this.deleteGenerator();
+
+        return false;
     }
 
 
@@ -101,8 +135,25 @@ class GeneratorViewScene extends Component<PropsType, StateType> {
                             <LeftMenuComponent {...generateLeftMenuProps('view', this.state.apiData.generator)}/>
                         </Grid>
                         <Grid item xs={12} md={8} lg={9}>
-                            <HeaderComponent title={this.state.viewData.title} description={this.state.viewData.description}/>
-
+                            <Grid container spacing={1}
+                                  direction="row"
+                                  justify="flex-start"
+                                  alignItems="flex-start"
+                            >
+                                <Grid item xs={10} md={10} lg={10}>
+                                    <HeaderComponent title={this.state.viewData.title}
+                                                     description={this.state.viewData.description}/>
+                                </Grid>
+                                <Grid item xs={2} md={2} lg={2} alignContent={'flex-end'} style={{textAlign: 'right'}}>
+                                    {this.state.viewData.isOwner === true ? (
+                                        <form onSubmit={this.onDelete}>
+                                            <IconButton color="secondary" aria-label="Delete" type={'submit'}>
+                                                <DeleteIcon/>
+                                            </IconButton>
+                                        </form>
+                                    ) : false}
+                                </Grid>
+                            </Grid>
                             <Grid container spacing={1}
                                   direction="row"
                                   justify="flex-start"

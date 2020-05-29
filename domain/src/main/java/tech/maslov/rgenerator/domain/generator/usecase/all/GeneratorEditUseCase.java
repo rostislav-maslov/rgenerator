@@ -4,10 +4,12 @@ import com.rcore.domain.file.entity.FileEntity;
 import com.rcore.domain.file.port.FileRepository;
 import com.rcore.domain.token.exception.AuthenticationException;
 import com.rcore.domain.token.exception.AuthorizationException;
+import com.rcore.domain.user.entity.UserEntity;
 import com.rcore.domain.user.port.UserRepository;
 import tech.maslov.rgenerator.domain.developer.port.DeveloperRepository;
 import tech.maslov.rgenerator.domain.developer.usecase.all.AuthorizationDevByTokenUseCase;
 import tech.maslov.rgenerator.domain.generator.dto.FileContentDTO;
+import tech.maslov.rgenerator.domain.generator.dto.GeneratorWithOwnerDTO;
 import tech.maslov.rgenerator.domain.generator.entity.FileStructure;
 import tech.maslov.rgenerator.domain.generator.entity.GeneratorEntity;
 import tech.maslov.rgenerator.domain.generator.port.GeneratorRepository;
@@ -23,7 +25,7 @@ public class GeneratorEditUseCase extends GeneratorBaseUseCase {
         this.fileRepository = fileRepository;
     }
 
-    public GeneratorEntity editInfo(String id, String title, String description) throws AuthenticationException, AuthorizationException {
+    public GeneratorWithOwnerDTO editInfo(String id, String title, String description) throws AuthenticationException, AuthorizationException {
         GeneratorEntity generatorEntity = generatorRepository.findById(id).get();
         this.checkEditAccess(generatorEntity);
 
@@ -32,16 +34,19 @@ public class GeneratorEditUseCase extends GeneratorBaseUseCase {
 
         generatorRepository.save(generatorEntity);
 
-        return generatorEntity;
+        UserEntity userEntity = userRepository.findById(generatorEntity.getOwnerId()).get();
+        return GeneratorWithOwnerDTO.of(generatorEntity, userEntity);
     }
 
-    public GeneratorEntity editJson(String id, String example) throws AuthenticationException, AuthorizationException {
+    public GeneratorWithOwnerDTO editJson(String id, String example) throws AuthenticationException, AuthorizationException {
         GeneratorEntity generatorEntity = generatorRepository.findById(id).get();
         this.checkEditAccess(generatorEntity);
 
         generatorEntity.setExample(example);
 
-        return generatorRepository.save(generatorEntity);
+        generatorRepository.save(generatorEntity);
+        UserEntity userEntity = userRepository.findById(generatorEntity.getOwnerId()).get();
+        return GeneratorWithOwnerDTO.of(generatorEntity, userEntity);
     }
 
     private void fileStructChangeFile(FileStructure.Directory dir, String oldId, String newId) {
@@ -74,22 +79,26 @@ public class GeneratorEditUseCase extends GeneratorBaseUseCase {
         }
     }
 
-    public GeneratorEntity editFile(String id, String oldFileId, String newFileId) throws AuthenticationException, AuthorizationException {
+    public GeneratorWithOwnerDTO editFile(String id, String oldFileId, String newFileId) throws AuthenticationException, AuthorizationException {
         GeneratorEntity generatorEntity = generatorRepository.findById(id).get();
         this.checkEditAccess(generatorEntity);
 
         fileStructChangeFile(generatorEntity.getFileStructure().getDirectory(), oldFileId, newFileId);
 
-        return generatorRepository.save(generatorEntity);
+        generatorRepository.save(generatorEntity);
+        UserEntity userEntity = userRepository.findById(generatorEntity.getOwnerId()).get();
+        return GeneratorWithOwnerDTO.of(generatorEntity, userEntity);
     }
 
-    public GeneratorEntity removeFile(String id, String fileId) throws AuthenticationException, AuthorizationException {
+    public GeneratorWithOwnerDTO removeFile(String id, String fileId) throws AuthenticationException, AuthorizationException {
         GeneratorEntity generatorEntity = generatorRepository.findById(id).get();
         this.checkEditAccess(generatorEntity);
 
         fileStructDeleteFile(generatorEntity.getFileStructure().getDirectory(), fileId);
 
-        return generatorRepository.save(generatorEntity);
+        generatorRepository.save(generatorEntity);
+        UserEntity userEntity = userRepository.findById(generatorEntity.getOwnerId()).get();
+        return GeneratorWithOwnerDTO.of(generatorEntity, userEntity);
     }
 
     public FileContentDTO fileAdd(String id, String path, FileEntity fileEntity) throws AuthenticationException, AuthorizationException {

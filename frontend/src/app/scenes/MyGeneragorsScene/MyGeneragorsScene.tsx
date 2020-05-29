@@ -13,23 +13,23 @@ import GeneratorApi from "../../../gateways/services/Generator";
 import LeftMenuComponent from "../../components/explore/LeftMenuComponent";
 import {generateLeftMenuProps} from "../../components/explore/LeftMenuComponent/LeftMenuProps";
 import Breadcrumbs from "../../components/base/BreadcrumbsComponent/BreadcrumbsComponent";
-import ExploreProps from "./ExploreProps";
+import MyGeneragorsProps from "./MyGeneragorsProps";
 import Grid from '@material-ui/core/Grid';
-import ExploreStyles from "./ExploreStyles";
+import MyGeneragorsStyles from "./MyGeneragorsStyles";
 import GeneratorItemComponent from "../../components/explore/GeneratorItemComponent";
 import GeneratorItemProps from "../../components/explore/GeneratorItemComponent/GeneratorItemProps";
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add'
 
 
-const ExploreScene: React.FC<ExploreProps> = (props: ExploreProps) => {
+const MyGeneragorsScene: React.FC<MyGeneragorsProps> = (props: MyGeneragorsProps) => {
 
     window.scrollTo(0, 0)
-    const classes = ExploreStyles()
+    const classes = MyGeneragorsStyles()
     const [generatorList, setGeneratorList] = useState([])
 
     useEffect(() => {
-        GeneratorApi.list()
+        GeneratorApi.myRGenerators()
             .then((response) => {
                 response.json().then(result => {
                     setGeneratorList(result.result.items)
@@ -41,7 +41,7 @@ const ExploreScene: React.FC<ExploreProps> = (props: ExploreProps) => {
         <section>
             <Breadcrumbs links={[
                 {title: 'Home', url: '/'},
-                {title: 'Explore', url: '/explore', active: true},
+                {title: 'My RGenerators', url: '/my-rgenerators', active: true},
             ]}/>
 
             <section className={classes.container}>
@@ -51,7 +51,7 @@ const ExploreScene: React.FC<ExploreProps> = (props: ExploreProps) => {
                       alignItems="flex-start"
                 >
                     <Grid item xs={12} md={4} lg={3}>
-                        <LeftMenuComponent {...generateLeftMenuProps('explore', null)}/>
+                        <LeftMenuComponent {...generateLeftMenuProps('home', null)}/>
                     </Grid>
                     <Grid item xs={12} md={8} lg={9}>
                         {generatorList.map((generator: GeneratorItemProps, idx) => {
@@ -61,13 +61,12 @@ const ExploreScene: React.FC<ExploreProps> = (props: ExploreProps) => {
 
                         {generatorList.length === 0 ? (
                             <div style={{textAlign: 'center'}}>
-                            <Button href={'/generator/create'} color="primary"
-                                    startIcon={<AddIcon/>} variant="contained">
-                                CREATE
-                            </Button>
+                                <Button href={'/generator/create'} color="primary"
+                                        startIcon={<AddIcon/>} variant="contained">
+                                    CREATE
+                                </Button>
                             </div>
                         ):false}
-
                     </Grid>
                 </Grid>
             </section>
@@ -75,4 +74,4 @@ const ExploreScene: React.FC<ExploreProps> = (props: ExploreProps) => {
     )
 }
 
-export default ExploreScene;
+export default MyGeneragorsScene;

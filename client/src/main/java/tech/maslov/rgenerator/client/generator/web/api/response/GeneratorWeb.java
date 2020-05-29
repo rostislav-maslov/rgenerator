@@ -47,6 +47,10 @@ public class GeneratorWeb {
     private String description;
     @ApiModelProperty("Example of JSON")
     private String example;
+    @ApiModelProperty("Owner login")
+    private String loginOwner;
+    @ApiModelProperty("Owner ID")
+    private String ownerId;
     @ApiModelProperty("File list")
     private List<File> files = new ArrayList<>();
 }

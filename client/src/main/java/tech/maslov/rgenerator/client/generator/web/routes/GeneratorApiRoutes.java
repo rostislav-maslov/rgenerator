@@ -4,6 +4,7 @@ import com.rcore.restapi.routes.BaseApiRoutes;
 
 public class GeneratorApiRoutes {
     public static final String ROOT = BaseApiRoutes.V1 + "/generator";
+    public static final String MY_GENERATORS = BaseApiRoutes.V1 + "/generator/my";
     public static final String BY_ID = ROOT + "/{id}";
 
     public static final String INFO = BY_ID + "/info";

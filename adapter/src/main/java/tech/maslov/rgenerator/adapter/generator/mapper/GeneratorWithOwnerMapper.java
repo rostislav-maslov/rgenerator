@@ -3,12 +3,11 @@ package tech.maslov.rgenerator.adapter.generator.mapper;
 import com.rcore.commons.mapper.ExampleDataMapper;
 import tech.maslov.rgenerator.adapter.generator.dto.GeneratorDTO;
 import tech.maslov.rgenerator.domain.generator.dto.GeneratorWithOwnerDTO;
-import tech.maslov.rgenerator.domain.generator.entity.GeneratorEntity;
 
-public class GeneratorMapper implements ExampleDataMapper<GeneratorEntity, GeneratorDTO> {
+public class GeneratorWithOwnerMapper implements ExampleDataMapper<GeneratorWithOwnerDTO, GeneratorDTO> {
 
     @Override
-    public GeneratorDTO map(GeneratorEntity entity) {
+    public GeneratorDTO map(GeneratorWithOwnerDTO entity) {
         return GeneratorDTO.builder()
                 .id(entity.getId())
 
@@ -22,11 +21,13 @@ public class GeneratorMapper implements ExampleDataMapper<GeneratorEntity, Gener
                 .updatedAt(entity.getUpdatedAt())
                 .timeZone(entity.getTimeZone())
 
+                .loginOwner(entity.getLoginOwner())
+
                 .build();
     }
 
     @Override
-    public GeneratorEntity inverseMap(GeneratorDTO dto) {
+    public GeneratorWithOwnerDTO inverseMap(GeneratorDTO dto) {
         return GeneratorWithOwnerDTO.builder()
                 .id(dto.getId())
 
