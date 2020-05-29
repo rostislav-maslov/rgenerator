@@ -25,7 +25,6 @@ import tech.maslov.rgenerator.domain.generator.dto.FileContentDTO;
 import java.io.IOException;
 import java.util.List;
 
-@Secured({})
 @Api(tags = "RGenerator API")
 @RequiredArgsConstructor
 @RestController
@@ -44,7 +43,7 @@ public class GeneratorEndpoints {
 
     @ApiOperation("Get by id")
     @GetMapping(value = GeneratorApiRoutes.BY_ID, produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuccessApiResponse<GeneratorWeb> byId(@PathVariable String id) {
+    public SuccessApiResponse<GeneratorWeb> byId(@PathVariable String id) throws AuthenticationException, AuthorizationException {
         GeneratorDTO generatorDTO = generatorAdapter.client.byId(id);
         return SuccessApiResponse.of(generatorWebMapper.map(generatorDTO));
     }
@@ -72,14 +71,14 @@ public class GeneratorEndpoints {
 
     @ApiOperation("Delete files")
     @DeleteMapping(value = GeneratorApiRoutes.FILE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuccessApiResponse<GeneratorWeb> deleteFile(@PathVariable String id, @PathVariable String fileId) {
+    public SuccessApiResponse<GeneratorWeb> deleteFile(@PathVariable String id, @PathVariable String fileId) throws AuthenticationException, AuthorizationException {
         GeneratorDTO generatorDTO = generatorAdapter.client.fileDelete(id, fileId);
         return SuccessApiResponse.of(generatorWebMapper.map(generatorDTO));
     }
 
     @ApiOperation("View file content")
     @GetMapping(value = GeneratorApiRoutes.FILE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuccessApiResponse<GeneratorWeb.File> fileView(@PathVariable String id, @PathVariable String fileId) throws IOException {
+    public SuccessApiResponse<GeneratorWeb.File> fileView(@PathVariable String id, @PathVariable String fileId) throws IOException, AuthenticationException, AuthorizationException {
         FileContentDTO fileDTO = generatorAdapter.client.file(id, fileId);
         return SuccessApiResponse.of(fileWebMapper.map(fileDTO));
     }

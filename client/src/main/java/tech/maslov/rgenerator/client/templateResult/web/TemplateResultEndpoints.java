@@ -15,7 +15,6 @@ import tech.maslov.rgenerator.client.templateResult.application.TemplateWebMappe
 import tech.maslov.rgenerator.client.templateResult.web.api.TemplateResultCreateRequest;
 import tech.maslov.rgenerator.client.templateResult.web.api.TemplateResultResponse;
 
-@Secured({})
 @Api(tags = "Template result API")
 @RequiredArgsConstructor
 @RestController

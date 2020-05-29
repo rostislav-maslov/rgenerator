@@ -33,6 +33,12 @@ export default {
 
     setCurrentDeveloper(developer: Developer){
         return localStorage.setItem("RG_CURRENT_DEVELOPER", JSON.stringify(developer))
+    },
+
+    clean(){
+        localStorage.removeItem("RG_ACCESS_TOKEN")
+        localStorage.removeItem("RG_CURRENT_DEVELOPER")
+        localStorage.removeItem("RG_REFRESH_TOKEN")
     }
 
 }

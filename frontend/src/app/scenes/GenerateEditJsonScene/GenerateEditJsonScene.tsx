@@ -85,9 +85,14 @@ class GenerateEditJsonScene extends Component<PropsType, StateType> {
         GeneratorApi
             .updateJson(this.state.apiData.generator.id, this.state.viewData.exampleString)
             .then((result) => {
-                toast.success("Your generator did update", {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
+                result.ok ?
+                    toast.success("Your generator did update", {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    })
+                    :
+                    toast.error("You don't have access to edit this RGenerator", {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
             })
     }
 

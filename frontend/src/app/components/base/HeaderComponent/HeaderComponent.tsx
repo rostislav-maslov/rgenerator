@@ -11,12 +11,45 @@ import useStyles from "./HeaderStyles";
 import HeaderProps from "./HeaderProps";
 
 import {HOST} from "../../../../gateways/services/Const"
+import TokenRepository from "../../../../gateways/services/TokenRepository";
 
 interface Props {
 }
 
+const LoggedComponent: React.FC<HeaderProps> = () => {
+    const classes = useStyles();
+
+    return (
+        <div>
+            <Button href={'/generator/create'} className={classes.buttons} color="primary"
+                    startIcon={<AddIcon/>} variant="contained">
+                CREATE
+            </Button>
+            <Button className={classes.buttons}>
+                <Link onClick={() => {
+                    TokenRepository.clean();
+                    window.location.href = "/";
+                }}>LOGOUT</Link>
+            </Button>
+        </div>
+    )
+}
+
+const NotLoggedComponent: React.FC<HeaderProps> = () => {
+    const classes = useStyles();
+
+    return (
+        <div>
+            <Button className={classes.buttons}>
+                <Link href={'/login'}>LOGIN</Link>
+            </Button>
+        </div>
+    )
+}
+
 const HeaderComponent: React.FC<HeaderProps> = (props: HeaderProps) => {
     const classes = useStyles();
+    const loggedUser = TokenRepository.getCurrentDeveloper() != null;
 
     return (
         <AppBar className={classes.appBar}>
@@ -45,12 +78,7 @@ const HeaderComponent: React.FC<HeaderProps> = (props: HeaderProps) => {
                 </Link>
 
                 <section className={classes.rightToolbar}>
-                    <Button href={'/generator/create'} className={classes.buttons} color="primary" startIcon={<AddIcon />} variant="contained">
-                        CREATE
-                    </Button>
-                    <Button className={classes.buttons}>
-                        <Link href={'/login'}>LOGIN</Link>
-                    </Button>
+                    {loggedUser === true ? (<LoggedComponent/>) : (<NotLoggedComponent/>)}
                 </section>
             </Toolbar>
         </AppBar>

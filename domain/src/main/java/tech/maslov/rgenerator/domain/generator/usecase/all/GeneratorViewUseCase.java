@@ -3,7 +3,10 @@ package tech.maslov.rgenerator.domain.generator.usecase.all;
 import com.rcore.domain.base.port.SearchRequest;
 import com.rcore.domain.file.port.FileStorage;
 import com.rcore.domain.token.exception.AuthenticationException;
+import com.rcore.domain.token.exception.AuthorizationException;
+import com.rcore.domain.user.port.UserRepository;
 import tech.maslov.rgenerator.domain.developer.entity.DeveloperEntity;
+import tech.maslov.rgenerator.domain.developer.port.DeveloperRepository;
 import tech.maslov.rgenerator.domain.developer.usecase.all.AuthorizationDevByTokenUseCase;
 import tech.maslov.rgenerator.domain.generator.dto.FileContentDTO;
 import tech.maslov.rgenerator.domain.generator.entity.FileStructure;
@@ -20,25 +23,21 @@ import java.util.Scanner;
 public class GeneratorViewUseCase extends GeneratorBaseUseCase {
 
     private final FileStorage fileStorage;
-    private final AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase;
 
-    public GeneratorViewUseCase(GeneratorRepository generatorRepository, FileStorage fileStorage, AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase) {
-        super(generatorRepository);
+
+    public GeneratorViewUseCase(GeneratorRepository generatorRepository, FileStorage fileStorage, AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase, DeveloperRepository developerRepository, UserRepository userRepository) {
+        super(generatorRepository, authorizationDevByTokenUseCase, developerRepository, userRepository);
         this.fileStorage = fileStorage;
-        this.authorizationDevByTokenUseCase = authorizationDevByTokenUseCase;
     }
 
-    public GeneratorEntity findId(String id) {
-        return generatorRepository.findById(id).get();
+    public GeneratorEntity findId(String id) throws AuthenticationException, AuthorizationException {
+        GeneratorEntity generatorEntity = generatorRepository.findById(id).get();
+        this.checkViewAccess(generatorEntity);
+
+        return generatorEntity;
     }
 
     public List<GeneratorEntity> findAll() {
-        try {
-            Optional<DeveloperEntity> developerEntity = authorizationDevByTokenUseCase.currentDeveloper();
-            developerEntity = developerEntity;
-        } catch (AuthenticationException e) {
-            e.printStackTrace();
-        }
         return generatorRepository.find(new SearchRequest("", 1000l, 0l, null, null)).getItems();
     }
 
@@ -74,8 +73,10 @@ public class GeneratorViewUseCase extends GeneratorBaseUseCase {
         return null;
     }
 
-    public FileContentDTO fileView(String id, String fileId) {
+    public FileContentDTO fileView(String id, String fileId) throws AuthenticationException, AuthorizationException {
         GeneratorEntity generatorEntity = generatorRepository.findById(id).get();
+        this.checkViewAccess(generatorEntity);
+
         FileContentDTO file = getFile(generatorEntity.getFileStructure().getDirectory(), fileId);
         if (file == null) return null;
 

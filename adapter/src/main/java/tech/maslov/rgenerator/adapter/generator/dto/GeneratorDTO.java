@@ -14,7 +14,7 @@ import tech.maslov.rgenerator.domain.generator.entity.FileStructure;
 public class GeneratorDTO extends BaseEntityDTO {
     protected String id;
 
-    protected String userId = null;
+    protected String ownerId = null;
     protected String title = null;
     protected String description = null;
     protected String example = null;

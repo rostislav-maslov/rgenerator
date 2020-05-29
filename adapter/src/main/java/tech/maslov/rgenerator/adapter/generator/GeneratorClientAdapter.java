@@ -22,31 +22,31 @@ public class GeneratorClientAdapter {
                 .create(title, description, example));
     }
 
-    public GeneratorDTO editInfo(String id, String title, String description) {
+    public GeneratorDTO editInfo(String id, String title, String description) throws AuthenticationException, AuthorizationException {
         return mapper.map(config.all.editUseCase().editInfo(id, title, description));
     }
 
-    public GeneratorDTO editFile(String id, String oldFile, String newFile) {
+    public GeneratorDTO editFile(String id, String oldFile, String newFile) throws AuthenticationException, AuthorizationException {
         return mapper.map(config.all.editUseCase().editFile(id, oldFile, newFile));
     }
 
-    public GeneratorDTO editJson(String id, String example){
+    public GeneratorDTO editJson(String id, String example) throws AuthenticationException, AuthorizationException {
         return mapper.map(config.all.editUseCase().editJson(id, example));
     }
 
-    public GeneratorDTO byId(String id){
+    public GeneratorDTO byId(String id) throws AuthenticationException, AuthorizationException {
         return mapper.map(config.all.viewUseCase().findId(id));
     }
 
-    public GeneratorDTO fileDelete(String id, String fileId){
+    public GeneratorDTO fileDelete(String id, String fileId) throws AuthenticationException, AuthorizationException {
         return mapper.map(config.all.editUseCase().removeFile(id, fileId));
     }
 
-    public FileContentDTO file(String id, String fileId){
+    public FileContentDTO file(String id, String fileId) throws AuthenticationException, AuthorizationException {
         return config.all.viewUseCase().fileView(id, fileId);
     }
 
-    public FileContentDTO fileAdd(String id, String path, FileEntity fileEntity){
+    public FileContentDTO fileAdd(String id, String path, FileEntity fileEntity) throws AuthenticationException, AuthorizationException {
         return config.all.editUseCase().fileAdd(id, path, fileEntity);
     }
 

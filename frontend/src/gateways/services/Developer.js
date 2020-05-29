@@ -14,10 +14,16 @@ export default {
         // public static final String X_APPLICATION_VERSION = "X-Application-Version";
         // public static final String X_LANGUAGE = "X-Language";
 
+
         let headers = {
-            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
         }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
+        }
+
 
         let response = fetch(urlRequest, {
             method: method,

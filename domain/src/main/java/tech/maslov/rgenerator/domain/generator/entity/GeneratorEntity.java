@@ -15,11 +15,10 @@ import java.util.*;
 @Data
 public class GeneratorEntity extends BaseEntity {
     protected String id;
-    protected String userId = null;
+    protected String ownerId = null;
     protected String title = null;
     protected String description = null;
     protected String example = null;
     protected FileStructure fileStructure = new FileStructure();
 
-    protected String developerId;
 }

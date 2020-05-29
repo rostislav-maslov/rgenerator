@@ -23,6 +23,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
+import {toast} from 'react-toastify';
 
 class TemplateResultScene extends Component<PropsType, StateType> {
     constructor(props: any) {
@@ -59,6 +60,14 @@ class TemplateResultScene extends Component<PropsType, StateType> {
         let self = this
         GeneratorApi.findById(id)
             .then((response) => {
+                if(response.ok === false) {
+                    toast.error("You don't have access to view this RGenerator", {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+                    return;
+                }
+
+
                 response.json().then(result => {
                     let apiData = this.state.apiData
                     apiData.generator = result.result

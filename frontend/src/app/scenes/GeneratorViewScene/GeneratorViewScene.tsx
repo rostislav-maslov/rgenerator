@@ -11,6 +11,7 @@ import CardLinkComponent from "../../components/generator/CardLinkComponent";
 import PropsType from './GeneratorViewProps'
 import StateType from './GeneratorViewState'
 import HeaderComponent from "./components/HeaderComponent";
+import {toast} from 'react-toastify';
 
 class GeneratorViewScene extends Component<PropsType, StateType> {
     constructor(props: any) {
@@ -46,6 +47,14 @@ class GeneratorViewScene extends Component<PropsType, StateType> {
         let self = this
         GeneratorApi.findById(id)
             .then((response) => {
+
+                if(response.ok === false) {
+                    toast.error("You don't have access to view this RGenerator", {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+                    return;
+                }
+
                 response.json().then(result => {
                     let apiData = this.state.apiData
                     apiData.generator = result.result

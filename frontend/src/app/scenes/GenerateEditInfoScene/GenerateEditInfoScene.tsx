@@ -82,9 +82,14 @@ class GenerateEditInfoScene extends Component<PropsType, StateType> {
         GeneratorApi
             .updateInfo(this.state.apiData.generator.id, this.state.viewData.title, this.state.viewData.description)
             .then((result) => {
-                toast.success("Your generator did update", {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
+                result.ok ?
+                    toast.success("Your generator did update", {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    })
+                    :
+                    toast.error("You don't have access to edit this RGenerator", {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
             })
     }
 
@@ -138,10 +143,11 @@ class GenerateEditInfoScene extends Component<PropsType, StateType> {
                                     onChangeTitle={this.onChangeInput}
                                     onChangeDescription={this.onChangeInput}/>
 
-                                    <br/>
-                                    <br/>
+                                <br/>
+                                <br/>
 
-                                <Button type='submit' size="large" color="primary" variant="contained" fullWidth >SUBMIT</Button>
+                                <Button type='submit' size="large" color="primary" variant="contained"
+                                        fullWidth>SUBMIT</Button>
 
                             </form>
 

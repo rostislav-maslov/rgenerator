@@ -22,6 +22,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import IconButton from '@material-ui/core/IconButton';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import Button from '@material-ui/core/Button';
+import {toast} from 'react-toastify';
 
 
 class GenerateEditFileListScene extends Component<PropsType, StateType> {
@@ -83,7 +84,12 @@ class GenerateEditFileListScene extends Component<PropsType, StateType> {
     onDeleteFile = (e: any, fileId: String) => {
         e.preventDefault();
         let self = this
-        GeneratorApi.deleteFile(this.state.apiData.generator.id, fileId).then(() => {
+        GeneratorApi.deleteFile(this.state.apiData.generator.id, fileId).then((response) => {
+            if(response.ok === false){
+                toast.error("You don't have access to edit this RGenerator", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
+            }
             self.update()
         })
         return false;

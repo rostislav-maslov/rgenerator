@@ -15,6 +15,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import TokenRepository from "../../../gateways/services/TokenRepository";
 
 class GenerateCreateScene extends Component<PropsType, StateType> {
     _input: any = null
@@ -45,6 +46,8 @@ class GenerateCreateScene extends Component<PropsType, StateType> {
         this.update()
         this._input.directory = true;
         this._input.webkitdirectory = true;
+
+        if(TokenRepository.getCurrentDeveloper() === null) window.location.href = "/login";
     }
 
     update = () => {

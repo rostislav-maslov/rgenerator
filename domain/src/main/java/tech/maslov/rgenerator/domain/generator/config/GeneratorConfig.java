@@ -48,17 +48,19 @@ public class GeneratorConfig {
         protected final FileRepository fileRepository;
         protected final FileStorage fileStorage;
         protected final AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase;
+        protected final DeveloperRepository developerRepository;
+        protected final UserRepository userRepository;
 
         public GeneratorCreateUseCase createUseCase() {
-            return new GeneratorCreateUseCase(this.generatorRepository, generatorIdGenerator, authorizationDevByTokenUseCase);
+            return new GeneratorCreateUseCase(this.generatorRepository, generatorIdGenerator, authorizationDevByTokenUseCase, developerRepository, userRepository);
         }
 
         public GeneratorEditUseCase editUseCase() {
-            return new GeneratorEditUseCase(this.generatorRepository, this.fileRepository);
+            return new GeneratorEditUseCase(this.generatorRepository, this.fileRepository, authorizationDevByTokenUseCase, developerRepository, userRepository);
         }
 
         public GeneratorViewUseCase viewUseCase() {
-            return new GeneratorViewUseCase(this.generatorRepository, this.fileStorage, authorizationDevByTokenUseCase);
+            return new GeneratorViewUseCase(this.generatorRepository, this.fileStorage, authorizationDevByTokenUseCase, developerRepository, userRepository);
         }
     }
 
@@ -89,7 +91,7 @@ public class GeneratorConfig {
         this.authorizationDevByTokenUseCase = new AuthorizationDevByTokenUseCase( refreshTokenRepository,  accessTokenStorage,  userRepository,  developerRepository);
 
         this.secured = new Secured(this.generatorRepository, this.idGenerator, this.authorizationByTokenUseCase);
-        this.all = new All(this.generatorRepository, idGenerator, fileRepository, fileStorage, authorizationDevByTokenUseCase);
+        this.all = new All(this.generatorRepository, idGenerator, fileRepository, fileStorage, authorizationDevByTokenUseCase, developerRepository, userRepository);
     }
 
 }

@@ -3,6 +3,8 @@ package tech.maslov.rgenerator.client.generator.web.endpoints;
 import com.rcore.domain.file.entity.FileEntity;
 import com.rcore.domain.file.port.FileRepository;
 import com.rcore.domain.file.port.FileStorage;
+import com.rcore.domain.token.exception.AuthenticationException;
+import com.rcore.domain.token.exception.AuthorizationException;
 import com.rcore.restapi.web.api.response.SuccessApiResponse;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +40,7 @@ public class GeneratorUploadEndpoints {
 
     @ResponseBody
     @RequestMapping(value = GeneratorApiRoutes.FILE_UPLOAD, method = RequestMethod.POST)
-    public SuccessApiResponse<GeneratorWeb.File> create(@RequestParam String id, @RequestParam String path, @RequestParam MultipartFile file) throws IOException {
+    public SuccessApiResponse<GeneratorWeb.File> create(@RequestParam String id, @RequestParam String path, @RequestParam MultipartFile file) throws IOException, AuthenticationException, AuthorizationException {
         String filePath = fileStorage.store(file.getInputStream(), file.getName(), file.getContentType());
         FileEntity fileEntity = new FileEntity();
         fileEntity.setFileName(file.getName());

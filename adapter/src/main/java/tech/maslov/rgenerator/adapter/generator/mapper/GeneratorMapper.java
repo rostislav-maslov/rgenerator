@@ -11,7 +11,7 @@ public class GeneratorMapper implements ExampleDataMapper<GeneratorEntity, Gener
         return GeneratorDTO.builder()
                 .id(entity.getId())
 
-                .userId(entity.getUserId())
+                .ownerId(entity.getOwnerId())
                 .title(entity.getTitle())
                 .description(entity.getDescription())
                 .example(entity.getExample())
@@ -30,7 +30,7 @@ public class GeneratorMapper implements ExampleDataMapper<GeneratorEntity, Gener
         return GeneratorEntity.builder()
                 .id(dto.getId())
 
-                .userId(dto.getUserId())
+                .ownerId(dto.getOwnerId())
                 .title(dto.getTitle())
                 .description(dto.getDescription())
                 .example(dto.getExample())

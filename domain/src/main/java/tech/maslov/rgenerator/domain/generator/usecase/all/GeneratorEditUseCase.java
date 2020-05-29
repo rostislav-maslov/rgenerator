@@ -2,6 +2,11 @@ package tech.maslov.rgenerator.domain.generator.usecase.all;
 
 import com.rcore.domain.file.entity.FileEntity;
 import com.rcore.domain.file.port.FileRepository;
+import com.rcore.domain.token.exception.AuthenticationException;
+import com.rcore.domain.token.exception.AuthorizationException;
+import com.rcore.domain.user.port.UserRepository;
+import tech.maslov.rgenerator.domain.developer.port.DeveloperRepository;
+import tech.maslov.rgenerator.domain.developer.usecase.all.AuthorizationDevByTokenUseCase;
 import tech.maslov.rgenerator.domain.generator.dto.FileContentDTO;
 import tech.maslov.rgenerator.domain.generator.entity.FileStructure;
 import tech.maslov.rgenerator.domain.generator.entity.GeneratorEntity;
@@ -13,13 +18,14 @@ import java.util.List;
 public class GeneratorEditUseCase extends GeneratorBaseUseCase {
     private final FileRepository fileRepository;
 
-    public GeneratorEditUseCase(GeneratorRepository generatorRepository, FileRepository fileRepository) {
-        super(generatorRepository);
+    public GeneratorEditUseCase(GeneratorRepository generatorRepository, FileRepository fileRepository, AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase, DeveloperRepository developerRepository, UserRepository userRepository) {
+        super(generatorRepository, authorizationDevByTokenUseCase, developerRepository, userRepository);
         this.fileRepository = fileRepository;
     }
 
-    public GeneratorEntity editInfo(String id, String title, String description) {
+    public GeneratorEntity editInfo(String id, String title, String description) throws AuthenticationException, AuthorizationException {
         GeneratorEntity generatorEntity = generatorRepository.findById(id).get();
+        this.checkEditAccess(generatorEntity);
 
         generatorEntity.setTitle(title);
         generatorEntity.setDescription(description);
@@ -29,8 +35,9 @@ public class GeneratorEditUseCase extends GeneratorBaseUseCase {
         return generatorEntity;
     }
 
-    public GeneratorEntity editJson(String id, String example) {
+    public GeneratorEntity editJson(String id, String example) throws AuthenticationException, AuthorizationException {
         GeneratorEntity generatorEntity = generatorRepository.findById(id).get();
+        this.checkEditAccess(generatorEntity);
 
         generatorEntity.setExample(example);
 
@@ -67,24 +74,27 @@ public class GeneratorEditUseCase extends GeneratorBaseUseCase {
         }
     }
 
-    public GeneratorEntity editFile(String id, String oldFileId, String newFileId) {
+    public GeneratorEntity editFile(String id, String oldFileId, String newFileId) throws AuthenticationException, AuthorizationException {
         GeneratorEntity generatorEntity = generatorRepository.findById(id).get();
+        this.checkEditAccess(generatorEntity);
 
         fileStructChangeFile(generatorEntity.getFileStructure().getDirectory(), oldFileId, newFileId);
 
         return generatorRepository.save(generatorEntity);
     }
 
-    public GeneratorEntity removeFile(String id, String fileId) {
+    public GeneratorEntity removeFile(String id, String fileId) throws AuthenticationException, AuthorizationException {
         GeneratorEntity generatorEntity = generatorRepository.findById(id).get();
+        this.checkEditAccess(generatorEntity);
 
         fileStructDeleteFile(generatorEntity.getFileStructure().getDirectory(), fileId);
 
         return generatorRepository.save(generatorEntity);
     }
 
-    public FileContentDTO fileAdd(String id, String path, FileEntity fileEntity) {
+    public FileContentDTO fileAdd(String id, String path, FileEntity fileEntity) throws AuthenticationException, AuthorizationException {
         GeneratorEntity generatorEntity = generatorRepository.findById(id).get();
+        this.checkEditAccess(generatorEntity);
 
         String[] pathArr = path.split("/");
         Integer idx = 0;

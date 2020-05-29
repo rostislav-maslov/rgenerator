@@ -8,8 +8,12 @@ export default {
         const method = 'POST'
 
         let headers = {
-            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
         }
 
         let contentJson = {title, description, example};
@@ -28,8 +32,12 @@ export default {
         const method = 'POST'
 
         let headers = {
-            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
         }
 
         let contentJson = {title, description};
@@ -48,8 +56,12 @@ export default {
         const method = 'POST'
 
         let headers = {
-            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
         }
 
         let contentJson = {example};
@@ -68,8 +80,12 @@ export default {
         const method = 'GET'
 
         let headers = {
-            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
         }
 
         let response = fetch(urlRequest, {
@@ -85,8 +101,12 @@ export default {
         const method = 'GET'
 
         let headers = {
-            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
         }
 
         let response = fetch(urlRequest, {
@@ -102,8 +122,12 @@ export default {
         const method = 'POST'
 
         let headers = {
-            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
         }
 
         let data = new FormData()
@@ -124,8 +148,12 @@ export default {
         const method = 'GET'
 
         let headers = {
-            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
         }
 
         let response = fetch(urlRequest, {
@@ -141,8 +169,11 @@ export default {
         const method = 'POST'
 
         let headers = {
-            // Authentication: 'secret',
-            // 'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
         }
 
         let data = new FormData()
@@ -164,8 +195,12 @@ export default {
         const method = 'DELETE'
 
         let headers = {
-            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
         }
 
         let contentJson = {fileId};
@@ -184,8 +219,12 @@ export default {
         const method = 'POST'
 
         let headers = {
-            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
         }
 
         let data = new FormData()

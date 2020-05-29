@@ -7,8 +7,12 @@ export default {
         const method = 'POST'
 
         let headers = {
-            'X-Auth-Token': TokenRepository.getAccessToken(),
             'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
         }
 
         let contentJson = {generateId: generateId, content: content};

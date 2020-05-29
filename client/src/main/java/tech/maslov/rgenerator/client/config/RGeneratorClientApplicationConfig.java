@@ -27,6 +27,7 @@ import tech.maslov.rgenerator.adapter.templateResult.TemplateResultAdapter;
 import tech.maslov.rgenerator.domain.developer.config.DeveloperConfig;
 import tech.maslov.rgenerator.domain.developer.port.DeveloperIdGenerator;
 import tech.maslov.rgenerator.domain.developer.port.DeveloperRepository;
+import tech.maslov.rgenerator.domain.developer.usecase.all.AuthorizationDevByTokenUseCase;
 import tech.maslov.rgenerator.domain.generator.config.GeneratorConfig;
 import tech.maslov.rgenerator.domain.generator.port.GeneratorIdGenerator;
 import tech.maslov.rgenerator.domain.generator.port.GeneratorRepository;
@@ -92,9 +93,10 @@ public class RGeneratorClientApplicationConfig {
     @Bean
     public TemplateResultAdapter templateResultAdapter() {
         AuthorizationByTokenUseCase authorizationByTokenUseCase = new AuthorizationByTokenUseCase(refreshTokenRepository, accessTokenStorage, userRepository);
+        AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase = new AuthorizationDevByTokenUseCase(refreshTokenRepository, accessTokenStorage, userRepository, developerRepository);
 
         return new TemplateResultAdapter(
-                new TemplateResultConfig(templateResultRepository, generatorRepository, templateResultIdGenerator, authorizationByTokenUseCase, fileRepository, fileStorage)
+                new TemplateResultConfig(templateResultRepository, generatorRepository, templateResultIdGenerator, authorizationByTokenUseCase, fileRepository, fileStorage, authorizationDevByTokenUseCase, developerRepository, userRepository)
         );
     }
 
