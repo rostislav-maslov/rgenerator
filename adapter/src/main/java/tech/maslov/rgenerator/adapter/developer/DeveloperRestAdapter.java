@@ -53,8 +53,4 @@ public class DeveloperRestAdapter {
         config.all.gitHubConnectUseCase().connect(code);
     }
 
-    public void forgotPasswordInit(){
-        userPasswordRecoverConfig.all.
-    }
-
 }
