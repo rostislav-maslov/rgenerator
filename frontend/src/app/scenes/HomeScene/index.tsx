@@ -19,8 +19,9 @@ const HomeScene: React.FC<Props> = (props: Props) => {
             <HeaderComponent/>
             <section>
                 <Grid container spacing={5} className={classes.content}>
-                    <Grid item xs={12} spacing={5}>
-                        <HowItWorksComponent/>
+                    <Grid item xs={12} md={2} lg={2}></Grid>
+                    <Grid item xs={12} md={8} lg={8}>
+                        <HowItWorksComponent  video={'https://www.youtube.com/embed/5qap5aO4i9A'}/><br/>
                     </Grid>
                 </Grid>
             </section>

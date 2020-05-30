@@ -14,7 +14,12 @@ const HowItWorksComponent:React.FC<HowItWorksProps> = (props: HowItWorksProps) =
             </Typography>
 
             <div>
-                <iframe className={classes.videoFrame} src="https://www.youtube.com/embed/5qap5aO4i9A"  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" ></iframe>
+                <iframe
+                    className={classes.videoFrame}
+                    src="https://www.youtube.com/embed/5qap5aO4i9A"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" >
+
+                </iframe>
             </div>
         </Paper>
     );

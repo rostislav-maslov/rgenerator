@@ -56,17 +56,17 @@ const LoginFormComponent: React.FC<LoginProps> = (props: LoginProps) => {
                     <Button className={classes.submit} type='submit' href={'/sign-up'}>
                         Sign Up
                     </Button>
-                    <Button className={classes.submit} type='submit' href={'/forgot'}>
-                        Forgot password?
-                    </Button>
+                    {/*<Button className={classes.submit} type='submit' href={'/forgot'}>*/}
+                    {/*    Forgot password?*/}
+                    {/*</Button>*/}
                 </div> : false}
                 {props.type === 'signup' ? <div>
                     <Button className={classes.submit} type='submit' href={'/login'}>
                         Login
                     </Button>
-                    <Button className={classes.submit} type='submit' href={'/forgot'}>
-                        Forgot password?
-                    </Button>
+                    {/*<Button className={classes.submit} type='submit' href={'/forgot'}>*/}
+                    {/*    Forgot password?*/}
+                    {/*</Button>*/}
                 </div> : false}
                 {props.type === 'forgot' ? <div>
                     <Button className={classes.submit} type='submit' href={'/login'}>

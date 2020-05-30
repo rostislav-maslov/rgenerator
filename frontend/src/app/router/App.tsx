@@ -31,6 +31,7 @@ import primaryColor from '@material-ui/core/colors/green';
 import ForgotScene from "../scenes/ForgotScene";
 import LoginScene from "../scenes/LoginScene";
 import GithubConnectScene from "../scenes/GithubConnectScene/GithubConnectScene";
+import HowToScene from "../scenes/HowToScene/HowToScene";
 
 interface Props {
 
@@ -121,6 +122,9 @@ const App: React.FC<Props> = (props: Props) => {
                             </Route>
                             <Route path="/github/callback">
                                 <GithubConnectScene/>
+                            </Route>
+                            <Route path="/how-to">
+                                <HowToScene/>
                             </Route>
                             <Route path="/">
                                 <Home/>

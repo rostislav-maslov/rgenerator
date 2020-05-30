@@ -55,6 +55,7 @@ public class DeveloperConfig {
         protected final EmailAuthenticationUseCase emailAuthenticationUseCase;
         protected final String gitGubClientSecret;
 
+
         public AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase() {
             return new AuthorizationDevByTokenUseCase(refreshTokenRepository, accessTokenStorage, userRepository, developerRepository);
         }
@@ -74,6 +75,7 @@ public class DeveloperConfig {
         public GitHubConnectUseCase gitHubConnectUseCase() {
             return new GitHubConnectUseCase(authorizationDevByTokenUseCase(), developerRepository, gitGubClientSecret, gitGubClientId );
         }
+
     }
 
     protected final DeveloperRepository developerRepository;

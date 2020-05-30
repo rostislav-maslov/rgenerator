@@ -10,6 +10,7 @@ import com.rcore.domain.token.exception.RefreshTokenCreationException;
 import com.rcore.domain.user.exception.UserAlreadyExistException;
 import com.rcore.domain.user.exception.UserBlockedException;
 import com.rcore.domain.user.exception.UserNotFoundException;
+import com.rcore.domain.userPasswordRecover.config.UserPasswordRecoverConfig;
 import lombok.RequiredArgsConstructor;
 import tech.maslov.rgenerator.adapter.developer.dto.DeveloperDTO;
 import tech.maslov.rgenerator.adapter.developer.mapper.DeveloperMapper;
@@ -50,6 +51,10 @@ public class DeveloperRestAdapter {
 
     public void githubSignIn(String code) throws  AuthenticationException, IOException{
         config.all.gitHubConnectUseCase().connect(code);
+    }
+
+    public void forgotPasswordInit(){
+        userPasswordRecoverConfig.all.
     }
 
 }

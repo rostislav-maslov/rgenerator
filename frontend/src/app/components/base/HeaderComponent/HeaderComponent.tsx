@@ -57,7 +57,6 @@ const HeaderComponent: React.FC<HeaderProps> = (props: HeaderProps) => {
                 <div className={classes.appBarLogo}>
                     RGenerator
                 </div>
-
                 <Link href={'/'} className={classes.linkFirst}>
                     Home
                 </Link>
@@ -67,16 +66,15 @@ const HeaderComponent: React.FC<HeaderProps> = (props: HeaderProps) => {
                 <Link href={'/how-to'} className={classes.link}>
                     How to
                 </Link>
-                <Link href={'/contact'} className={classes.link}>
+                <Link href={'https://github.com/rostislav-maslov'} className={classes.link} target={'_blank'}>
                     Contact
                 </Link>
-                <Link href={'https://github.com/rostislav-maslov/rgenerator/issues'} className={classes.link}>
+                <Link href={'https://github.com/rostislav-maslov/rgenerator/issues'} className={classes.link}  target={'_blank'}>
                     Bug tracker
                 </Link>
-                <Link href={HOST + '/swagger-ui.html'} className={classes.link} target={'_blank'}>
+                <Link href={HOST + '/swagger-ui.html'} className={classes.link} target={'_blank'} >
                     API
                 </Link>
-
                 <section className={classes.rightToolbar}>
                     {loggedUser === true ? (<LoggedComponent/>) : (<NotLoggedComponent/>)}
                 </section>

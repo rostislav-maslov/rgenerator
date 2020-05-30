@@ -52,8 +52,6 @@ public class AuthEndpoint {
     private final AuthTokenGenerator<AccessTokenDTO> accessTokenGenerator;
     private final AuthTokenGenerator<RefreshTokenDTO> refreshTokenGenerator;
 
-
-
     @ApiOperation("SignUp")
     @PostMapping(value = AuthApiRoutes.SIGN_UP, produces = MediaType.APPLICATION_JSON_VALUE)
     public SuccessApiResponse<AuthenticationDTO> signUp(@RequestBody SignUpRequest signUpRequest) throws RefreshTokenCreationException, UserAlreadyExistException, AuthenticationException, UserNotFoundException, UserBlockedException, TokenGenerateException {

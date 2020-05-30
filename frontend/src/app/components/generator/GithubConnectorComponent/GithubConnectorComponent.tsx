@@ -123,7 +123,7 @@ class GithubConnectorComponent extends Component<PropsType, StateType> {
                             <div>
                                 <Alert severity="warning" variant="filled">
                                     Can't find example.json in root directory. Take a look example of repository - <a
-                                    href={'https://github.com/rostislav-maslov/rgenerator-template-example'}>rostislav-maslov/rgenerator-template-example</a>
+                                    href={'https://github.com/rostislav-maslov/rgenerator-template-example'} target={'_blank'}>rostislav-maslov/rgenerator-template-example</a>
                                 </Alert>
                                 <br/>
                             </div>
@@ -132,13 +132,11 @@ class GithubConnectorComponent extends Component<PropsType, StateType> {
                             <div>
                                 <Alert severity="warning" variant="filled">
                                     Can't find root directory of template files. Take a look example of repository - <a
-                                    href={'https://github.com/rostislav-maslov/rgenerator-template-example'}>rostislav-maslov/rgenerator-template-example</a>
+                                    href={'https://github.com/rostislav-maslov/rgenerator-template-example'} target={'_blank'}>rostislav-maslov/rgenerator-template-example</a>
                                 </Alert>
                                 <br/>
                             </div>
                         ) : false}
-
-
 
                         <Grid container spacing={3}
                               direction="row"
