@@ -48,6 +48,9 @@ public class TemplateResultCreateUseCase extends TemplateResultBaseUseCase {
             templateResultRepository.save(templateResultEntity);
         }
 
+        generatorEntity.setCountOfUse( generatorEntity.getCountOfUse() + 1);
+        generatorRepository.save(generatorEntity);
+
         return templateResultEntity;
     }
 }

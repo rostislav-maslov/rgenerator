@@ -1,4 +1,4 @@
-package tech.maslov.rgenerator.client.user.web.api;
+package tech.maslov.rgenerator.client.user.web.api.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -11,4 +11,5 @@ public class MeResponse {
     private String id;
     private String email;
     private String login;
+    private Boolean githubConnected = false;
 }

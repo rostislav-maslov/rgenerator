@@ -15,4 +15,5 @@ import java.util.*;
 public class DeveloperEntity extends BaseEntity {
     protected String id;
     protected String picId = null;
+    protected String gitHubAccessToken = null;
 }

@@ -16,6 +16,8 @@ import Button from '@material-ui/core/Button';
 import JsonComponent from "../../components/generator/JsonComponent";
 import JsonStringComponent from "../../components/generator/JsonStringComponent";
 import Typography from '@material-ui/core/Typography';
+import GithubConnectorComponent from "../../components/generator/GithubConnectorComponent";
+import DividerComponent from "../../components/base/DividerComponent";
 
 
 class GenerateEditJsonScene extends Component<PropsType, StateType> {
@@ -150,6 +152,8 @@ class GenerateEditJsonScene extends Component<PropsType, StateType> {
                                 </Typography>
                                 <br/>
                                 <br/>
+                                <GithubConnectorComponent generatedId={this.props.match.params.id} generatorDidUpdate={() => this.loadGenerator(this.props.match.params.id)}/>
+                                <DividerComponent text={'OR EDIT'}/>
                                 <Grid container spacing={3}
                                       direction="row"
                                       justify="flex-start"

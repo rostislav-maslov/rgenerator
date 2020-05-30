@@ -6,7 +6,7 @@ const BannerComponent: React.FC<BannerProps> = (props: BannerProps) => {
     let classes = BannerStyles()
     return (
         <div className={classes.container}>
-           <div className={classes.title}>Best way
+           <div className={classes.title}>Best way<br/>
                improve your code</div>
            <div className={classes.subTitle}>Stop doing stupid work</div>
         </div>

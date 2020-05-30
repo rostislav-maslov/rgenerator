@@ -1,6 +1,8 @@
 package tech.maslov.rgenerator.domain.generator.usecase.all;
 
 import com.rcore.domain.base.port.SearchRequest;
+import com.rcore.domain.file.entity.FileEntity;
+import com.rcore.domain.file.port.FileRepository;
 import com.rcore.domain.file.port.FileStorage;
 import com.rcore.domain.token.exception.AuthenticationException;
 import com.rcore.domain.token.exception.AuthorizationException;
@@ -19,18 +21,19 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class GeneratorViewUseCase extends GeneratorBaseUseCase {
 
     private final FileStorage fileStorage;
+    private final FileRepository fileRepository;
 
 
-    public GeneratorViewUseCase(GeneratorRepository generatorRepository, FileStorage fileStorage, AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase, DeveloperRepository developerRepository, UserRepository userRepository) {
+    public GeneratorViewUseCase(GeneratorRepository generatorRepository, FileStorage fileStorage, AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase, DeveloperRepository developerRepository, UserRepository userRepository, FileRepository fileRepository) {
         super(generatorRepository, authorizationDevByTokenUseCase, developerRepository, userRepository);
         this.fileStorage = fileStorage;
+        this.fileRepository = fileRepository;
     }
 
     public GeneratorWithOwnerDTO findId(String id) throws AuthenticationException, AuthorizationException {
@@ -104,7 +107,8 @@ public class GeneratorViewUseCase extends GeneratorBaseUseCase {
         if (file == null) return null;
 
         try {
-            InputStream inputStream = fileStorage.getInputStream(file.getPath()).get();
+            FileEntity fileEntity = fileRepository.findById(file.getFileId()).get();
+            InputStream inputStream = fileStorage.getInputStream(fileEntity.getFilePath()).get();
             String text = "";
             try (Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name())) {
                 text = scanner.useDelimiter("\\A").next();

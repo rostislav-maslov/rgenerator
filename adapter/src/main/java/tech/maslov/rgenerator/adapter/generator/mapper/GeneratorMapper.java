@@ -17,6 +17,8 @@ public class GeneratorMapper implements ExampleDataMapper<GeneratorEntity, Gener
                 .description(entity.getDescription())
                 .example(entity.getExample())
                 .fileStructure(entity.getFileStructure())
+                .didUseGitHub(entity.getDidUseGitHub())
+                .countOfUse(entity.getCountOfUse())
 
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())

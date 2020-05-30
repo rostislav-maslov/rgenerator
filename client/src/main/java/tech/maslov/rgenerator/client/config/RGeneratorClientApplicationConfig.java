@@ -19,6 +19,7 @@ import com.rcore.security.infrastructure.AuthTokenGenerator;
 import com.rcore.security.infrastructure.jwt.converter.impl.JWTByAccessTokenGenerator;
 import com.rcore.security.infrastructure.jwt.converter.impl.JWTByRefreshTokenGenerator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import tech.maslov.rgenerator.adapter.developer.DeveloperAdapter;
@@ -39,6 +40,12 @@ import tech.maslov.rgenerator.domain.templateResult.service.ZipService;
 @RequiredArgsConstructor
 @Configuration
 public class RGeneratorClientApplicationConfig {
+
+    @Value("${github.secret}")
+    private String gitGubClientSecret;
+    @Value("${github.id}")
+    private String gitGubClientId;
+
     private final GeneratorRepository generatorRepository;
     private final GeneratorIdGenerator generatorIdGenerator;
 
@@ -113,8 +120,9 @@ public class RGeneratorClientApplicationConfig {
                         passwordGenerator,
                         accessTokenIdGenerator,
                         refreshTokenIdGenerator,
-                        tokenSaltGenerator
-                )
+                        tokenSaltGenerator,
+                        gitGubClientSecret,
+                        gitGubClientId)
         );
     }
 

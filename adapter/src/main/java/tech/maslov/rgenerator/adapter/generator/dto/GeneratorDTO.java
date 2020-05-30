@@ -21,4 +21,6 @@ public class GeneratorDTO extends BaseEntityDTO {
     protected FileStructure fileStructure = new FileStructure();
 
     protected String loginOwner;
+    protected Boolean didUseGitHub;
+    protected Long countOfUse;
 }

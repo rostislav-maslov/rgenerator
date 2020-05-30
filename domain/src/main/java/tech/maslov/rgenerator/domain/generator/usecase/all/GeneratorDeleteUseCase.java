@@ -1,5 +1,6 @@
 package tech.maslov.rgenerator.domain.generator.usecase.all;
 
+import com.rcore.domain.file.entity.FileEntity;
 import com.rcore.domain.file.port.FileRepository;
 import com.rcore.domain.file.port.FileStorage;
 import com.rcore.domain.token.exception.AuthenticationException;
@@ -12,6 +13,8 @@ import tech.maslov.rgenerator.domain.generator.entity.FileStructure;
 import tech.maslov.rgenerator.domain.generator.entity.GeneratorEntity;
 import tech.maslov.rgenerator.domain.generator.port.GeneratorRepository;
 import tech.maslov.rgenerator.domain.templateResult.usecase.all.TemplateResultDeleteUseCase;
+
+import java.util.Optional;
 
 public class GeneratorDeleteUseCase extends GeneratorBaseUseCase {
 
@@ -27,14 +30,18 @@ public class GeneratorDeleteUseCase extends GeneratorBaseUseCase {
         this.templateResultDeleteUseCase = templateResultDeleteUseCase;
     }
 
-    private void deleteFilesInDirectory(FileStructure.Directory directory){
+    public static void deleteFilesInDirectory(FileStructure.Directory directory, FileStorage fileStorage, FileRepository fileRepository){
         for(FileStructure.File file : directory.getFiles()){
-            fileStorage.remove(file.getFileId());
-            fileRepository.deleteById(file.getFileId());
+            Optional<FileEntity> fileEntityOpt = fileRepository.findById(file.getFileId());
+            if(fileEntityOpt.isEmpty()) continue;
+            FileEntity fileEntity = fileEntityOpt.get();
+
+            fileStorage.remove(fileEntity.getFilePath());
+            fileRepository.deleteById(fileEntity.getId());
         }
 
         for(FileStructure.Directory child: directory.getDirectories()){
-            deleteFilesInDirectory(child);
+            deleteFilesInDirectory(child, fileStorage, fileRepository);
         }
     }
 
@@ -45,7 +52,7 @@ public class GeneratorDeleteUseCase extends GeneratorBaseUseCase {
         if(developerEntity.getId().equals(generatorEntity.getOwnerId()) == false) throw new AuthorizationException();
 
         // Удаляем все файлы
-        deleteFilesInDirectory(generatorEntity.getFileStructure().getDirectory());
+        deleteFilesInDirectory(generatorEntity.getFileStructure().getDirectory(), fileStorage, fileRepository);
 
         // Удаляем все темплейты
         templateResultDeleteUseCase.deleteByGenerator(generatorEntity);

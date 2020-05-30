@@ -20,5 +20,7 @@ public class GeneratorEntity extends BaseEntity {
     protected String description = null;
     protected String example = null;
     protected FileStructure fileStructure = new FileStructure();
+    protected Long countOfUse = 1l;
+    protected Boolean didUseGitHub = false;
 
 }

@@ -1,0 +1,2 @@
+import GithubConnectorComponent from './GithubConnectorComponent'
+export default GithubConnectorComponent

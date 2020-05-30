@@ -15,6 +15,8 @@ import {toast} from 'react-toastify';
 import DeleteIcon from '@material-ui/icons/Delete'
 import IconButton from '@material-ui/core/IconButton';
 import TokenRepository from "../../../gateways/services/TokenRepository";
+import DeveloperApi from "../../../gateways/services/Developer";
+import GithubConnectorComponent from "../../components/generator/GithubConnectorComponent";
 
 class GeneratorViewScene extends Component<PropsType, StateType> {
     constructor(props: any) {
@@ -45,6 +47,22 @@ class GeneratorViewScene extends Component<PropsType, StateType> {
 
     update = () => {
         this.loadGenerator(this.props.match.params.id)
+        this.updateDev()
+    }
+
+    updateDev = () => {
+        DeveloperApi.me().then((response) => {
+            response.json().then(result => {
+                let developer = {
+                    email: result.result.email,
+                    id: result.result.id,
+                    login: result.result.login,
+                    githubConnected: result.result.githubConnected
+                }
+
+                TokenRepository.setCurrentDeveloper(developer)
+            })
+        })
     }
 
     loadGenerator = (id: string) => {
@@ -154,6 +172,18 @@ class GeneratorViewScene extends Component<PropsType, StateType> {
                                     ) : false}
                                 </Grid>
                             </Grid>
+
+                            {this.state.apiData.generator.didUseGitHub === true ? (
+                                <div></div>
+                            ):(
+                                <div>
+                                    <br/>
+                                    <GithubConnectorComponent generatedId={this.props.match.params.id} generatorDidUpdate={() => this.loadGenerator(this.props.match.params.id)}/>
+                                    <br/>
+                                </div>
+                            )}
+
+
                             <Grid container spacing={1}
                                   direction="row"
                                   justify="flex-start"

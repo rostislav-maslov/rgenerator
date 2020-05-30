@@ -118,7 +118,7 @@ export default {
     },
 
     fileContent(id, fileId) {
-        const urlRequest = CONST.V1 + "/generator/" + id + '/file/' +fileId
+        const urlRequest = CONST.V1 + "/generator/" + id + '/file/' + fileId
         const method = 'GET'
 
         let headers = {
@@ -210,8 +210,7 @@ export default {
         const urlRequest = CONST.V1 + "/generator/file"
         const method = 'POST'
 
-        let headers = {
-        }
+        let headers = {}
 
         const accessToken = TokenRepository.getAccessToken();
         if (accessToken != null) {
@@ -256,7 +255,7 @@ export default {
         return response;
     },
 
-    generate(id, jsonString){
+    generate(id, jsonString) {
         const urlRequest = CONST.V1 + "/generator/" + id + "/generate"
         const method = 'POST'
 
@@ -277,6 +276,72 @@ export default {
             method: method,
             headers: headers,
             body: data
+        });
+
+        return response;
+    },
+
+    sync(id, repo) {
+        const urlRequest = CONST.V1 + "/generator/" + id + "/sync"
+        const method = 'POST'
+
+        let headers = {
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
+        }
+
+        let contentJson = {id, repo};
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+            body: JSON.stringify(contentJson)
+        });
+
+        return response;
+    },
+
+    check(repo) {
+        const urlRequest = CONST.V1 + "/generator/github/check?repo=" + repo
+        const method = 'GET'
+
+        let headers = {
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
+        }
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+        });
+
+        return response;
+    },
+
+    repos() {
+        const urlRequest = CONST.V1 + "/generator/github/repos"
+        const method = 'GET'
+
+        let headers = {
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
+        }
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
         });
 
         return response;

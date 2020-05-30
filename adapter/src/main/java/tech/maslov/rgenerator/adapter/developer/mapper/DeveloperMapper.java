@@ -10,6 +10,7 @@ public class DeveloperMapper implements ExampleDataMapper<DeveloperEntity, Devel
     public DeveloperDTO map(DeveloperEntity entity) {
         return DeveloperDTO.builder()
                 .id(entity.getId())
+                .githubConnected(entity.getGitHubAccessToken() != null)
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .timeZone(entity.getTimeZone())

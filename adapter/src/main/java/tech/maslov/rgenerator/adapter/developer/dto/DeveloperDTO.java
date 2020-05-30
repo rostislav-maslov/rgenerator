@@ -12,4 +12,5 @@ import lombok.experimental.SuperBuilder;
 @Getter
 public class DeveloperDTO extends BaseEntityDTO {
     private String id;
+    private Boolean githubConnected = false;
 }

@@ -7,10 +7,13 @@ import lombok.RequiredArgsConstructor;
 import tech.maslov.rgenerator.adapter.generator.dto.GeneratorDTO;
 import tech.maslov.rgenerator.adapter.generator.mapper.GeneratorMapper;
 import tech.maslov.rgenerator.adapter.generator.mapper.GeneratorWithOwnerMapper;
+import tech.maslov.rgenerator.domain.developer.service.github.dto.RepoResponse;
 import tech.maslov.rgenerator.domain.generator.config.GeneratorConfig;
+import tech.maslov.rgenerator.domain.generator.dto.CheckRepoDTO;
 import tech.maslov.rgenerator.domain.generator.dto.FileContentDTO;
 import tech.maslov.rgenerator.domain.generator.entity.FileStructure;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -61,6 +64,18 @@ public class GeneratorClientAdapter {
 
     public void delete(String generatorId) throws AuthenticationException, AuthorizationException {
         config.all.deleteUseCase().delete(generatorId);
+    }
+
+    public CheckRepoDTO checkRepo(String repoName) throws IOException, AuthenticationException {
+        return config.all.generatorGitHubUseCase().checkRepo(repoName);
+    }
+
+    public List<RepoResponse> repos() throws IOException, AuthenticationException {
+        return config.all.generatorGitHubUseCase().repos();
+    }
+
+    public void syncRepo(String generatorId, String repoName) throws IOException, AuthenticationException, InterruptedException, AuthorizationException {
+        config.all.generatorGitHubUseCase().syncRepo(generatorId, repoName);
     }
 
 

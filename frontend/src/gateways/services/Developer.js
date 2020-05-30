@@ -34,5 +34,29 @@ export default {
         return response;
     },
 
+    connectGithub(code) {
+        const urlRequest = `${CONST.V1}/user/github`
+        const method = 'POST'
+
+        let headers = {
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+
+        const accessToken = TokenRepository.getAccessToken();
+        if (accessToken != null) {
+            headers['X-Auth-Token'] = TokenRepository.getAccessToken();
+        }
+
+        let contentJson = {code};
+
+        let response = fetch(urlRequest, {
+            method: method,
+            headers: headers,
+            body: JSON.stringify(contentJson)
+        });
+
+        return response;
+    },
+
 
 }

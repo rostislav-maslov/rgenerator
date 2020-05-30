@@ -7,19 +7,20 @@ import com.rcore.restapi.web.api.response.SuccessApiResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import retrofit2.http.Path;
 import tech.maslov.rgenerator.adapter.generator.GeneratorAdapter;
 import tech.maslov.rgenerator.adapter.generator.dto.GeneratorDTO;
 import tech.maslov.rgenerator.client.generator.application.FileWebMapper;
 import tech.maslov.rgenerator.client.generator.application.GeneratorWebMapper;
-import tech.maslov.rgenerator.client.generator.web.api.request.GeneratorAddRequest;
-import tech.maslov.rgenerator.client.generator.web.api.request.GeneratorFileEditRequest;
-import tech.maslov.rgenerator.client.generator.web.api.request.GeneratorInfoRequest;
-import tech.maslov.rgenerator.client.generator.web.api.request.GeneratorJsonRequest;
+import tech.maslov.rgenerator.client.generator.web.api.request.*;
 import tech.maslov.rgenerator.client.generator.web.api.response.GeneratorWeb;
 import tech.maslov.rgenerator.client.generator.web.routes.GeneratorApiRoutes;
+import tech.maslov.rgenerator.domain.developer.service.github.dto.RepoResponse;
+import tech.maslov.rgenerator.domain.generator.dto.CheckRepoDTO;
 import tech.maslov.rgenerator.domain.generator.dto.FileContentDTO;
 
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class GeneratorEndpoints {
     @ApiOperation("Delete by id")
     @DeleteMapping(value = GeneratorApiRoutes.BY_ID, produces = MediaType.APPLICATION_JSON_VALUE)
     public SuccessApiResponse<String> deleteById(@PathVariable String id) throws AuthenticationException, AuthorizationException {
-         generatorAdapter.client.delete(id);
+        generatorAdapter.client.delete(id);
         return SuccessApiResponse.of("OK");
     }
 
@@ -98,7 +99,7 @@ public class GeneratorEndpoints {
         return SuccessApiResponse.of(
                 SearchApiResponse.withItemsAndCount(
                         generatorWebMapper.mapAll(generatorDTO),
-                        (long)generatorDTO.size()
+                        (long) generatorDTO.size()
                 )
         );
     }
@@ -111,9 +112,31 @@ public class GeneratorEndpoints {
         return SuccessApiResponse.of(
                 SearchApiResponse.withItemsAndCount(
                         generatorWebMapper.mapAll(generatorDTO),
-                        (long)generatorDTO.size()
+                        (long) generatorDTO.size()
                 )
         );
+    }
+
+    @ApiOperation("Check github repo before sync")
+    @GetMapping(value = GeneratorApiRoutes.GH_CHECK, produces = MediaType.APPLICATION_JSON_VALUE)
+    public SuccessApiResponse<CheckRepoDTO> ghCheck(@RequestParam String repo) throws AuthenticationException, IOException {
+        CheckRepoDTO checkRepoDTO = generatorAdapter.client.checkRepo(repo);
+
+        return SuccessApiResponse.of(checkRepoDTO);
+    }
+
+    @ApiOperation("Sync github repo content")
+    @PostMapping(value = GeneratorApiRoutes.GH_SYNC, produces = MediaType.APPLICATION_JSON_VALUE)
+    public SuccessApiResponse<String> ghSync(@PathVariable String id, @RequestBody GeneratorSyncRequest request) throws AuthenticationException, IOException, AuthorizationException, InterruptedException {
+        generatorAdapter.client.syncRepo(id, request.getRepo());
+
+        return SuccessApiResponse.of(HttpStatus.OK.toString());
+    }
+
+    @ApiOperation("GitHub repos")
+    @GetMapping(value = GeneratorApiRoutes.GH_REPOS, produces = MediaType.APPLICATION_JSON_VALUE)
+    public SuccessApiResponse<List<RepoResponse>> ghRepos() throws AuthenticationException, IOException, AuthorizationException, InterruptedException {
+        return SuccessApiResponse.of(generatorAdapter.client.repos());
     }
 
 }

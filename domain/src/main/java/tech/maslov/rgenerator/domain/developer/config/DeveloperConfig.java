@@ -12,6 +12,7 @@ import tech.maslov.rgenerator.domain.developer.port.DeveloperRepository;
 import tech.maslov.rgenerator.domain.developer.port.DeveloperIdGenerator;
 import lombok.RequiredArgsConstructor;
 import tech.maslov.rgenerator.domain.developer.usecase.all.AuthorizationDevByTokenUseCase;
+import tech.maslov.rgenerator.domain.developer.usecase.all.GitHubConnectUseCase;
 import tech.maslov.rgenerator.domain.developer.usecase.all.MeUseCase;
 import tech.maslov.rgenerator.domain.developer.usecase.all.SignUpUseCase;
 import tech.maslov.rgenerator.domain.developer.usecase.secured.*;
@@ -43,6 +44,7 @@ public class DeveloperConfig {
 
     @RequiredArgsConstructor
     public static class All {
+        protected final String gitGubClientId;
         protected final DeveloperRepository developerRepository;
         protected final RefreshTokenRepository refreshTokenRepository;
         protected final AccessTokenStorage accessTokenStorage;
@@ -51,11 +53,12 @@ public class DeveloperConfig {
         protected final UserIdGenerator userIdGenerator;
         protected final PasswordGenerator passwordGenerator;
         protected final EmailAuthenticationUseCase emailAuthenticationUseCase;
-
+        protected final String gitGubClientSecret;
 
         public AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase() {
             return new AuthorizationDevByTokenUseCase(refreshTokenRepository, accessTokenStorage, userRepository, developerRepository);
         }
+
         public MeUseCase meUseCase() {
             return new MeUseCase(this.authorizationDevByTokenUseCase());
         }
@@ -64,8 +67,12 @@ public class DeveloperConfig {
             return new SignUpUseCase(userRepository, passwordGenerator, developerRepository, userIdGenerator, emailAuthenticationUseCase);
         }
 
-        public EmailAuthenticationUseCase loginUseCase(){
+        public EmailAuthenticationUseCase loginUseCase() {
             return emailAuthenticationUseCase;
+        }
+
+        public GitHubConnectUseCase gitHubConnectUseCase() {
+            return new GitHubConnectUseCase(authorizationDevByTokenUseCase(), developerRepository, gitGubClientSecret, gitGubClientId );
         }
     }
 
@@ -83,17 +90,21 @@ public class DeveloperConfig {
     protected final CreateRefreshTokenUseCase createRefreshTokenUseCase;
     protected final RefreshTokenIdGenerator refreshTokenIdGenerator;
     protected final TokenSaltGenerator tokenSaltGenerator;
+    protected final String gitGubClientSecret;
+    protected final String gitGubClientId;
 
     public final Secured secured;
     public final All all;
 
 
-    public DeveloperConfig(DeveloperRepository developerRepository, DeveloperIdGenerator idGenerator,  RefreshTokenRepository refreshTokenRepository, AccessTokenStorage accessTokenStorage, UserRepository userRepository, UserIdGenerator userIdGenerator, PasswordGenerator passwordGenerator, AccessTokenIdGenerator accessTokenIdGenerator, RefreshTokenIdGenerator refreshTokenIdGenerator, TokenSaltGenerator tokenSaltGenerator) {
+    public DeveloperConfig(DeveloperRepository developerRepository, DeveloperIdGenerator idGenerator, RefreshTokenRepository refreshTokenRepository, AccessTokenStorage accessTokenStorage, UserRepository userRepository, UserIdGenerator userIdGenerator, PasswordGenerator passwordGenerator, AccessTokenIdGenerator accessTokenIdGenerator, RefreshTokenIdGenerator refreshTokenIdGenerator, TokenSaltGenerator tokenSaltGenerator, String gitGubClientSecret, String gitGubClientId) {
         this.refreshTokenIdGenerator = refreshTokenIdGenerator;
         this.tokenSaltGenerator = tokenSaltGenerator;
         this.developerRepository = developerRepository;
         this.accessTokenIdGenerator = accessTokenIdGenerator;
         this.idGenerator = idGenerator;
+        this.gitGubClientSecret = gitGubClientSecret;
+        this.gitGubClientId = gitGubClientId;
         this.authorizationByTokenUseCase = new AuthorizationByTokenUseCase(refreshTokenRepository, accessTokenStorage, userRepository);
         this.refreshTokenRepository = refreshTokenRepository;
         this.accessTokenStorage = accessTokenStorage;
@@ -106,6 +117,7 @@ public class DeveloperConfig {
 
         this.secured = new Secured(this.developerRepository, this.idGenerator, this.authorizationByTokenUseCase);
         this.all = new All(
+                this.gitGubClientId,
                 this.developerRepository,
                 this.refreshTokenRepository,
                 this.accessTokenStorage,
@@ -113,7 +125,8 @@ public class DeveloperConfig {
                 this.createAccessTokenUseCase,
                 this.userIdGenerator,
                 this.passwordGenerator,
-                this.emailAuthenticationUseCase
+                this.emailAuthenticationUseCase,
+                this.gitGubClientSecret
         );
     }
 

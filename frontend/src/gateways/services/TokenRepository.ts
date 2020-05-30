@@ -3,7 +3,8 @@ import * as CONST from './Const'
 export interface Developer {
     id: string,
     login: string,
-    email: string
+    email: string,
+    githubConnected: boolean
 }
 
 export default {

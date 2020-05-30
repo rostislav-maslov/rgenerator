@@ -53,4 +53,8 @@ public class GeneratorWeb {
     private String ownerId;
     @ApiModelProperty("File list")
     private List<File> files = new ArrayList<>();
+    @ApiModelProperty("Did use github")
+    private Boolean didUseGitHub;
+    @ApiModelProperty("Count of use generator")
+    private Long countOfUse;
 }

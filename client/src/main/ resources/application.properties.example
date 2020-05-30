@@ -7,3 +7,6 @@ spring.data.mongodb.password=admin
 rcore.security.jwt.key=OcgPpNVoa-yLNxmelnc6ErULJ-O_2m7ezTQqXlca1jU=
 
 feign.hystrix.enabled=true
+
+github.secret=githubAppSecret
+github.id=githubAppId

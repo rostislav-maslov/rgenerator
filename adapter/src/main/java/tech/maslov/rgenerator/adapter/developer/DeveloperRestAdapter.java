@@ -1,13 +1,9 @@
 package tech.maslov.rgenerator.adapter.developer;
 
-import com.rcore.adapter.domain.token.dto.AccessTokenDTO;
-import com.rcore.adapter.domain.token.dto.RefreshTokenDTO;
 import com.rcore.adapter.domain.token.mapper.AccessTokenMapper;
 import com.rcore.adapter.domain.token.mapper.RefreshTokenMapper;
 import com.rcore.adapter.domain.user.dto.TokenPairDTO;
 import com.rcore.adapter.domain.user.mapper.TokenPairMapper;
-import com.rcore.domain.base.port.SearchRequest;
-import com.rcore.domain.base.port.SearchResult;
 import com.rcore.domain.token.exception.AuthenticationException;
 import com.rcore.domain.token.exception.AuthorizationException;
 import com.rcore.domain.token.exception.RefreshTokenCreationException;
@@ -18,8 +14,8 @@ import lombok.RequiredArgsConstructor;
 import tech.maslov.rgenerator.adapter.developer.dto.DeveloperDTO;
 import tech.maslov.rgenerator.adapter.developer.mapper.DeveloperMapper;
 import tech.maslov.rgenerator.domain.developer.config.DeveloperConfig;
-import tech.maslov.rgenerator.domain.developer.entity.DeveloperEntity;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -50,6 +46,10 @@ public class DeveloperRestAdapter {
 
     public TokenPairDTO signUp(String login, String email, String password) throws UserAlreadyExistException, AuthenticationException, RefreshTokenCreationException, UserNotFoundException, UserBlockedException {
         return tokenPairMapper.map(config.all.signUpUseCase().signUp(login, email, password));
+    }
+
+    public void githubSignIn(String code) throws  AuthenticationException, IOException{
+        config.all.gitHubConnectUseCase().connect(code);
     }
 
 }

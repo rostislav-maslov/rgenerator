@@ -11,10 +11,7 @@ import tech.maslov.rgenerator.domain.developer.usecase.all.AuthorizationDevByTok
 import tech.maslov.rgenerator.domain.generator.port.GeneratorRepository;
 import tech.maslov.rgenerator.domain.generator.port.GeneratorIdGenerator;
 import lombok.RequiredArgsConstructor;
-import tech.maslov.rgenerator.domain.generator.usecase.all.GeneratorCreateUseCase;
-import tech.maslov.rgenerator.domain.generator.usecase.all.GeneratorDeleteUseCase;
-import tech.maslov.rgenerator.domain.generator.usecase.all.GeneratorEditUseCase;
-import tech.maslov.rgenerator.domain.generator.usecase.all.GeneratorViewUseCase;
+import tech.maslov.rgenerator.domain.generator.usecase.all.*;
 import tech.maslov.rgenerator.domain.generator.usecase.secured.*;
 import tech.maslov.rgenerator.domain.templateResult.port.TemplateResultRepository;
 import tech.maslov.rgenerator.domain.templateResult.service.ZipService;
@@ -65,11 +62,15 @@ public class GeneratorConfig {
         }
 
         public GeneratorViewUseCase viewUseCase() {
-            return new GeneratorViewUseCase(this.generatorRepository, this.fileStorage, authorizationDevByTokenUseCase, developerRepository, userRepository);
+            return new GeneratorViewUseCase(this.generatorRepository, this.fileStorage, authorizationDevByTokenUseCase, developerRepository, userRepository, fileRepository);
         }
 
         public GeneratorDeleteUseCase deleteUseCase() {
             return new GeneratorDeleteUseCase(this.generatorRepository, this.fileStorage, authorizationDevByTokenUseCase, developerRepository, userRepository, fileRepository, templateResultDeleteUseCase);
+        }
+
+        public GeneratorGitHubUseCase generatorGitHubUseCase() {
+            return new GeneratorGitHubUseCase(generatorRepository, authorizationDevByTokenUseCase, developerRepository, userRepository, fileStorage, fileRepository, editUseCase());
         }
     }
 

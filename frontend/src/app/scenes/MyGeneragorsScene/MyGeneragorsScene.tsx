@@ -20,6 +20,7 @@ import GeneratorItemComponent from "../../components/explore/GeneratorItemCompon
 import GeneratorItemProps from "../../components/explore/GeneratorItemComponent/GeneratorItemProps";
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add'
+import TokenRepository from "../../../gateways/services/TokenRepository";
 
 
 const MyGeneragorsScene: React.FC<MyGeneragorsProps> = (props: MyGeneragorsProps) => {
@@ -29,6 +30,7 @@ const MyGeneragorsScene: React.FC<MyGeneragorsProps> = (props: MyGeneragorsProps
     const [generatorList, setGeneratorList] = useState([])
 
     useEffect(() => {
+        if(TokenRepository.getCurrentDeveloper() === null) window.location.href = '/login'
         GeneratorApi.myRGenerators()
             .then((response) => {
                 response.json().then(result => {

@@ -30,6 +30,7 @@ import {makeStyles, createMuiTheme, ThemeProvider} from '@material-ui/core/style
 import primaryColor from '@material-ui/core/colors/green';
 import ForgotScene from "../scenes/ForgotScene";
 import LoginScene from "../scenes/LoginScene";
+import GithubConnectScene from "../scenes/GithubConnectScene/GithubConnectScene";
 
 interface Props {
 
@@ -117,6 +118,9 @@ const App: React.FC<Props> = (props: Props) => {
                             </Route>
                             <Route path="/my-rgenerators">
                                 <MyGeneragorsScene/>
+                            </Route>
+                            <Route path="/github/callback">
+                                <GithubConnectScene/>
                             </Route>
                             <Route path="/">
                                 <Home/>

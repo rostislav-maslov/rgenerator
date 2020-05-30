@@ -22,6 +22,8 @@ public class GeneratorWithOwnerDTO extends GeneratorEntity {
                 .description(generatorEntity.getDescription())
                 .example(generatorEntity.getExample())
                 .fileStructure(generatorEntity.getFileStructure())
+                .didUseGitHub(generatorEntity.getDidUseGitHub())
+                .countOfUse(generatorEntity.getCountOfUse())
                 .build();
 
     }

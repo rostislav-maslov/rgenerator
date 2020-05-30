@@ -22,7 +22,14 @@ import EditIcon from '@material-ui/icons/Edit'
 import IconButton from '@material-ui/core/IconButton';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import Button from '@material-ui/core/Button';
+import { Alert } from '@material-ui/lab';
 import {toast} from 'react-toastify';
+import TokenRepository from "../../../gateways/services/TokenRepository";
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import GithubConnectorComponent from "../../components/generator/GithubConnectorComponent/GithubConnectorComponent";
+import DividerComponent from "../../components/base/DividerComponent";
 
 
 class GenerateEditFileListScene extends Component<PropsType, StateType> {
@@ -34,6 +41,7 @@ class GenerateEditFileListScene extends Component<PropsType, StateType> {
                 title: "",
                 description: "",
                 example: "",
+                selectedRepo: null
             },
             apiData: {
                 generator: {
@@ -41,6 +49,7 @@ class GenerateEditFileListScene extends Component<PropsType, StateType> {
                     id: null,
                     files: []
                 },
+                repos:[],
                 templateResult: null
             },
             data: {}
@@ -139,9 +148,12 @@ class GenerateEditFileListScene extends Component<PropsType, StateType> {
                                     </Button>
                                 </Grid>
                             </Grid>
+                            <br/>
 
                             <br/>
-                            <br/>
+                            <GithubConnectorComponent generatedId={this.props.match.params.id} generatorDidUpdate={() => this.loadGenerator(this.props.match.params.id)}/>
+
+                            <DividerComponent text={'OR EDIT'}/>
 
                             <TableContainer component={Paper}>
                                 <Table aria-label="simple table">

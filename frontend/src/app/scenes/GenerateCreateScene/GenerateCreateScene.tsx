@@ -191,12 +191,12 @@ class GenerateCreateScene extends Component<PropsType, StateType> {
                                             onChangeTitle={this.onChangeInput}
                                             onChangeDescription={this.onChangeInput}/>
                                     </Grid>
-                                    <Grid item xs={12} md={6} lg={6}>
+                                    <Grid item xs={12} md={6} lg={6} style={{'display':'none'}}>
                                         <JsonStringComponent exampleString={this.state.viewData.exampleString}
                                                              onChangeExample={this.onChangeExample}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} md={6} lg={6}>
+                                    <Grid item xs={12} md={6} lg={6} style={{'display':'none'}}>
                                         <JsonComponent example={this.state.viewData.example}
                                                        onUpdateJson={this.onUpdateJson}
                                         />
@@ -204,7 +204,7 @@ class GenerateCreateScene extends Component<PropsType, StateType> {
                                 </Grid>
                                 <br/>
                                 <br/>
-                                <Grid item xs={12} md={12} lg={12}>
+                                <Grid item xs={12} md={12} lg={12}  style={{'display':'none'}}>
                                     <Paper style={{padding: '16px'}}>
                                         <h5 style={{fontSize: '32px', margin: '0px', fontWeight: 500}}>Choose dir with template</h5>
                                         <input type="file" className="form-control-file"

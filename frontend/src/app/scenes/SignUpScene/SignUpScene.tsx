@@ -50,7 +50,8 @@ class SignUpScene extends Component<PropsType, StateType> {
                 let developer = {
                     email: result.result.email,
                     id: result.result.id,
-                    login: result.result.login
+                    login: result.result.login,
+                    githubConnected: result.result.githubConnected
                 }
 
                 TokenRepository.setCurrentDeveloper(developer)
