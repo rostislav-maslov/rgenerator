@@ -24,6 +24,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import {toast} from 'react-toastify';
+import TokenRepository from "../../../gateways/services/TokenRepository";
 
 class TemplateResultScene extends Component<PropsType, StateType> {
     constructor(props: any) {
@@ -102,7 +103,9 @@ class TemplateResultScene extends Component<PropsType, StateType> {
                 let viewData = self.state.viewData
                 viewData.modalOpen = true
                 apiData.templateResult = json
-                self.setState({apiData: apiData, viewData: viewData})
+
+                window.location.href = '/generator/'+this.state.apiData.generator.id+'/template-result/'+json.resultFileId
+
             })
         })
     }
@@ -212,16 +215,33 @@ class TemplateResultScene extends Component<PropsType, StateType> {
                                             </div>
                                         ) : (
                                             <div>
-                                                <br/>
-                                                <br/>
-                                                <Button type='submit' size="large" color="primary"
-                                                        variant="contained"
-                                                        fullWidth>
-                                                    Generate Template
-                                                    Result
-                                                </Button>
-                                                <br/>
-                                                <br/>
+                                                {TokenRepository.getCurrentDeveloper() == null ? (
+                                                    <div>
+                                                        <br/>
+                                                        <br/>
+                                                        <Button href={'/login'} size="large" color="secondary"
+                                                                variant="contained"
+                                                                fullWidth>
+                                                            Please, login before use generator
+                                                        </Button>
+                                                        <br/>
+                                                        <br/>
+                                                    </div>
+                                                ):(
+                                                    <div>
+                                                        <br/>
+                                                        <br/>
+                                                        <Button type='submit' size="large" color="primary"
+                                                                variant="contained"
+                                                                fullWidth>
+                                                            Generate Template
+                                                            Result
+                                                        </Button>
+                                                        <br/>
+                                                        <br/>
+                                                    </div>
+                                                )}
+
                                             </div>)}
                                     </Grid>
                                 </Grid>

@@ -33,6 +33,7 @@ class GithubConnectScene extends Component<PropsType, StateType> {
 
     updateDev = () => {
         DeveloperApi.me().then((response) => {
+            if(response.ok == false) return;
             response.json().then(result => {
                 let developer = {
                     email: result.result.email,

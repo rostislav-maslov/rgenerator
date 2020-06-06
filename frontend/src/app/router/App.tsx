@@ -32,6 +32,7 @@ import ForgotScene from "../scenes/ForgotScene";
 import LoginScene from "../scenes/LoginScene";
 import GithubConnectScene from "../scenes/GithubConnectScene/GithubConnectScene";
 import HowToScene from "../scenes/HowToScene/HowToScene";
+import TemplateSuccessScene from "../scenes/TemplateSuccessScene/TemplateSuccessScene";
 
 interface Props {
 
@@ -92,6 +93,9 @@ const App: React.FC<Props> = (props: Props) => {
                             </Route>
                             <Route path="/generator/create">
                                 <GenerateCreateScene/>
+                            </Route>
+                            <Route path="/generator/:id/template-result/:templateId">
+                                <TemplateSuccessScene/>
                             </Route>
                             <Route path="/generator/:id/template-result">
                                 <TemplateResult/>
