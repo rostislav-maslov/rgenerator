@@ -52,27 +52,25 @@ class GenerateEditFileAddScene extends Component<PropsType, StateType> {
         this.loadGenerator(this.props.match.params.id)
     }
 
-    loadGenerator = (id: String) => {
+    loadGenerator = (id: string) => {
         let self = this
         GeneratorApi.findById(id)
-            .then((response) => {
-                response.json().then(result => {
-                    let apiData = this.state.apiData
-                    apiData.generator = result.result
-                    let viewData = this.state.viewData
-                    viewData.title = apiData.generator.title
-                    viewData.description = apiData.generator.description
-                    try {
-                        viewData.example = JSON.parse(apiData.generator.example)
-                    } catch (e) {
+            .then((result) => {
+                let apiData = this.state.apiData
+                apiData.generator = result.result
+                let viewData = this.state.viewData
+                viewData.title = apiData.generator.title
+                viewData.description = apiData.generator.description
+                try {
+                    viewData.example = JSON.parse(apiData.generator.example)
+                } catch (e) {
 
-                    }
-                    viewData.exampleString = apiData.generator.example
+                }
+                viewData.exampleString = apiData.generator.example
 
-                    self.setState({
-                        apiData: apiData,
-                        viewData: viewData
-                    })
+                self.setState({
+                    apiData: apiData,
+                    viewData: viewData
                 })
             })
     }

@@ -47,7 +47,7 @@ class GenerateCreateScene extends Component<PropsType, StateType> {
         this._input.directory = true;
         this._input.webkitdirectory = true;
 
-        if(TokenRepository.getCurrentDeveloper() === null) window.location.href = "/login";
+        if (TokenRepository.getCurrentDeveloper() === null) window.location.href = "/login";
     }
 
     update = () => {
@@ -78,14 +78,12 @@ class GenerateCreateScene extends Component<PropsType, StateType> {
             this.state.viewData.title,
             this.state.viewData.description,
             JSON.stringify(this.state.viewData.example)
-        ).then((result) => {
-            result.json().then((responseJson) => {
-                const json = responseJson.result
-                let data = this.state.data
-                data.generator = json
-                this.setState({data: data}, () => {
-                    self.uploadNextFile()
-                })
+        ).then((responseJson) => {
+            const json = responseJson.result
+            let data = this.state.data
+            data.generator = json
+            this.setState({data: data}, () => {
+                self.uploadNextFile()
             })
         })
     }
@@ -191,12 +189,12 @@ class GenerateCreateScene extends Component<PropsType, StateType> {
                                             onChangeTitle={this.onChangeInput}
                                             onChangeDescription={this.onChangeInput}/>
                                     </Grid>
-                                    <Grid item xs={12} md={6} lg={6} style={{'display':'none'}}>
+                                    <Grid item xs={12} md={6} lg={6} style={{'display': 'none'}}>
                                         <JsonStringComponent exampleString={this.state.viewData.exampleString}
                                                              onChangeExample={this.onChangeExample}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} md={6} lg={6} style={{'display':'none'}}>
+                                    <Grid item xs={12} md={6} lg={6} style={{'display': 'none'}}>
                                         <JsonComponent example={this.state.viewData.example}
                                                        onUpdateJson={this.onUpdateJson}
                                         />
@@ -204,9 +202,10 @@ class GenerateCreateScene extends Component<PropsType, StateType> {
                                 </Grid>
                                 <br/>
                                 <br/>
-                                <Grid item xs={12} md={12} lg={12}  style={{'display':'none'}}>
+                                <Grid item xs={12} md={12} lg={12} style={{'display': 'none'}}>
                                     <Paper style={{padding: '16px'}}>
-                                        <h5 style={{fontSize: '32px', margin: '0px', fontWeight: 500}}>Choose dir with template</h5>
+                                        <h5 style={{fontSize: '32px', margin: '0px', fontWeight: 500}}>Choose dir with
+                                            template</h5>
                                         <input type="file" className="form-control-file"
                                                id="exampleFormControlFile1"
                                                name="fileList2" dir={''}

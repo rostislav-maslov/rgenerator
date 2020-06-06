@@ -58,39 +58,34 @@ class EditFileListScene extends Component<PropsType, StateType> {
         this.loadGenerator(this.props.match.params.id)
     }
 
-    loadGenerator = (id: String) => {
+    loadGenerator = (id: string) => {
         let self = this
         GeneratorApi.findById(id)
-            .then((response) => {
-                response.json().then(result => {
-                    let apiData = this.state.apiData
-                    apiData.generator = result.result
+            .then((result) => {
+                let apiData = this.state.apiData
+                apiData.generator = result.result
 
-                    let viewData = this.state.viewData
-                    viewData.title = apiData.generator.title
-                    viewData.description = apiData.generator.description
+                let viewData = this.state.viewData
+                viewData.title = apiData.generator.title
+                viewData.description = apiData.generator.description
 
-                    self.setState({
-                        apiData: apiData,
-                        viewData: viewData
-                    }, () => {
-                        self.loadFileContent(id, this.props.match.params.fileId)
-                    })
+                self.setState({
+                    apiData: apiData,
+                    viewData: viewData
+                }, () => {
+                    self.loadFileContent(id, this.props.match.params.fileId)
                 })
             })
     }
 
-    loadFileContent = (id: String, fileId: String) => {
+    loadFileContent = (id: string, fileId: string) => {
         let self = this
-        GeneratorApi.fileContent(id, fileId).then((result) => {
-            result.json().then((response) => {
+        GeneratorApi.fileContent(id, fileId).then((response) => {
+            let apiData = this.state.apiData
+            apiData.file = response.result
 
-                let apiData = this.state.apiData
-                apiData.file = response.result
-
-                self.setState({
-                    apiData: apiData
-                })
+            self.setState({
+                apiData: apiData
             })
         })
     }
@@ -120,10 +115,8 @@ class EditFileListScene extends Component<PropsType, StateType> {
                     apiData.generator.id,
                     apiData.file.path,
                     data.file.file
-                ).then((response) => {
-                    response.json().then((result) => {
-                        window.location.href = `/generator/${apiData.generator.id}/edit/files/${result.result.fileId}`
-                    })
+                ).then((result) => {
+                    window.location.href = `/generator/${apiData.generator.id}/edit/files/${result.result.fileId}`
                 })
             }
         )
@@ -151,22 +144,18 @@ class EditFileListScene extends Component<PropsType, StateType> {
 
         if (viewData.viewResult == true) {
             GeneratorApi.generateExample(this.state.apiData.generator.id, this.state.apiData.file.content).then(
-                (response) => {
-                    response.text().then((text) => {
-                        let apiData = self.state.apiData
-                        apiData.templateResult.content = text
-                        self.setState({apiData: apiData})
-                    })
+                (text) => {
+                    let apiData = self.state.apiData
+                    apiData.templateResult.content = text
+                    self.setState({apiData: apiData})
                 }
             )
 
             GeneratorApi.generateExample(this.state.apiData.generator.id, this.state.apiData.file.path).then(
-                (response) => {
-                    response.text().then((text) => {
-                        let apiData = self.state.apiData
-                        apiData.templateResult.path = text
-                        self.setState({apiData: apiData})
-                    })
+                (text) => {
+                    let apiData = self.state.apiData
+                    apiData.templateResult.path = text
+                    self.setState({apiData: apiData})
                 }
             )
         }

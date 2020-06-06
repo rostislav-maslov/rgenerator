@@ -96,36 +96,31 @@ class TemplateSuccessScene extends Component<PropsType, StateType> {
         this.setState({viewData: viewData})
     }
 
-    loadGenerator = (id: String) => {
+    loadGenerator = (id: string) => {
         let self = this
         GeneratorApi.findById(id)
-            .then((response) => {
-                if (response.ok === false) {
-                    toast.error("You don't have access to view this RGenerator", {
-                        position: toast.POSITION.BOTTOM_RIGHT
-                    });
-                    return;
+            .then((result: any) => {
+                let apiData = this.state.apiData
+                apiData.generator = result.result
+                let viewData = this.state.viewData
+                viewData.title = apiData.generator.title
+                viewData.description = apiData.generator.description
+                try {
+                    viewData.example = JSON.parse(apiData.generator.example)
+                } catch (e) {
+
                 }
+                viewData.exampleString = apiData.generator.example
 
-
-                response.json().then(result => {
-                    let apiData = this.state.apiData
-                    apiData.generator = result.result
-                    let viewData = this.state.viewData
-                    viewData.title = apiData.generator.title
-                    viewData.description = apiData.generator.description
-                    try {
-                        viewData.example = JSON.parse(apiData.generator.example)
-                    } catch (e) {
-
-                    }
-                    viewData.exampleString = apiData.generator.example
-
-                    self.setState({
-                        apiData: apiData,
-                        viewData: viewData
-                    })
+                self.setState({
+                    apiData: apiData,
+                    viewData: viewData
                 })
+            }, (reason: any) => {
+                toast.error("You don't have access to view this RGenerator", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+                return;
             })
     }
 
@@ -135,15 +130,13 @@ class TemplateSuccessScene extends Component<PropsType, StateType> {
         TemplateResultApi.create(
             this.state.apiData.generator.id,
             JSON.stringify(this.state.viewData.example)
-        ).then((result) => {
-            result.json().then((responseJson) => {
-                const json = responseJson.result
-                let apiData = self.state.apiData
-                let viewData = self.state.viewData
-                viewData.modalOpen = true
-                apiData.templateResult = json
-                self.setState({apiData: apiData, viewData: viewData})
-            })
+        ).then((responseJson) => {
+            const json = responseJson.result
+            let apiData = self.state.apiData
+            let viewData = self.state.viewData
+            viewData.modalOpen = true
+            apiData.templateResult = json
+            self.setState({apiData: apiData, viewData: viewData})
         })
     }
 
@@ -228,12 +221,15 @@ class TemplateSuccessScene extends Component<PropsType, StateType> {
                                             <br/>
                                             {this.state.viewData.progress < 100 ? (
                                                 <div>
-                                                    <LinearProgress variant="determinate" value={this.state.viewData.progress}/>
+                                                    <LinearProgress variant="determinate"
+                                                                    value={this.state.viewData.progress}/>
                                                 </div>
                                             ) : (
                                                 <div>
 
-                                                    ✅ Result zip - <a href={FILE_ATTACH(this.props.match.params.templateId)} target={'_blank'}>zip-archive</a>
+                                                    ✅ Result zip - <a
+                                                    href={FILE_ATTACH(this.props.match.params.templateId)}
+                                                    target={'_blank'}>zip-archive</a>
                                                 </div>
                                             )}
 

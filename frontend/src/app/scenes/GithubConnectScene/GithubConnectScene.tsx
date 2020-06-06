@@ -12,8 +12,7 @@ class GithubConnectScene extends Component<PropsType, StateType> {
         super(props);
 
         this.state = {
-            viewData: {
-            },
+            viewData: {},
             apiData: {
                 generator: {
                     title: '',
@@ -32,27 +31,25 @@ class GithubConnectScene extends Component<PropsType, StateType> {
     }
 
     updateDev = () => {
-        DeveloperApi.me().then((response) => {
-            if(response.ok == false) return;
-            response.json().then(result => {
-                let developer = {
-                    email: result.result.email,
-                    id: result.result.id,
-                    login: result.result.login,
-                    githubConnected: result.result.githubConnected
-                }
+        DeveloperApi.me().then((result) => {
+            let developer = {
+                email: result.result.email,
+                id: result.result.id,
+                login: result.result.login,
+                githubConnected: result.result.githubConnected
+            }
 
-                TokenRepository.setCurrentDeveloper(developer)
+            TokenRepository.setCurrentDeveloper(developer)
 
-                window.location.href = "/my-rgenerators"
-            })
+            window.location.href = "/my-rgenerators"
         })
+
     }
 
     update = () => {
         const params = new URLSearchParams(this.props.location.search);
         const code = params.get('code');
-        DeveloperApi.connectGithub(code).then((response) => {
+        DeveloperApi.connectGithub(code!).then((response) => {
             this.updateDev()
         })
     }

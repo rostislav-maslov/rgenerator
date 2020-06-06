@@ -40,40 +40,30 @@ class SignUpScene extends Component<PropsType, StateType> {
     }
 
     updateCurrentDeveloper = () => {
-        DeveloperApi.me().then((response) => {
-            if (response.ok === false) {
-                alert("User already exist");
-                return
+        DeveloperApi.me().then((result) => {
+
+            let developer = {
+                email: result.result.email,
+                id: result.result.id,
+                login: result.result.login,
+                githubConnected: result.result.githubConnected
             }
 
-            response.json().then(result => {
-                let developer = {
-                    email: result.result.email,
-                    id: result.result.id,
-                    login: result.result.login,
-                    githubConnected: result.result.githubConnected
-                }
+            TokenRepository.setCurrentDeveloper(developer)
 
-                TokenRepository.setCurrentDeveloper(developer)
-
-                window.location.href = '/explore'
-            })
+            window.location.href = '/explore'
         })
     }
 
     signUp = () => {
-        AuthApi.signUp(this.state.viewData.email!, this.state.viewData.login!, this.state.viewData.password!).then((response) => {
-            if (response.ok === false) {
-                alert("User already exist");
-                return
-            }
-            response.json().then(result => {
-                TokenRepository.setAccessToken(result.result.accessToken)
-                TokenRepository.setRefreshToken(result.result.refreshToken)
+        AuthApi.signUp(this.state.viewData.email!, this.state.viewData.login!, this.state.viewData.password!).then((result) => {
+            TokenRepository.setAccessToken(result.result.accessToken)
+            TokenRepository.setRefreshToken(result.result.refreshToken)
 
-                this.updateCurrentDeveloper()
-
-            })
+            this.updateCurrentDeveloper()
+        }, (reason) => {
+            alert("User already exist");
+            return
         })
     }
 

@@ -22,7 +22,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import IconButton from '@material-ui/core/IconButton';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import Button from '@material-ui/core/Button';
-import { Alert } from '@material-ui/lab';
+import {Alert} from '@material-ui/lab';
 import {toast} from 'react-toastify';
 import TokenRepository from "../../../gateways/services/TokenRepository";
 import FormControl from '@material-ui/core/FormControl';
@@ -49,7 +49,7 @@ class GenerateEditFileListScene extends Component<PropsType, StateType> {
                     id: null,
                     files: []
                 },
-                repos:[],
+                repos: [],
                 templateResult: null
             },
             data: {}
@@ -65,41 +65,38 @@ class GenerateEditFileListScene extends Component<PropsType, StateType> {
         this.loadGenerator(this.props.match.params.id)
     }
 
-    loadGenerator = (id: String) => {
+    loadGenerator = (id: string) => {
         let self = this
         GeneratorApi.findById(id)
-            .then((response) => {
-                response.json().then(result => {
-                    let apiData = this.state.apiData
-                    apiData.generator = result.result
-                    let viewData = this.state.viewData
-                    viewData.title = apiData.generator.title
-                    viewData.description = apiData.generator.description
-                    try {
-                        viewData.example = JSON.parse(apiData.generator.example)
-                    } catch (e) {
+            .then((result) => {
+                let apiData = this.state.apiData
+                apiData.generator = result.result
+                let viewData = this.state.viewData
+                viewData.title = apiData.generator.title
+                viewData.description = apiData.generator.description
+                try {
+                    viewData.example = JSON.parse(apiData.generator.example)
+                } catch (e) {
 
-                    }
-                    viewData.exampleString = apiData.generator.example
+                }
+                viewData.exampleString = apiData.generator.example
 
-                    self.setState({
-                        apiData: apiData,
-                        viewData: viewData
-                    })
+                self.setState({
+                    apiData: apiData,
+                    viewData: viewData
                 })
             })
     }
 
-    onDeleteFile = (e: any, fileId: String) => {
+    onDeleteFile = (e: any, fileId: string) => {
         e.preventDefault();
         let self = this
         GeneratorApi.deleteFile(this.state.apiData.generator.id, fileId).then((response) => {
-            if(response.ok === false){
-                toast.error("You don't have access to edit this RGenerator", {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                })
-            }
             self.update()
+        }, (reason: any) => {
+            toast.error("You don't have access to edit this RGenerator", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            })
         })
         return false;
     }
@@ -142,7 +139,8 @@ class GenerateEditFileListScene extends Component<PropsType, StateType> {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12} md={4} lg={4} alignItems={'flex-end'} style={{textAlign: 'right'}}>
-                                    <Button variant="contained" color="primary" href={`/generator/${this.props.match.params.id}/edit/files/add`}
+                                    <Button variant="contained" color="primary"
+                                            href={`/generator/${this.props.match.params.id}/edit/files/add`}
                                             size="large" startIcon={<AddBoxIcon/>}>
                                         Upload files
                                     </Button>
@@ -151,7 +149,8 @@ class GenerateEditFileListScene extends Component<PropsType, StateType> {
                             <br/>
 
                             <br/>
-                            <GithubConnectorComponent generatedId={this.props.match.params.id} generatorDidUpdate={() => this.loadGenerator(this.props.match.params.id)}/>
+                            <GithubConnectorComponent generatedId={this.props.match.params.id}
+                                                      generatorDidUpdate={() => this.loadGenerator(this.props.match.params.id)}/>
 
                             <DividerComponent text={'OR EDIT'}/>
 

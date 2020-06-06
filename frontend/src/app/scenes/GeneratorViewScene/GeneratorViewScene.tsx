@@ -51,56 +51,47 @@ class GeneratorViewScene extends Component<PropsType, StateType> {
     }
 
     updateDev = () => {
-        DeveloperApi.me().then((response) => {
-            if(response.ok == false) return;
-            response.json().then(result => {
-                let developer = {
-                    email: result.result.email,
-                    id: result.result.id,
-                    login: result.result.login,
-                    githubConnected: result.result.githubConnected
-                }
+        DeveloperApi.me().then((result) => {
+            let developer = {
+                email: result.result.email,
+                id: result.result.id,
+                login: result.result.login,
+                githubConnected: result.result.githubConnected
+            }
 
-                TokenRepository.setCurrentDeveloper(developer)
-            })
+            TokenRepository.setCurrentDeveloper(developer)
         })
     }
 
     loadGenerator = (id: string) => {
         let self = this
         GeneratorApi.findById(id)
-            .then((response) => {
+            .then((result) => {
+                const developer = TokenRepository.getCurrentDeveloper()
+                const ownerId = developer != null ? developer.id : null
 
-                if (response.ok === false) {
-                    toast.error("You don't have access to view this RGenerator", {
-                        position: toast.POSITION.BOTTOM_RIGHT
-                    });
-                    return;
+                let apiData = this.state.apiData
+                apiData.generator = result.result
+                let viewData = this.state.viewData
+                viewData.title = apiData.generator.title
+                viewData.description = apiData.generator.description
+                viewData.isOwner = apiData.generator.ownerId === ownerId
+                try {
+                    viewData.example = JSON.parse(apiData.generator.example)
+                } catch (e) {
+
                 }
+                viewData.exampleString = apiData.generator.example
 
-                response.json().then(result => {
-
-                    const developer = TokenRepository.getCurrentDeveloper()
-                    const ownerId = developer != null ? developer.id : null
-
-                    let apiData = this.state.apiData
-                    apiData.generator = result.result
-                    let viewData = this.state.viewData
-                    viewData.title = apiData.generator.title
-                    viewData.description = apiData.generator.description
-                    viewData.isOwner = apiData.generator.ownerId === ownerId
-                    try {
-                        viewData.example = JSON.parse(apiData.generator.example)
-                    } catch (e) {
-
-                    }
-                    viewData.exampleString = apiData.generator.example
-
-                    self.setState({
-                        apiData: apiData,
-                        viewData: viewData
-                    })
+                self.setState({
+                    apiData: apiData,
+                    viewData: viewData
                 })
+            }, (reason) => {
+                toast.error("You don't have access to view this RGenerator", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+                return;
             })
     }
 
@@ -176,10 +167,11 @@ class GeneratorViewScene extends Component<PropsType, StateType> {
 
                             {this.state.apiData.generator.didUseGitHub === true ? (
                                 <div></div>
-                            ):(
+                            ) : (
                                 <div>
                                     <br/>
-                                    <GithubConnectorComponent generatedId={this.props.match.params.id} generatorDidUpdate={() => this.loadGenerator(this.props.match.params.id)}/>
+                                    <GithubConnectorComponent generatedId={this.props.match.params.id}
+                                                              generatorDidUpdate={() => this.loadGenerator(this.props.match.params.id)}/>
                                     <br/>
                                 </div>
                             )}

@@ -40,50 +40,40 @@ class GithubConnectorComponent extends Component<PropsType, StateType> {
     }
 
     updateDev = () => {
-        DeveloperApi.me().then((response) => {
-            if(response.ok == false) return;
-            response.json().then(result => {
-                let developer = {
-                    email: result.result.email,
-                    id: result.result.id,
-                    login: result.result.login,
-                    githubConnected: result.result.githubConnected
-                }
+        DeveloperApi.me().then((result) => {
+            let developer = {
+                email: result.result.email,
+                id: result.result.id,
+                login: result.result.login,
+                githubConnected: result.result.githubConnected
+            }
 
-                TokenRepository.setCurrentDeveloper(developer)
-            })
+            TokenRepository.setCurrentDeveloper(developer)
         })
     }
 
     checkRepo = () => {
-        GeneratorApi.check(this.state.selectedRepo).then(response => {
-            response.json().then(result => {
+        GeneratorApi.check(this.state.selectedRepo).then(result => {
+            let json = result.result;
+            let showCheckAlert = false;
+            if (json.exampleJson == false || json.rootDir == false) {
+                showCheckAlert = true
+            } else {
+                showCheckAlert = false
+            }
 
-                let json = result.result;
-                let showCheckAlert = false;
-                if (json.exampleJson == false || json.rootDir == false) {
-                    showCheckAlert = true
-                } else {
-                    showCheckAlert = false
-                }
-
-                this.setState({
-                    showCheckAlert: showCheckAlert,
-                    exampleJson: json.exampleJson,
-                    rootDir: json.rootDir
-                })
-
+            this.setState({
+                showCheckAlert: showCheckAlert,
+                exampleJson: json.exampleJson,
+                rootDir: json.rootDir
             })
         })
-
     }
 
     loadRepos = () => {
-        GeneratorApi.repos().then(response => {
-            response.json().then(res => {
-                const repos = res.result;
-                this.setState({repos: repos})
-            })
+        GeneratorApi.repos().then(res => {
+            const repos = res.result;
+            this.setState({repos: repos})
         })
     }
 
@@ -99,19 +89,17 @@ class GithubConnectorComponent extends Component<PropsType, StateType> {
             position: toast.POSITION.BOTTOM_RIGHT
         })
 
-        GeneratorApi.sync(this.props.generatedId, this.state.selectedRepo).then(response => {
-            response.json().then(result => {
-                toast.success("Content from GitHub did updated successfully", {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                })
-                this.props.generatorDidUpdate()
+        GeneratorApi.sync(this.props.generatedId, this.state.selectedRepo).then(result => {
+            toast.success("Content from GitHub did updated successfully", {
+                position: toast.POSITION.BOTTOM_RIGHT
             })
+            this.props.generatorDidUpdate()
         })
     }
 
     render() {
         return (
-            <Paper style={{ padding: '24px 16px'}}>
+            <Paper style={{padding: '24px 16px'}}>
                 <Typography variant="h4" component="h4">
                     Import all data from GitHub repo
                 </Typography>
@@ -124,7 +112,8 @@ class GithubConnectorComponent extends Component<PropsType, StateType> {
                             <div>
                                 <Alert severity="warning" variant="filled">
                                     Can't find example.json in root directory. Take a look example of repository - <a
-                                    href={'https://github.com/rostislav-maslov/rgenerator-template-example'} target={'_blank'}>rostislav-maslov/rgenerator-template-example</a>
+                                    href={'https://github.com/rostislav-maslov/rgenerator-template-example'}
+                                    target={'_blank'}>rostislav-maslov/rgenerator-template-example</a>
                                 </Alert>
                                 <br/>
                             </div>
@@ -133,7 +122,8 @@ class GithubConnectorComponent extends Component<PropsType, StateType> {
                             <div>
                                 <Alert severity="warning" variant="filled">
                                     Can't find root directory of template files. Take a look example of repository - <a
-                                    href={'https://github.com/rostislav-maslov/rgenerator-template-example'} target={'_blank'}>rostislav-maslov/rgenerator-template-example</a>
+                                    href={'https://github.com/rostislav-maslov/rgenerator-template-example'}
+                                    target={'_blank'}>rostislav-maslov/rgenerator-template-example</a>
                                 </Alert>
                                 <br/>
                             </div>
@@ -173,7 +163,7 @@ class GithubConnectorComponent extends Component<PropsType, StateType> {
                                     <Button size={"large"} variant="contained" color="primary" onClick={this.onSync}>
                                         Import files and JSON
                                     </Button>
-                                ):(
+                                ) : (
                                     <Button size={"large"} variant="outlined" disabled={true}>
                                         Import files and JSON
                                     </Button>

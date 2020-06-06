@@ -57,36 +57,32 @@ class TemplateResultScene extends Component<PropsType, StateType> {
         this.loadGenerator(this.props.match.params.id)
     }
 
-    loadGenerator = (id: String) => {
+    loadGenerator = (id: string) => {
         let self = this
         GeneratorApi.findById(id)
-            .then((response) => {
-                if(response.ok === false) {
-                    toast.error("You don't have access to view this RGenerator", {
-                        position: toast.POSITION.BOTTOM_RIGHT
-                    });
-                    return;
+            .then((result: any) => {
+                let apiData = this.state.apiData
+                apiData.generator = result.result
+                let viewData = this.state.viewData
+                viewData.title = apiData.generator.title
+                viewData.description = apiData.generator.description
+                try {
+                    viewData.example = JSON.parse(apiData.generator.example)
+                } catch (e) {
+
                 }
+                viewData.exampleString = apiData.generator.example
 
-
-                response.json().then(result => {
-                    let apiData = this.state.apiData
-                    apiData.generator = result.result
-                    let viewData = this.state.viewData
-                    viewData.title = apiData.generator.title
-                    viewData.description = apiData.generator.description
-                    try {
-                        viewData.example = JSON.parse(apiData.generator.example)
-                    } catch (e) {
-
-                    }
-                    viewData.exampleString = apiData.generator.example
-
-                    self.setState({
-                        apiData: apiData,
-                        viewData: viewData
-                    })
+                self.setState({
+                    apiData: apiData,
+                    viewData: viewData
                 })
+
+            }, (reject: any) => {
+                toast.error("You don't have access to view this RGenerator", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+                return;
             })
     }
 
@@ -96,17 +92,14 @@ class TemplateResultScene extends Component<PropsType, StateType> {
         TemplateResultApi.create(
             this.state.apiData.generator.id,
             JSON.stringify(this.state.viewData.example)
-        ).then((result) => {
-            result.json().then((responseJson) => {
-                const json = responseJson.result
-                let apiData = self.state.apiData
-                let viewData = self.state.viewData
-                viewData.modalOpen = true
-                apiData.templateResult = json
+        ).then((responseJson) => {
+            const json = responseJson.result
+            let apiData = self.state.apiData
+            let viewData = self.state.viewData
+            viewData.modalOpen = true
+            apiData.templateResult = json
 
-                window.location.href = '/generator/'+this.state.apiData.generator.id+'/template-result/'+json.resultFileId
-
-            })
+            window.location.href = '/generator/' + this.state.apiData.generator.id + '/template-result/' + json.resultFileId
         })
     }
 
@@ -207,9 +200,11 @@ class TemplateResultScene extends Component<PropsType, StateType> {
                                                 </Button>
                                                 <br/>
                                                 <br/>
-                                                ZIP with your template: <a href={FILE_ATTACH(this.state.apiData.templateResult.resultFileId)} target={'_blank'}>
-                                                    download - {this.state.apiData.templateResult.resultFileId}
-                                                </a>
+                                                ZIP with your template: <a
+                                                href={FILE_ATTACH(this.state.apiData.templateResult.resultFileId)}
+                                                target={'_blank'}>
+                                                download - {this.state.apiData.templateResult.resultFileId}
+                                            </a>
                                                 <br/>
                                                 <br/>
                                             </div>
@@ -227,7 +222,7 @@ class TemplateResultScene extends Component<PropsType, StateType> {
                                                         <br/>
                                                         <br/>
                                                     </div>
-                                                ):(
+                                                ) : (
                                                     <div>
                                                         <br/>
                                                         <br/>

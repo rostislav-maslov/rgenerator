@@ -30,12 +30,10 @@ const MyGeneragorsScene: React.FC<MyGeneragorsProps> = (props: MyGeneragorsProps
     const [generatorList, setGeneratorList] = useState([])
 
     useEffect(() => {
-        if(TokenRepository.getCurrentDeveloper() === null) window.location.href = '/login'
+        if (TokenRepository.getCurrentDeveloper() === null) window.location.href = '/login'
         GeneratorApi.myRGenerators()
-            .then((response) => {
-                response.json().then(result => {
-                    setGeneratorList(result.result.items)
-                })
+            .then((result) => {
+                setGeneratorList(result.result.items)
             })
     }, generatorList)
 
@@ -68,7 +66,7 @@ const MyGeneragorsScene: React.FC<MyGeneragorsProps> = (props: MyGeneragorsProps
                                     CREATE
                                 </Button>
                             </div>
-                        ):false}
+                        ) : false}
                     </Grid>
                 </Grid>
             </section>

@@ -30,10 +30,8 @@ const ExploreScene: React.FC<ExploreProps> = (props: ExploreProps) => {
 
     useEffect(() => {
         GeneratorApi.list()
-            .then((response) => {
-                response.json().then(result => {
-                    setGeneratorList(result.result.items)
-                })
+            .then((result) => {
+                setGeneratorList(result.result.items)
             })
     }, generatorList)
 
@@ -61,12 +59,12 @@ const ExploreScene: React.FC<ExploreProps> = (props: ExploreProps) => {
 
                         {generatorList.length === 0 ? (
                             <div style={{textAlign: 'center'}}>
-                            <Button href={'/generator/create'} color="primary"
-                                    startIcon={<AddIcon/>} variant="contained">
-                                CREATE
-                            </Button>
+                                <Button href={'/generator/create'} color="primary"
+                                        startIcon={<AddIcon/>} variant="contained">
+                                    CREATE
+                                </Button>
                             </div>
-                        ):false}
+                        ) : false}
 
                     </Grid>
                 </Grid>
