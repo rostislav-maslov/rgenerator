@@ -271,7 +271,7 @@ class TemplateSuccessScene extends Component<PropsType, StateType> {
                                             <Typography variant="h5">
                                                 Share
                                             </Typography>
-                                            <iframe width={'100%'} style={{border: 'none'}}
+                                            <iframe width={'100%'} height={'300px'} style={{border: 'none'}}
                                                     src="https://www.youtube.com/embed/uwf6zFPcNog"
                                                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture">
                                             </iframe>
