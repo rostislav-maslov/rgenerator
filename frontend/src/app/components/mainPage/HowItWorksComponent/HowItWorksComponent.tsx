@@ -16,7 +16,7 @@ const HowItWorksComponent:React.FC<HowItWorksProps> = (props: HowItWorksProps) =
             <div>
                 <iframe
                     className={classes.videoFrame}
-                    src="https://www.youtube.com/embed/5qap5aO4i9A"
+                    src={props.video}
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" >
 
                 </iframe>

@@ -42,9 +42,7 @@ class EditFileListScene extends Component<PropsType, StateType> {
 
                         <Grid item xs={12} md={2} lg={2}></Grid>
                         <Grid item xs={12} md={8} lg={8}>
-                            <HowItWorksComponent  video={'https://www.youtube.com/embed/5qap5aO4i9A'}/><br/>
-                            <HowItWorksComponent  video={'https://www.youtube.com/embed/5qap5aO4i9A'}/><br/>
-                            <HowItWorksComponent  video={'https://www.youtube.com/embed/5qap5aO4i9A'}/><br/>
+                            <HowItWorksComponent  video={'https://www.youtube.com/embed/uwf6zFPcNog'}/><br/>
                         </Grid>
                     </Grid>
                 </section>
