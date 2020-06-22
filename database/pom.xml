@@ -14,7 +14,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
-        <rcore.version>0.9.8</rcore.version>
+        <rcore.version>0.9.5</rcore.version>
     </properties>
 
 
