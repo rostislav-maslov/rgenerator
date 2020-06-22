@@ -13,7 +13,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
-        <rcore.version>0.9.4</rcore.version>
+        <rcore.version>0.9.8</rcore.version>
     </properties>
 
     <dependencies>
@@ -26,7 +26,7 @@
         <dependency>
             <groupId>com.github.spullara.mustache.java</groupId>
             <artifactId>compiler</artifactId>
-            <version>0.9.6</version>
+            <version>0.9.8</version>
         </dependency>
 
         <dependency>
@@ -57,7 +57,7 @@
         <dependency>
             <groupId>com.github.spullara.mustache.java</groupId>
             <artifactId>compiler</artifactId>
-            <version>0.9.6</version>
+            <version>0.9.8</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>

@@ -91,7 +91,7 @@ async function api(urlRequest: string, props: PropsType): Promise<any> {
         let response = await fetchRequest.then();
 
         debugger
-        if (response.status == 401) {
+        if (response.status == 401 || response.status == 403) {
             await updateAccessToken()
 
             fetchRequest = fetch(urlRequest, init);
@@ -154,7 +154,7 @@ async function apiText(urlRequest: string, props: PropsType): Promise<any> {
         let response = await fetchRequest.then();
 
         debugger
-        if (response.status == 401) {
+        if (response.status == 401 || response.status == 403) {
             await updateAccessToken()
 
             fetchRequest = fetch(urlRequest, init);
