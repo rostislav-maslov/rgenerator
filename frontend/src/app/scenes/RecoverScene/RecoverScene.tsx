@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
-import PropsType from "./ForgotProps";
-import StateType from "./ForgotState";
+import PropsType from "./RecoverProps";
+import StateType from "./RecoverState";
 import Grid from '@material-ui/core/Grid';
 import BannerComponent from "../../components/loginPage/BannerComponent";
 import LoginFormComponent from "../../components/loginPage/LoginComponent";
 import AuthApi from "../../../gateways/services/Auth"
-import TokenRepository from "../../../gateways/services/TokenRepository";
-import DeveloperApi from "../../../gateways/services/Developer";
+import { withRouter } from 'react-router-dom';
 
-class ForgotScene extends Component<PropsType, StateType> {
-    _input: any = null
+class RecoverScene extends Component<PropsType, StateType> {
 
     constructor(props: any) {
         super(props);
@@ -39,8 +37,8 @@ class ForgotScene extends Component<PropsType, StateType> {
     }
 
     forgot = () => {
-        AuthApi.forgotPasswordStart(this.state.viewData.email!).then((result) => {
-            alert("We send to you recovery link. Please, check email!");
+        AuthApi.forgotPasswordChange(this.state.viewData.email!, this.state.viewData.password!, this.props.match.params.code).then((result) => {
+            window.location.href = '/login'
         }, (reason) => {
             alert("Check email and password");
             return
@@ -73,7 +71,7 @@ class ForgotScene extends Component<PropsType, StateType> {
                         <BannerComponent/>
                     </Grid>
                     <Grid item xs={12} md={6} lg={6}>
-                        <LoginFormComponent type={'forgot'} onChange={this.onChangeInput} onSubmit={this.onSubmit}/>
+                        <LoginFormComponent type={'recover'} onChange={this.onChangeInput} onSubmit={this.onSubmit}/>
                     </Grid>
 
                 </Grid>
@@ -84,4 +82,4 @@ class ForgotScene extends Component<PropsType, StateType> {
     }
 }
 
-export default ForgotScene;
+export default withRouter(RecoverScene);

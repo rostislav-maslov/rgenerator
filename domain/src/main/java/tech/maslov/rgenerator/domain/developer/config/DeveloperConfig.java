@@ -54,10 +54,11 @@ public class DeveloperConfig {
         protected final PasswordGenerator passwordGenerator;
         protected final EmailAuthenticationUseCase emailAuthenticationUseCase;
         protected final String gitGubClientSecret;
+        protected final RefreshTokenStorage refreshTokenStorage;
 
 
         public AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase() {
-            return new AuthorizationDevByTokenUseCase(refreshTokenRepository, accessTokenStorage, userRepository, developerRepository);
+            return new AuthorizationDevByTokenUseCase(refreshTokenStorage, accessTokenStorage, userRepository, developerRepository);
         }
 
         public MeUseCase meUseCase() {
@@ -94,12 +95,13 @@ public class DeveloperConfig {
     protected final TokenSaltGenerator tokenSaltGenerator;
     protected final String gitGubClientSecret;
     protected final String gitGubClientId;
+    protected final RefreshTokenStorage refreshTokenStorage;
 
     public final Secured secured;
     public final All all;
 
 
-    public DeveloperConfig(DeveloperRepository developerRepository, DeveloperIdGenerator idGenerator, RefreshTokenRepository refreshTokenRepository, AccessTokenStorage accessTokenStorage, UserRepository userRepository, UserIdGenerator userIdGenerator, PasswordGenerator passwordGenerator, AccessTokenIdGenerator accessTokenIdGenerator, RefreshTokenIdGenerator refreshTokenIdGenerator, TokenSaltGenerator tokenSaltGenerator, String gitGubClientSecret, String gitGubClientId) {
+    public DeveloperConfig(DeveloperRepository developerRepository, DeveloperIdGenerator idGenerator, RefreshTokenRepository refreshTokenRepository, AccessTokenStorage accessTokenStorage, UserRepository userRepository, UserIdGenerator userIdGenerator, PasswordGenerator passwordGenerator, AccessTokenIdGenerator accessTokenIdGenerator, RefreshTokenIdGenerator refreshTokenIdGenerator, TokenSaltGenerator tokenSaltGenerator, String gitGubClientSecret, String gitGubClientId, RefreshTokenStorage refreshTokenStorage) {
         this.refreshTokenIdGenerator = refreshTokenIdGenerator;
         this.tokenSaltGenerator = tokenSaltGenerator;
         this.developerRepository = developerRepository;
@@ -107,15 +109,17 @@ public class DeveloperConfig {
         this.idGenerator = idGenerator;
         this.gitGubClientSecret = gitGubClientSecret;
         this.gitGubClientId = gitGubClientId;
-        this.authorizationByTokenUseCase = new AuthorizationByTokenUseCase(refreshTokenRepository, accessTokenStorage, userRepository);
+        this.authorizationByTokenUseCase = new AuthorizationByTokenUseCase(accessTokenStorage, refreshTokenStorage, userRepository);
         this.refreshTokenRepository = refreshTokenRepository;
         this.accessTokenStorage = accessTokenStorage;
         this.userRepository = userRepository;
-        this.createRefreshTokenUseCase = new CreateRefreshTokenUseCase(refreshTokenIdGenerator, refreshTokenRepository, tokenSaltGenerator);
-        this.createAccessTokenUseCase = new CreateAccessTokenUseCase(accessTokenIdGenerator, createRefreshTokenUseCase);
+        this.createRefreshTokenUseCase = new CreateRefreshTokenUseCase(refreshTokenIdGenerator, refreshTokenStorage, tokenSaltGenerator);
+        this.createAccessTokenUseCase = new CreateAccessTokenUseCase(accessTokenIdGenerator,accessTokenStorage, createRefreshTokenUseCase);
         this.userIdGenerator = userIdGenerator;
         this.passwordGenerator = passwordGenerator;
-        this.emailAuthenticationUseCase = new EmailAuthenticationUseCase(this.userRepository, this.passwordGenerator, this.createRefreshTokenUseCase, this.createAccessTokenUseCase, this.refreshTokenRepository);
+        this.emailAuthenticationUseCase = new EmailAuthenticationUseCase(this.userRepository, this.passwordGenerator, this.createRefreshTokenUseCase, this.createAccessTokenUseCase, this.refreshTokenRepository, this.accessTokenStorage);
+        this.refreshTokenStorage =refreshTokenStorage;
+
 
         this.secured = new Secured(this.developerRepository, this.idGenerator, this.authorizationByTokenUseCase);
         this.all = new All(
@@ -128,7 +132,8 @@ public class DeveloperConfig {
                 this.userIdGenerator,
                 this.passwordGenerator,
                 this.emailAuthenticationUseCase,
-                this.gitGubClientSecret
+                this.gitGubClientSecret,
+                this.refreshTokenStorage
         );
     }
 

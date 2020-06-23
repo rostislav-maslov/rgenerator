@@ -24,7 +24,7 @@ const HeaderComponent: React.FC<HeaderProps> = (props: HeaderProps) => {
                     </Typography>
                     <Typography variant={'body1'} className={classes.subtitleDiv}>
                         RGenerator is a code generation development platform inspired by the way you work.
-                        Our target improve team work, code standards and speed of developers work;
+                        Our target improve team work, code standards and speed of developers work.
                     </Typography>
                     <br/>
                     <Button variant={'contained'} href={'/explore'}>Explore</Button>

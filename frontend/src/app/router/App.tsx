@@ -17,6 +17,7 @@ import EditFileAdd from "../scenes/GenerateEditFileAddScene";
 import ExploreScene from "../scenes/ExploreScene";
 import MyGeneragorsScene from "../scenes/MyGeneragorsScene";
 import SignUpScene from "../scenes/SignUpScene";
+import RecoverScene from "../scenes/RecoverScene";
 
 
 import Header from "../components/base/HeaderComponent";
@@ -87,6 +88,9 @@ const App: React.FC<Props> = (props: Props) => {
                             </Route>
                             <Route path="/sign-up">
                                 <SignUpScene/>
+                            </Route>
+                            <Route path="/forgot/:code">
+                                <RecoverScene/>
                             </Route>
                             <Route path="/forgot">
                                 <ForgotScene/>

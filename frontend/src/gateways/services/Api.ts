@@ -27,8 +27,6 @@ async function updateAccessToken(): Promise<boolean> {
         })
     }
 
-    debugger
-
     let fetchRequest = fetch(urlRequest, init);
     let responseFetch: any = await fetchRequest.then();
     if (responseFetch.ok == false) {
@@ -37,8 +35,8 @@ async function updateAccessToken(): Promise<boolean> {
     }
 
     let jsonResult: any = await responseFetch.json().then()
-    const accessToken = jsonResult.accessToken
-    const refreshTokenRes = jsonResult.refreshToken
+    const accessToken = jsonResult.result.accessToken
+    const refreshTokenRes = jsonResult.result.refreshToken
 
     TokenRepository.setRefreshToken(refreshTokenRes)
     TokenRepository.setAccessToken(accessToken)
@@ -93,6 +91,8 @@ async function api(urlRequest: string, props: PropsType): Promise<any> {
         debugger
         if (response.status == 401 || response.status == 403) {
             await updateAccessToken()
+
+            init.headers['X-Auth-Token'] = TokenRepository.getAccessToken();
 
             fetchRequest = fetch(urlRequest, init);
             response = await fetchRequest.then();
@@ -153,9 +153,10 @@ async function apiText(urlRequest: string, props: PropsType): Promise<any> {
         let fetchRequest = fetch(urlRequest, init);
         let response = await fetchRequest.then();
 
-        debugger
         if (response.status == 401 || response.status == 403) {
             await updateAccessToken()
+
+            init.headers['X-Auth-Token'] = TokenRepository.getAccessToken();
 
             fetchRequest = fetch(urlRequest, init);
             response = await fetchRequest.then();

@@ -3,13 +3,14 @@ import API from "./Api";
 
 export default {
 
-    forgotPasswordChange(password: string, token: string): Promise<any> {
+    forgotPasswordChange(email: string, newPassword: string, code: string): Promise<any> {
         const urlRequest = `${CONST.V1}/auth/forgot-password/change`
         const method = 'POST'
 
         let contentJson = {
-            password,
-            token
+            email,
+            newPassword,
+            code
         };
 
         let response = API.api(urlRequest, {
@@ -20,13 +21,13 @@ export default {
         return response;
     },
 
-    forgotPasswordStart(login: string): Promise<any> {
+    forgotPasswordStart(email: string): Promise<any> {
         const urlRequest = `${CONST.V1}/auth/forgot-password/start`
         const method = 'POST'
 
-        let contentJson =            {
-                login
-            }        ;
+        let contentJson = {
+            email
+        };
 
         let response = API.api(urlRequest, {
             method: method,
@@ -40,10 +41,10 @@ export default {
         const urlRequest = `${CONST.V1}/auth/login`
         const method = 'POST'
 
-        let contentJson =            {
-                email,
-                password
-            }        ;
+        let contentJson = {
+            email,
+            password
+        };
 
         let response = API.api(urlRequest, {
             method: method,
@@ -57,7 +58,7 @@ export default {
         const urlRequest = `${CONST.V1}/auth/logout`
         const method = 'POST'
 
-        let contentJson =            {}        ;
+        let contentJson = {};
 
         let response = API.api(urlRequest, {
             method: method,
@@ -71,9 +72,9 @@ export default {
         const urlRequest = `${CONST.V1}/auth/refresh`
         const method = 'POST'
 
-        let contentJson =            {
-                refreshToken
-            }        ;
+        let contentJson = {
+            refreshToken
+        };
 
         let response = API.api(urlRequest, {
             method: method,
@@ -87,15 +88,15 @@ export default {
         const urlRequest = `${CONST.V1}/auth/sign-up`
         const method = 'POST'
 
-        let contentJson =            {
-                email,
-                login,
-                password
-            }        ;
+        let contentJson = {
+            email,
+            login,
+            password
+        };
 
         let response = API.api(urlRequest, {
             method: method,
-            contentJson:contentJson
+            contentJson: contentJson
         });
 
         return response;

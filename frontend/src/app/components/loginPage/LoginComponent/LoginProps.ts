@@ -1,5 +1,5 @@
 export  default interface LoginProps{
-    type: 'login' | 'signup' | 'forgot',
+    type: 'login' | 'signup' | 'forgot' | 'recover',
 
     email?: string,
     login?: string,

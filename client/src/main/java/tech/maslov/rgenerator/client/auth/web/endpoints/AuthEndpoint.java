@@ -6,11 +6,14 @@ import com.rcore.adapter.domain.token.dto.RefreshTokenDTO;
 import com.rcore.adapter.domain.user.UserAdapter;
 import com.rcore.adapter.domain.user.dto.TokenPairDTO;
 import com.rcore.adapter.domain.user.dto.UserDTO;
+import com.rcore.adapter.domain.userPasswordRecover.UserPasswordRecoverAdapter;
 import com.rcore.domain.token.exception.AuthenticationException;
 import com.rcore.domain.token.exception.RefreshTokenCreationException;
+import com.rcore.domain.token.exception.RefreshTokenIsExpiredException;
 import com.rcore.domain.user.exception.UserAlreadyExistException;
 import com.rcore.domain.user.exception.UserBlockedException;
 import com.rcore.domain.user.exception.UserNotFoundException;
+import com.rcore.domain.userPasswordRecover.exception.UserPasswordRecoverNotFoundException;
 import com.rcore.restapi.routes.BaseAuthRoutes;
 import com.rcore.restapi.security.web.api.AuthenticationDTO;
 import com.rcore.restapi.security.web.api.RefreshTokenRequest;
@@ -24,6 +27,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,6 +51,7 @@ public class AuthEndpoint {
     private String secretKey;
 
     private final UserAdapter userAdapter;
+//    private final UserPasswordRecoverAdapter userPasswordRecoverAdapter;
     private final DeveloperAdapter developerAdapter;
     private final TokenAdapter tokenAdapter;
     private final AuthTokenGenerator<AccessTokenDTO> accessTokenGenerator;
@@ -66,14 +71,16 @@ public class AuthEndpoint {
 
     @ApiOperation("Forgot password init request")
     @PostMapping(value = AuthApiRoutes.FORGOT_PASSWORD_START, produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuccessApiResponse<String> forgotPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) {
-        throw new RuntimeException("forgotPassword");
+    public SuccessApiResponse<String> forgotPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) throws UserNotFoundException {
+//        userPasswordRecoverAdapter.all.createUseCase(forgotPasswordRequest.getEmail());
+        return SuccessApiResponse.of(HttpStatus.OK.toString());
     }
 
     @ApiOperation("Change password request")
     @PostMapping(value = AuthApiRoutes.FORGOT_PASSWORD_CHANGE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuccessApiResponse<String> changePassword(@RequestBody ForgotPasswordChangeRequest forgotPasswordChangeRequest) {
-        throw new RuntimeException("changePassword");
+    public SuccessApiResponse<String> changePassword(@RequestBody ForgotPasswordChangeRequest forgotPasswordChangeRequest) throws UserPasswordRecoverNotFoundException {
+//        userPasswordRecoverAdapter.all.createUseCase(forgotPasswordChangeRequest.getEmail(), forgotPasswordChangeRequest.getCode(), forgotPasswordChangeRequest.getNewPassword());
+        return SuccessApiResponse.of(HttpStatus.OK.toString());
     }
 
     @ApiOperation("Login")
@@ -90,7 +97,7 @@ public class AuthEndpoint {
 
     @ApiOperation("refresh")
     @PostMapping(value = AuthApiRoutes.REFRESH)
-    public SuccessApiResponse<AuthenticationDTO> refresh(@RequestBody RefreshTokenRequest request) throws InvalidTokenFormatException, UserNotFoundException, UserBlockedException, AuthenticationException, TokenGenerateException {
+    public SuccessApiResponse<AuthenticationDTO> refresh(@RequestBody RefreshTokenRequest request) throws InvalidTokenFormatException, UserNotFoundException, UserBlockedException, AuthenticationException, TokenGenerateException, RefreshTokenIsExpiredException {
         TokenPairDTO tokenPair = userAdapter.getAll()
                 .getNewTokenPairByRefreshToken(refreshTokenGenerator.parseToken(request.getRefreshToken(), secretKey));
 

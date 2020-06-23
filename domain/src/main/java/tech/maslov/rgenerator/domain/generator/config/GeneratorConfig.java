@@ -4,6 +4,7 @@ import com.rcore.domain.file.port.FileRepository;
 import com.rcore.domain.file.port.FileStorage;
 import com.rcore.domain.token.port.AccessTokenStorage;
 import com.rcore.domain.token.port.RefreshTokenRepository;
+import com.rcore.domain.token.port.RefreshTokenStorage;
 import com.rcore.domain.token.usecase.AuthorizationByTokenUseCase;
 import com.rcore.domain.user.port.UserRepository;
 import tech.maslov.rgenerator.domain.developer.port.DeveloperRepository;
@@ -87,11 +88,12 @@ public class GeneratorConfig {
     protected final TemplateResultDeleteUseCase templateResultDeleteUseCase;
     protected final TemplateResultRepository templateResultRepository;
     protected final ZipService zipService;
+    protected final RefreshTokenStorage refreshTokenStorage;
 
     public final Secured secured;
     public final All all;
 
-    public GeneratorConfig(GeneratorRepository generatorRepository, GeneratorIdGenerator idGenerator, AuthorizationByTokenUseCase authorizationByTokenUseCase, FileRepository fileRepository, FileStorage fileStorage, RefreshTokenRepository refreshTokenRepository, AccessTokenStorage accessTokenStorage, UserRepository userRepository, DeveloperRepository developerRepository, TemplateResultRepository templateResultRepository) {
+    public GeneratorConfig(GeneratorRepository generatorRepository, GeneratorIdGenerator idGenerator, AuthorizationByTokenUseCase authorizationByTokenUseCase, FileRepository fileRepository, FileStorage fileStorage, RefreshTokenRepository refreshTokenRepository, AccessTokenStorage accessTokenStorage, UserRepository userRepository, DeveloperRepository developerRepository, TemplateResultRepository templateResultRepository, RefreshTokenStorage refreshTokenStorage) {
         this.generatorRepository = generatorRepository;
         this.idGenerator = idGenerator;
         this.authorizationByTokenUseCase = authorizationByTokenUseCase;
@@ -103,10 +105,11 @@ public class GeneratorConfig {
         this.developerRepository = developerRepository;
         this.templateResultRepository = templateResultRepository;
         this.zipService = new ZipService(fileRepository, fileStorage);
-        this.authorizationDevByTokenUseCase = new AuthorizationDevByTokenUseCase( refreshTokenRepository,  accessTokenStorage,  userRepository,  developerRepository);
+        this.authorizationDevByTokenUseCase = new AuthorizationDevByTokenUseCase(refreshTokenStorage, accessTokenStorage, userRepository, developerRepository);
+        this.refreshTokenStorage = refreshTokenStorage;
 
         this.templateResultDeleteUseCase = new TemplateResultDeleteUseCase(
-                generatorRepository, templateResultRepository,  zipService,  authorizationDevByTokenUseCase,  developerRepository, userRepository, fileStorage, fileRepository
+                generatorRepository, templateResultRepository, zipService, authorizationDevByTokenUseCase, developerRepository, userRepository, fileStorage, fileRepository
         );
 
         this.secured = new Secured(this.generatorRepository, this.idGenerator, this.authorizationByTokenUseCase);

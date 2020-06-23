@@ -15,6 +15,7 @@ import com.rcore.domain.user.port.PasswordGenerator;
 import com.rcore.domain.user.port.UserIdGenerator;
 import com.rcore.domain.user.port.UserRepository;
 import com.rcore.domain.user.port.impl.PasswordGeneratorImpl;
+import com.rcore.domain.userPasswordRecover.port.UserPasswordRecoverIdGenerator;
 import com.rcore.security.infrastructure.AuthTokenGenerator;
 import com.rcore.security.infrastructure.jwt.converter.impl.JWTByAccessTokenGenerator;
 import com.rcore.security.infrastructure.jwt.converter.impl.JWTByRefreshTokenGenerator;
@@ -61,6 +62,7 @@ public class RGeneratorClientApplicationConfig {
 
     private final AccessTokenIdGenerator accessTokenIdGenerator;
     private final AccessTokenStorage accessTokenStorage;
+    private final RefreshTokenStorage refreshTokenStorage;
 
     private final RoleRepository roleRepository;
 
@@ -87,9 +89,9 @@ public class RGeneratorClientApplicationConfig {
 
     @Bean
     public GeneratorAdapter generatorAdapter() {
-        AuthorizationByTokenUseCase authorizationByTokenUseCase = new AuthorizationByTokenUseCase(refreshTokenRepository, accessTokenStorage, userRepository);
+        AuthorizationByTokenUseCase authorizationByTokenUseCase = new AuthorizationByTokenUseCase(accessTokenStorage, refreshTokenStorage,  userRepository);
 
-        return new GeneratorAdapter(new GeneratorConfig(generatorRepository, generatorIdGenerator, authorizationByTokenUseCase, fileRepository, fileStorage, refreshTokenRepository, accessTokenStorage, userRepository, developerRepository, templateResultRepository));
+        return new GeneratorAdapter(new GeneratorConfig(generatorRepository, generatorIdGenerator, authorizationByTokenUseCase, fileRepository, fileStorage, refreshTokenRepository, accessTokenStorage, userRepository, developerRepository, templateResultRepository, refreshTokenStorage));
     }
 
     @Bean
@@ -99,8 +101,8 @@ public class RGeneratorClientApplicationConfig {
 
     @Bean
     public TemplateResultAdapter templateResultAdapter() {
-        AuthorizationByTokenUseCase authorizationByTokenUseCase = new AuthorizationByTokenUseCase(refreshTokenRepository, accessTokenStorage, userRepository);
-        AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase = new AuthorizationDevByTokenUseCase(refreshTokenRepository, accessTokenStorage, userRepository, developerRepository);
+        AuthorizationByTokenUseCase authorizationByTokenUseCase = new AuthorizationByTokenUseCase(accessTokenStorage, refreshTokenStorage, userRepository);
+        AuthorizationDevByTokenUseCase authorizationDevByTokenUseCase = new AuthorizationDevByTokenUseCase(refreshTokenStorage, accessTokenStorage, userRepository, developerRepository);
 
         return new TemplateResultAdapter(
                 new TemplateResultConfig(templateResultRepository, generatorRepository, templateResultIdGenerator, authorizationByTokenUseCase, fileRepository, fileStorage, authorizationDevByTokenUseCase, developerRepository, userRepository)
@@ -122,8 +124,17 @@ public class RGeneratorClientApplicationConfig {
                         refreshTokenIdGenerator,
                         tokenSaltGenerator,
                         gitGubClientSecret,
-                        gitGubClientId)
+                        gitGubClientId,
+                        refreshTokenStorage)
         );
     }
+
+//    @Bean
+//    public UserPasswordRecoverAdapter userPasswordRecoverAdapter() {
+//        , UserPasswordRecoverIdGenerator idGenerator, AuthorizationByTokenUseCase authorizationByTokenUseCase, UserRepository userRepository, EmailSender
+//        emailSender, PasswordGenerator passwordGenerator
+//        return new UserPasswordRecoverAdapter(new UserPasswordRecoverConfig(this.userPasswordRecoverRepository, passwordGenerator, userPasswordRecoverIdGenerator, this.au)
+//        );
+//    }
 
 }
