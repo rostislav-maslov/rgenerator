@@ -49,9 +49,13 @@ public class AuthEndpoint {
 
     @Value("${rcore.security.jwt.key}")
     private String secretKey;
+    @Value("${java.mail.username}")
+    private String javaMailUsername;
+    @Value("${java.mail.password}")
+    private String javaMailPassword;
 
     private final UserAdapter userAdapter;
-//    private final UserPasswordRecoverAdapter userPasswordRecoverAdapter;
+    private final UserPasswordRecoverAdapter userPasswordRecoverAdapter;
     private final DeveloperAdapter developerAdapter;
     private final TokenAdapter tokenAdapter;
     private final AuthTokenGenerator<AccessTokenDTO> accessTokenGenerator;
@@ -72,14 +76,14 @@ public class AuthEndpoint {
     @ApiOperation("Forgot password init request")
     @PostMapping(value = AuthApiRoutes.FORGOT_PASSWORD_START, produces = MediaType.APPLICATION_JSON_VALUE)
     public SuccessApiResponse<String> forgotPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) throws UserNotFoundException {
-//        userPasswordRecoverAdapter.all.createUseCase(forgotPasswordRequest.getEmail());
+        userPasswordRecoverAdapter.all.createUseCase(forgotPasswordRequest.getEmail());
         return SuccessApiResponse.of(HttpStatus.OK.toString());
     }
 
     @ApiOperation("Change password request")
     @PostMapping(value = AuthApiRoutes.FORGOT_PASSWORD_CHANGE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuccessApiResponse<String> changePassword(@RequestBody ForgotPasswordChangeRequest forgotPasswordChangeRequest) throws UserPasswordRecoverNotFoundException {
-//        userPasswordRecoverAdapter.all.createUseCase(forgotPasswordChangeRequest.getEmail(), forgotPasswordChangeRequest.getCode(), forgotPasswordChangeRequest.getNewPassword());
+    public SuccessApiResponse<String> changePassword(@RequestBody ForgotPasswordChangeRequest forgotPasswordChangeRequest) throws UserPasswordRecoverNotFoundException, UserNotFoundException {
+        userPasswordRecoverAdapter.all.createUseCase(forgotPasswordChangeRequest.getEmail(), forgotPasswordChangeRequest.getCode(), forgotPasswordChangeRequest.getNewPassword());
         return SuccessApiResponse.of(HttpStatus.OK.toString());
     }
 

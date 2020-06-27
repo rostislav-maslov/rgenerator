@@ -14,7 +14,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
-        <rcore.version>0.9.10</rcore.version>
+        <rcore.version>0.10.0</rcore.version>
     </properties>
 
     <dependencies>
@@ -40,6 +40,11 @@
             <groupId>tech.maslov.rgenerator</groupId>
             <artifactId>infrastructure</artifactId>
             <version>0.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
         </dependency>
 
 
