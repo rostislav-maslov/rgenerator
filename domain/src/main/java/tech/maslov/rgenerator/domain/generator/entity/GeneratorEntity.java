@@ -14,6 +14,9 @@ import java.util.*;
 @NoArgsConstructor
 @Data
 public class GeneratorEntity extends BaseEntity {
+    public enum AccessLevel{
+        PUBLIC, PRIVATE
+    }
     protected String id;
     protected String ownerId = null;
     protected String title = null;
@@ -22,5 +25,5 @@ public class GeneratorEntity extends BaseEntity {
     protected FileStructure fileStructure = new FileStructure();
     protected Long countOfUse = 1l;
     protected Boolean didUseGitHub = false;
-
+    protected AccessLevel accessLevel = AccessLevel.PUBLIC;
 }

@@ -29,6 +29,7 @@ class GenerateCreateScene extends Component<PropsType, StateType> {
                 description: "",
                 example: {},
                 exampleString: "{}",
+                accessLevel: 'PRIVATE'
             },
             apiData: {
                 catalogsResponse: [],
@@ -77,7 +78,8 @@ class GenerateCreateScene extends Component<PropsType, StateType> {
         GeneratorApi.create(
             this.state.viewData.title,
             this.state.viewData.description,
-            JSON.stringify(this.state.viewData.example)
+            JSON.stringify(this.state.viewData.example),
+            this.state.viewData.accessLevel
         ).then((responseJson) => {
             const json = responseJson.result
             let data = this.state.data
@@ -186,8 +188,10 @@ class GenerateCreateScene extends Component<PropsType, StateType> {
                                         <InfoComponent
                                             title={this.state.viewData.title}
                                             description={this.state.viewData.description}
+                                            accessLevel={this.state.viewData.accessLevel}
                                             onChangeTitle={this.onChangeInput}
-                                            onChangeDescription={this.onChangeInput}/>
+                                            onChangeDescription={this.onChangeInput}
+                                            onChangeAccessLevel={this.onChangeInput}/>
                                     </Grid>
                                     <Grid item xs={12} md={6} lg={6} style={{'display': 'none'}}>
                                         <JsonStringComponent exampleString={this.state.viewData.exampleString}

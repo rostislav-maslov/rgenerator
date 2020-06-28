@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import tech.maslov.rgenerator.domain.generator.entity.FileStructure;
+import tech.maslov.rgenerator.domain.generator.entity.GeneratorEntity;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,4 +24,6 @@ public class GeneratorDTO extends BaseEntityDTO {
     protected String loginOwner;
     protected Boolean didUseGitHub;
     protected Long countOfUse;
+
+    protected GeneratorEntity.AccessLevel accessLevel;
 }

@@ -37,8 +37,8 @@ public class GeneratorEndpoints {
 
     @ApiOperation("Create")
     @PostMapping(value = GeneratorApiRoutes.ROOT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuccessApiResponse<GeneratorWeb> create(@RequestBody GeneratorAddRequest request) throws AuthenticationException, AuthorizationException {
-        GeneratorDTO generatorDTO = generatorAdapter.client.create(request.getTitle(), request.getDescription(), request.getExample());
+    public SuccessApiResponse<GeneratorWeb> create(@RequestBody GeneratorAddRequest request) throws AuthenticationException {
+        GeneratorDTO generatorDTO = generatorAdapter.client.create(request.getTitle(), request.getDescription(), request.getExample(), request.getAccessLevel());
         return SuccessApiResponse.of(generatorWebMapper.map(generatorDTO));
     }
 
@@ -59,7 +59,7 @@ public class GeneratorEndpoints {
     @ApiOperation("Edit info")
     @PostMapping(value = GeneratorApiRoutes.INFO, produces = MediaType.APPLICATION_JSON_VALUE)
     public SuccessApiResponse<GeneratorWeb> editInfo(@PathVariable String id, @RequestBody GeneratorInfoRequest request) throws AuthenticationException, AuthorizationException {
-        GeneratorDTO generatorDTO = generatorAdapter.client.editInfo(id, request.getTitle(), request.getDescription());
+        GeneratorDTO generatorDTO = generatorAdapter.client.editInfo(id, request.getTitle(), request.getDescription(), request.getAccessLevel());
         return SuccessApiResponse.of(generatorWebMapper.map(generatorDTO));
     }
 
@@ -86,7 +86,7 @@ public class GeneratorEndpoints {
 
     @ApiOperation("View file content")
     @GetMapping(value = GeneratorApiRoutes.FILE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuccessApiResponse<GeneratorWeb.File> fileView(@PathVariable String id, @PathVariable String fileId) throws IOException, AuthenticationException, AuthorizationException {
+    public SuccessApiResponse<GeneratorWeb.File> fileView(@PathVariable String id, @PathVariable String fileId) throws AuthenticationException, AuthorizationException {
         FileContentDTO fileDTO = generatorAdapter.client.file(id, fileId);
         return SuccessApiResponse.of(fileWebMapper.map(fileDTO));
     }
@@ -135,7 +135,7 @@ public class GeneratorEndpoints {
 
     @ApiOperation("GitHub repos")
     @GetMapping(value = GeneratorApiRoutes.GH_REPOS, produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuccessApiResponse<List<RepoResponse>> ghRepos() throws AuthenticationException, IOException, AuthorizationException, InterruptedException {
+    public SuccessApiResponse<List<RepoResponse>> ghRepos() throws AuthenticationException, IOException {
         return SuccessApiResponse.of(generatorAdapter.client.repos());
     }
 

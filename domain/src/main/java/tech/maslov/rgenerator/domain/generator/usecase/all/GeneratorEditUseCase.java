@@ -25,12 +25,13 @@ public class GeneratorEditUseCase extends GeneratorBaseUseCase {
         this.fileRepository = fileRepository;
     }
 
-    public GeneratorWithOwnerDTO editInfo(String id, String title, String description) throws AuthenticationException, AuthorizationException {
+    public GeneratorWithOwnerDTO editInfo(String id, String title, String description, GeneratorEntity.AccessLevel accessLevel) throws AuthenticationException, AuthorizationException {
         GeneratorEntity generatorEntity = generatorRepository.findById(id).get();
         this.checkEditAccess(generatorEntity);
 
         generatorEntity.setTitle(title);
         generatorEntity.setDescription(description);
+        generatorEntity.setAccessLevel(accessLevel);
 
         generatorRepository.save(generatorEntity);
 

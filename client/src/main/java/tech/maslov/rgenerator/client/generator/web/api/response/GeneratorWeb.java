@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tech.maslov.rgenerator.domain.generator.entity.GeneratorEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,8 @@ public class GeneratorWeb {
     private String title;
     @ApiModelProperty("Description")
     private String description;
+    @ApiModelProperty("Access Level")
+    private GeneratorEntity.AccessLevel accessLevel;
     @ApiModelProperty("Example of JSON")
     private String example;
     @ApiModelProperty("Owner login")

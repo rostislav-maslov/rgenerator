@@ -8,4 +8,5 @@ import tech.maslov.rgenerator.domain.generator.entity.GeneratorEntity;
 
 public interface GeneratorRepository extends CRUDRepository<String, GeneratorEntity> {
     SearchResult<GeneratorEntity> findMyGenerators(DeveloperEntity developerEntity, SearchRequest request);
+    SearchResult<GeneratorEntity> explore(DeveloperEntity developerEntity, SearchRequest request);
 }

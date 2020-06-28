@@ -3,6 +3,8 @@ type InfoProps = {
     description: string
     onChangeTitle: any,
     onChangeDescription: any,
+    accessLevel: string,
+    onChangeAccessLevel: any
 };
 
 export default InfoProps;

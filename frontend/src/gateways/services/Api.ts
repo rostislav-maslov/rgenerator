@@ -88,7 +88,6 @@ async function api(urlRequest: string, props: PropsType): Promise<any> {
         let fetchRequest = fetch(urlRequest, init);
         let response = await fetchRequest.then();
 
-        debugger
         if (response.status == 401 || response.status == 403) {
             await updateAccessToken()
 

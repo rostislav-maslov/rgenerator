@@ -3,11 +3,11 @@ import API from "./Api";
 
 export default {
 
-    create(title: string, description: string, example: string): Promise<any> {
+    create(title: string, description: string, example: string, accessLevel: string): Promise<any> {
         const urlRequest = CONST.V1 + "/generator"
         const method = 'POST'
 
-        let contentJson = {title, description, example};
+        let contentJson = {title, description, example, accessLevel};
 
         return  API.api(urlRequest, {
             method: method,
@@ -15,11 +15,11 @@ export default {
         });
     },
 
-    updateInfo(id: string, title: string, description: string): Promise<any>  {
+    updateInfo(id: string, title: string, description: string, accessLevel: string): Promise<any>  {
         const urlRequest = `${CONST.V1}/generator/${id}/info`
         const method = 'POST'
 
-        let contentJson = {title, description};
+        let contentJson = {title, description, accessLevel};
 
         return API.api(urlRequest, {
             method: method,

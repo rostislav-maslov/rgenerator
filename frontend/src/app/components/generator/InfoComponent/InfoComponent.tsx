@@ -5,6 +5,10 @@ import InfoStyles from "./InfoStyles";
 import Input from '@material-ui/core/Input'
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 const InfoComponent: React.FC<InfoProps> = (props: InfoProps) => {
     let classes = InfoStyles()
@@ -22,6 +26,20 @@ const InfoComponent: React.FC<InfoProps> = (props: InfoProps) => {
                        rows={4}
                        defaultValue=""
                        value={props.description} onChange={props.onChangeDescription}/>
+            <FormControl variant="outlined"  required fullWidth margin="normal">
+                <InputLabel id="js-generator-access-level">Access</InputLabel>
+                <Select
+                    labelId="js-generator-access-level"
+                    id="js-generator-access-level"
+                    value={props.accessLevel}
+                    onChange={props.onChangeAccessLevel}
+                    label="Access"
+                    name={'accessLevel'}
+                >
+                    <MenuItem value={'PRIVATE'}>Private</MenuItem>
+                    <MenuItem value={'PUBLIC'}>Public</MenuItem>
+                </Select>
+            </FormControl>
         </Paper>
     )
 }

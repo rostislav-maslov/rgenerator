@@ -20,7 +20,7 @@ public class GeneratorCreateUseCase extends GeneratorBaseUseCase {
         this.generatorIdGenerator = generatorIdGenerator;
     }
 
-    public GeneratorWithOwnerDTO create(String title, String description, String example) throws AuthenticationException {
+    public GeneratorWithOwnerDTO create(String title, String description, String example, GeneratorEntity.AccessLevel accessLevel) throws AuthenticationException {
         GeneratorEntity generatorEntity = new GeneratorEntity();
 
         generatorEntity.setId(generatorIdGenerator.generate());
@@ -28,6 +28,7 @@ public class GeneratorCreateUseCase extends GeneratorBaseUseCase {
         generatorEntity.setDescription(description);
         generatorEntity.setExample(example);
         generatorEntity.setOwnerId(this.currentDeveloper().getId());
+        generatorEntity.setAccessLevel(accessLevel);
 
         generatorRepository.save(generatorEntity);
 

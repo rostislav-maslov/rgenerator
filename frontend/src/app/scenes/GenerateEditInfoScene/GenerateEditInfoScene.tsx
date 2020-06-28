@@ -24,6 +24,7 @@ class GenerateEditInfoScene extends Component<PropsType, StateType> {
                 title: "",
                 description: "",
                 example: "",
+                accessLevel: "",
             },
             apiData: {
                 generator: {
@@ -54,6 +55,7 @@ class GenerateEditInfoScene extends Component<PropsType, StateType> {
                 let viewData = this.state.viewData
                 viewData.title = apiData.generator.title
                 viewData.description = apiData.generator.description
+                viewData.accessLevel = apiData.generator.accessLevel
                 try {
                     viewData.example = JSON.parse(apiData.generator.example)
                 } catch (e) {
@@ -78,17 +80,16 @@ class GenerateEditInfoScene extends Component<PropsType, StateType> {
         let request = {}
         let self = this
         GeneratorApi
-            .updateInfo(this.state.apiData.generator.id, this.state.viewData.title, this.state.viewData.description)
+            .updateInfo(this.state.apiData.generator.id, this.state.viewData.title, this.state.viewData.description, this.state.viewData.accessLevel)
             .then((result) => {
-                result.ok ?
-                    toast.success("Your generator did update", {
-                        position: toast.POSITION.BOTTOM_RIGHT
-                    })
-                    :
-                    toast.error("You don't have access to edit this RGenerator", {
-                        position: toast.POSITION.BOTTOM_RIGHT
-                    });
-            })
+                toast.success("Your generator did update", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
+            }).catch(() => {
+                toast.error("You don't have access to edit this RGenerator", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+        });
     }
 
 
@@ -138,6 +139,8 @@ class GenerateEditInfoScene extends Component<PropsType, StateType> {
                                 <InfoComponent
                                     title={this.state.viewData.title}
                                     description={this.state.viewData.description}
+                                    accessLevel={this.state.viewData.accessLevel}
+                                    onChangeAccessLevel={this.onChangeInput}
                                     onChangeTitle={this.onChangeInput}
                                     onChangeDescription={this.onChangeInput}/>
 

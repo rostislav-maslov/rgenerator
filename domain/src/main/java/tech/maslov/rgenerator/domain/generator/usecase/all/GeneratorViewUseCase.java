@@ -45,7 +45,12 @@ public class GeneratorViewUseCase extends GeneratorBaseUseCase {
     }
 
     public List<GeneratorWithOwnerDTO> findAll() {
-        return generatorRepository.find(new SearchRequest("", 1000l, 0l, null, null))
+        DeveloperEntity developerEntity = null;
+        try {
+            developerEntity = this.currentDeveloper();
+        } catch (AuthenticationException ignore) {}
+
+        return generatorRepository.explore(developerEntity, new SearchRequest("", 1000l, 0l, null, null))
                 .getItems()
                 .stream()
                 .map((item) -> {

@@ -12,6 +12,7 @@ import tech.maslov.rgenerator.domain.generator.config.GeneratorConfig;
 import tech.maslov.rgenerator.domain.generator.dto.CheckRepoDTO;
 import tech.maslov.rgenerator.domain.generator.dto.FileContentDTO;
 import tech.maslov.rgenerator.domain.generator.entity.FileStructure;
+import tech.maslov.rgenerator.domain.generator.entity.GeneratorEntity;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,13 +22,13 @@ public class GeneratorClientAdapter {
     private final GeneratorConfig config;
     private final GeneratorWithOwnerMapper mapper = new GeneratorWithOwnerMapper();
 
-    public GeneratorDTO create(String title, String description, String example) throws AuthenticationException, AuthorizationException {
+    public GeneratorDTO create(String title, String description, String example, GeneratorEntity.AccessLevel accessLevel) throws AuthenticationException {
         return mapper.map(config.all.createUseCase()
-                .create(title, description, example));
+                .create(title, description, example, accessLevel));
     }
 
-    public GeneratorDTO editInfo(String id, String title, String description) throws AuthenticationException, AuthorizationException {
-        return mapper.map(config.all.editUseCase().editInfo(id, title, description));
+    public GeneratorDTO editInfo(String id, String title, String description, GeneratorEntity.AccessLevel accessLevel) throws AuthenticationException, AuthorizationException {
+        return mapper.map(config.all.editUseCase().editInfo(id, title, description, accessLevel));
     }
 
     public GeneratorDTO editFile(String id, String oldFile, String newFile) throws AuthenticationException, AuthorizationException {

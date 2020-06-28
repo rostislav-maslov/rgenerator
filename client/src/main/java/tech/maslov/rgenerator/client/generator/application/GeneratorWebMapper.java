@@ -25,6 +25,8 @@ public class GeneratorWebMapper implements ExampleDataMapper<GeneratorDTO, Gener
                 .countOfUse(generatorDTO.getCountOfUse())
                 .files(transformFiles(generatorDTO.getFileStructure().getDirectory(), ""))
 
+                .accessLevel(generatorDTO.getAccessLevel())
+
                 .build();
     }
 

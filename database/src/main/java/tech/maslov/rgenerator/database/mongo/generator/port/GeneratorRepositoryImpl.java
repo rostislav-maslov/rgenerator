@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
+import tech.maslov.rgenerator.database.mongo.generator.query.FindExploreWithSearch;
 import tech.maslov.rgenerator.database.mongo.generator.query.FindMyWithSearch;
 import tech.maslov.rgenerator.domain.developer.entity.DeveloperEntity;
 import tech.maslov.rgenerator.domain.generator.entity.GeneratorEntity;
@@ -65,6 +66,17 @@ public class GeneratorRepositoryImpl implements GeneratorRepository {
     @Override
     public SearchResult<GeneratorEntity> findMyGenerators(DeveloperEntity developerEntity, SearchRequest request) {
         Query query = new FindMyWithSearch(developerEntity, request).getQuery();
+        return SearchResult.withItemsAndCount(
+                mongoTemplate.find(query, GeneratorDoc.class)
+                        .stream()
+                        .collect(Collectors.toList()),
+                mongoTemplate.count(query, GeneratorDoc.class)
+        );
+    }
+
+    @Override
+    public SearchResult<GeneratorEntity> explore(DeveloperEntity developerEntity, SearchRequest request) {
+        Query query = new FindExploreWithSearch(developerEntity, request).getQuery();
         return SearchResult.withItemsAndCount(
                 mongoTemplate.find(query, GeneratorDoc.class)
                         .stream()

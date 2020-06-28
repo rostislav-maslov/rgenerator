@@ -24,6 +24,8 @@ public class GeneratorMapper implements ExampleDataMapper<GeneratorEntity, Gener
                 .updatedAt(entity.getUpdatedAt())
                 .timeZone(entity.getTimeZone())
 
+                .accessLevel(entity.getAccessLevel())
+
                 .build();
     }
 
@@ -43,6 +45,9 @@ public class GeneratorMapper implements ExampleDataMapper<GeneratorEntity, Gener
                 .createdAt(dto.getCreatedAt())
                 .updatedAt(dto.getUpdatedAt())
                 .timeZone(dto.getTimeZone())
+
+                .accessLevel(dto.getAccessLevel())
+
                 .build();
     }
 }

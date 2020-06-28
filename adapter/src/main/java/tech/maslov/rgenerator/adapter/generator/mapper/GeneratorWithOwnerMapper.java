@@ -25,6 +25,8 @@ public class GeneratorWithOwnerMapper implements ExampleDataMapper<GeneratorWith
 
                 .loginOwner(entity.getLoginOwner())
 
+                .accessLevel(entity.getAccessLevel())
+
                 .build();
     }
 
@@ -44,6 +46,9 @@ public class GeneratorWithOwnerMapper implements ExampleDataMapper<GeneratorWith
                 .createdAt(dto.getCreatedAt())
                 .updatedAt(dto.getUpdatedAt())
                 .timeZone(dto.getTimeZone())
+
+                .accessLevel(dto.getAccessLevel())
+
                 .build();
     }
 }
