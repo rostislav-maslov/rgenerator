@@ -7,6 +7,7 @@ import LoginFormComponent from "../../components/loginPage/LoginComponent";
 import AuthApi from "../../../gateways/services/Auth"
 import TokenRepository from "../../../gateways/services/TokenRepository"
 import DeveloperApi from "../../../gateways/services/Developer"
+import { Helmet } from 'react-helmet';
 
 class SignUpScene extends Component<PropsType, StateType> {
     _input: any = null
@@ -83,6 +84,10 @@ class SignUpScene extends Component<PropsType, StateType> {
     render() {
         return (
             <section>
+                <Helmet>
+                    <title>Sign Up :: RGenerator</title>
+                </Helmet>
+
                 <Grid container spacing={0}
                       direction="row"
                       justify="flex-start"

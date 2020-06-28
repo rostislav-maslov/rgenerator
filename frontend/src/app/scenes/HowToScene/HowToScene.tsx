@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import HowItWorksComponent from "../../components/mainPage/HowItWorksComponent";
+import { Helmet } from 'react-helmet';
 
 
 class EditFileListScene extends Component<PropsType, StateType> {
@@ -29,6 +30,9 @@ class EditFileListScene extends Component<PropsType, StateType> {
     render() {
         return (
             <section>
+                <Helmet>
+                    <title>How To :: RGenerator</title>
+                </Helmet>
                 <Breadcrumbs links={[
                     {title: 'Home', url: '/'},
                     {title: 'How to', url: '/how-to'}

@@ -43,6 +43,7 @@ import ImgPatronsEK from './img/patrons/ek.png'
 import ImgPatronsMK from './img/patrons/mk.png'
 import ImgPatronsVK from './img/patrons/vk.png'
 import ImgPatronsVS from './img/patrons/vs.png'
+import { Helmet } from 'react-helmet';
 
 class TemplateSuccessScene extends Component<PropsType, StateType> {
     constructor(props: any) {
@@ -180,6 +181,10 @@ class TemplateSuccessScene extends Component<PropsType, StateType> {
     render() {
         return (
             <section>
+                <Helmet>
+                    <title>Success :: RGenerator</title>
+                </Helmet>
+
                 <Breadcrumbs links={[
                     {title: 'Home', url: '/'},
                     {title: 'Generators', url: '/generator'},

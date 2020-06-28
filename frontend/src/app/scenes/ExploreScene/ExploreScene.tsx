@@ -19,7 +19,8 @@ import ExploreStyles from "./ExploreStyles";
 import GeneratorItemComponent from "../../components/explore/GeneratorItemComponent";
 import GeneratorItemProps from "../../components/explore/GeneratorItemComponent/GeneratorItemProps";
 import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add'
+import AddIcon from '@material-ui/icons/Add';
+import {Helmet} from "react-helmet";
 
 
 const ExploreScene: React.FC<ExploreProps> = (props: ExploreProps) => {
@@ -37,6 +38,10 @@ const ExploreScene: React.FC<ExploreProps> = (props: ExploreProps) => {
 
     return (
         <section>
+            <Helmet>
+                <title>Explore :: RGenerator</title>
+            </Helmet>
+
             <Breadcrumbs links={[
                 {title: 'Home', url: '/'},
                 {title: 'Explore', url: '/explore', active: true},

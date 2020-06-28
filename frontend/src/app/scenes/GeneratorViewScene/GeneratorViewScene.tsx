@@ -17,6 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 import TokenRepository from "../../../gateways/services/TokenRepository";
 import DeveloperApi from "../../../gateways/services/Developer";
 import GithubConnectorComponent from "../../components/generator/GithubConnectorComponent";
+import { Helmet } from 'react-helmet';
 
 class GeneratorViewScene extends Component<PropsType, StateType> {
     constructor(props: any) {
@@ -126,6 +127,9 @@ class GeneratorViewScene extends Component<PropsType, StateType> {
 
         return (
             <section>
+                <Helmet>
+                    <title>View :: RGenerator</title>
+                </Helmet>
                 <Breadcrumbs links={[
                     {title: 'Home', url: '/'},
                     {title: 'Explore', url: '/explore'},

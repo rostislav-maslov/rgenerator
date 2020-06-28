@@ -25,6 +25,7 @@ import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import {toast} from 'react-toastify';
 import TokenRepository from "../../../gateways/services/TokenRepository";
+import { Helmet } from 'react-helmet';
 
 class TemplateResultScene extends Component<PropsType, StateType> {
     constructor(props: any) {
@@ -143,6 +144,10 @@ class TemplateResultScene extends Component<PropsType, StateType> {
     render() {
         return (
             <section>
+                <Helmet>
+                    <title>Result :: RGenerator</title>
+                </Helmet>
+
                 <Breadcrumbs links={[
                     {title: 'Home', url: '/'},
                     {title: 'Generators', url: '/generator'},

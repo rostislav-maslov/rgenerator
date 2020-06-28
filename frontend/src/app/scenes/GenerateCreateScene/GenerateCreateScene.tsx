@@ -16,6 +16,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import TokenRepository from "../../../gateways/services/TokenRepository";
+import { Helmet } from 'react-helmet';
 
 class GenerateCreateScene extends Component<PropsType, StateType> {
     _input: any = null
@@ -158,6 +159,9 @@ class GenerateCreateScene extends Component<PropsType, StateType> {
     render() {
         return (
             <section>
+                <Helmet>
+                    <title>Create :: RGenerator</title>
+                </Helmet>
                 <Breadcrumbs links={[
                     {title: 'Home', url: '/'},
                     {title: 'Generators', url: '/generator'},

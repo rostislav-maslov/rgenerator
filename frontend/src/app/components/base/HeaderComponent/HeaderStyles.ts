@@ -4,7 +4,8 @@ const useStyles = makeStyles((theme) => ({
 
     appBar: {
         backgroundColor: 'white',
-        color: '#000000'
+        color: '#000000',
+        cursor: 'pointer'
     },
 
     appBarLogo: {

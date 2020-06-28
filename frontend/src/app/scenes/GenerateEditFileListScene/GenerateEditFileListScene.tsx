@@ -30,6 +30,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import GithubConnectorComponent from "../../components/generator/GithubConnectorComponent/GithubConnectorComponent";
 import DividerComponent from "../../components/base/DividerComponent";
+import { Helmet } from 'react-helmet';
 
 
 class GenerateEditFileListScene extends Component<PropsType, StateType> {
@@ -104,6 +105,9 @@ class GenerateEditFileListScene extends Component<PropsType, StateType> {
     render() {
         return (
             <section>
+                <Helmet>
+                    <title>File List :: RGenerator</title>
+                </Helmet>
                 <Breadcrumbs links={[
                     {title: 'Home', url: '/'},
                     {title: 'Generators', url: '/generator'},

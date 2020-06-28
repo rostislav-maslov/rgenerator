@@ -54,7 +54,7 @@ const HeaderComponent: React.FC<HeaderProps> = (props: HeaderProps) => {
     return (
         <AppBar className={classes.appBar}>
             <Toolbar>
-                <div className={classes.appBarLogo}>
+                <div className={classes.appBarLogo} onClick={() => {window.location.href = '/'}}>
                     RGenerator
                 </div>
                 <Link href={'/'} className={classes.linkFirst}>

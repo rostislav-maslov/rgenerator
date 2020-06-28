@@ -6,6 +6,7 @@ import BannerComponent from "../../components/loginPage/BannerComponent";
 import LoginFormComponent from "../../components/loginPage/LoginComponent";
 import AuthApi from "../../../gateways/services/Auth"
 import { withRouter } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 class RecoverScene extends Component<PropsType, StateType> {
 
@@ -61,6 +62,9 @@ class RecoverScene extends Component<PropsType, StateType> {
     render() {
         return (
             <section>
+                <Helmet>
+                    <title>Password recover :: RGenerator</title>
+                </Helmet>
                 <Grid container spacing={0}
                       direction="row"
                       justify="flex-start"

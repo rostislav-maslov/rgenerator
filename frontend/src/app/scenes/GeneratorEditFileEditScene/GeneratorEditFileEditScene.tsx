@@ -13,6 +13,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
+import { Helmet } from 'react-helmet';
 
 
 class EditFileListScene extends Component<PropsType, StateType> {
@@ -166,6 +167,9 @@ class EditFileListScene extends Component<PropsType, StateType> {
     render() {
         return (
             <section>
+                <Helmet>
+                    <title>File edit :: RGenerator</title>
+                </Helmet>
                 <Breadcrumbs links={[
                     {title: 'Home', url: '/'},
                     {title: 'Generators', url: '/generator'},

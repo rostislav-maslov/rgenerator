@@ -18,6 +18,7 @@ import JsonStringComponent from "../../components/generator/JsonStringComponent"
 import Typography from '@material-ui/core/Typography';
 import GithubConnectorComponent from "../../components/generator/GithubConnectorComponent";
 import DividerComponent from "../../components/base/DividerComponent";
+import { Helmet } from 'react-helmet';
 
 
 class GenerateEditJsonScene extends Component<PropsType, StateType> {
@@ -120,6 +121,9 @@ class GenerateEditJsonScene extends Component<PropsType, StateType> {
     render() {
         return (
             <section>
+                <Helmet>
+                    <title>Edit Json :: RGenerator</title>
+                </Helmet>
                 <Breadcrumbs links={[
                     {title: 'Home', url: '/'},
                     {title: 'Explore', url: '/explore'},

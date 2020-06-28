@@ -21,6 +21,7 @@ import GeneratorItemProps from "../../components/explore/GeneratorItemComponent/
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add'
 import TokenRepository from "../../../gateways/services/TokenRepository";
+import { Helmet } from 'react-helmet';
 
 
 const MyGeneragorsScene: React.FC<MyGeneragorsProps> = (props: MyGeneragorsProps) => {
@@ -39,6 +40,10 @@ const MyGeneragorsScene: React.FC<MyGeneragorsProps> = (props: MyGeneragorsProps
 
     return (
         <section>
+            <Helmet>
+                <title>My Generators :: RGenerator</title>
+            </Helmet>
+
             <Breadcrumbs links={[
                 {title: 'Home', url: '/'},
                 {title: 'My RGenerators', url: '/my-rgenerators', active: true},

@@ -14,6 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import InfoComponent from "../../components/generator/InfoComponent";
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { Helmet } from 'react-helmet';
 
 class GenerateEditInfoScene extends Component<PropsType, StateType> {
     constructor(props: any) {
@@ -105,6 +106,9 @@ class GenerateEditInfoScene extends Component<PropsType, StateType> {
     render() {
         return (
             <section>
+                <Helmet>
+                    <title>Edit info :: RGenerator</title>
+                </Helmet>
                 <Breadcrumbs links={[
                     {title: 'Home', url: '/'},
                     {title: 'Explore', url: '/explore'},
