@@ -72,6 +72,10 @@ async function api(urlRequest: string, props: PropsType): Promise<any> {
             }
         }
 
+        if(headers['Content-Type'] === 'multipart/form-data'){
+            delete headers['Content-Type']
+        }
+
         let init: any = {
             method: method,
             headers: headers,

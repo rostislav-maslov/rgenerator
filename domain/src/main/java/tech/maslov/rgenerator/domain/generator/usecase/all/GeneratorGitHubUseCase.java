@@ -72,7 +72,7 @@ public class GeneratorGitHubUseCase extends GeneratorBaseUseCase {
         return checkRepoDTO;
     }
 
-    private String loadContent(String url) throws IOException, InterruptedException {
+    private String loadContent(String url, String accessToken) throws IOException, InterruptedException {
         HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
                 .connectTimeout(Duration.ofSeconds(10))
@@ -81,6 +81,7 @@ public class GeneratorGitHubUseCase extends GeneratorBaseUseCase {
                 .GET()
                 .uri(URI.create(url))
                 .setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
+                .setHeader("access_token", accessToken)
                 .build();
 
         HttpResponse<String> responseHttp = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -103,8 +104,8 @@ public class GeneratorGitHubUseCase extends GeneratorBaseUseCase {
         for (ContentResponse contentResponse : contentResponses) {
             if (contentResponse.getType().equals("file") == true) {
                 // FILES
-                String exampleUrl = contentResponse.getDownload_url() + "?access_token=" + accessToken;
-                String content = loadContent(exampleUrl);
+                String exampleUrl = contentResponse.getDownload_url();
+                String content = loadContent(exampleUrl, accessToken);
 
                 InputStream targetStream = new ByteArrayInputStream(content.getBytes());
 
@@ -134,8 +135,8 @@ public class GeneratorGitHubUseCase extends GeneratorBaseUseCase {
 
         for (ContentResponse contentResponse : contentResponses) {
             if (contentResponse.getName().equals("example.json")) {
-                String exampleUrl = contentResponse.getDownload_url() + "?access_token=" + accessToken;
-                generatorEntity.setExample(loadContent(exampleUrl));
+                String exampleUrl = contentResponse.getDownload_url();
+                generatorEntity.setExample(loadContent(exampleUrl, accessToken));
                 generatorRepository.save(generatorEntity);
             }
 

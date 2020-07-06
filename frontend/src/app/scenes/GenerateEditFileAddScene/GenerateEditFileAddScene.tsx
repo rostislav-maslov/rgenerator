@@ -90,6 +90,7 @@ class GenerateEditFileAddScene extends Component<PropsType, StateType> {
 
         for (let i = 0; i < data.filesToUpload.length; i++) {
             if (data.filesToUpload[i].didUpload == false) {
+                debugger
                 hasFile = true
                 GeneratorApi.uploadFile(
                     generator.id,

@@ -113,11 +113,13 @@ export default {
         data.append('path', path)
         data.append('file', file)
 
-        let response = API.api(urlRequest, {
+        let props = {
             method: method,
             headers: headers,
             body: data
-        });
+        }
+
+        let response = API.api(urlRequest, props);
 
         return response;
     },
