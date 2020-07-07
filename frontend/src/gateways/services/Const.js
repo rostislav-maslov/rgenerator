@@ -3,7 +3,7 @@ const API = HOST + "/api"
 export const V1 = API + "/v1"
 export const PIC_PATH = HOST+"/pics"
 export const FILE_PATH = HOST+"/files"
-export const FILE_ATTACH_PATH = HOST+"/file"
+export const FILE_ATTACH_PATH = HOST+"/not-secure/api/v1/file"
 
 export function PIC(picId) {
     return PIC_PATH + "/" + picId
