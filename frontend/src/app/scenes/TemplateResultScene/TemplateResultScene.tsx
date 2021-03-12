@@ -101,6 +101,9 @@ class TemplateResultScene extends Component<PropsType, StateType> {
             apiData.templateResult = json
 
             window.location.href = '/generator/' + this.state.apiData.generator.id + '/template-result/' + json.resultFileId
+        }).catch( (reason) => {
+            debugger
+            console.log(reason)
         })
     }
 
