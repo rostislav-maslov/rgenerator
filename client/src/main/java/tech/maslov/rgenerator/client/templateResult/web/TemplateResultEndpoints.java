@@ -24,10 +24,15 @@ public class TemplateResultEndpoints {
 
     @RequestMapping(value = TemplateResultApiRouter.ROOT, method = RequestMethod.POST)
     public SuccessApiResponse<TemplateResultResponse> create(@RequestBody TemplateResultCreateRequest request) throws AuthenticationException, AuthorizationException {
-        return SuccessApiResponse.of(
-                templateWebMapper.map(
-                        templateResultAdapter.zip.zip(request.getGenerateId(), request.getContent())
-                )
-        );
+        try {
+            return SuccessApiResponse.of(
+                    templateWebMapper.map(
+                            templateResultAdapter.zip.zip(request.getGenerateId(), request.getContent())
+                    )
+            );
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
     }
 }
