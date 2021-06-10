@@ -80,11 +80,11 @@ class TemplateSuccessScene extends Component<PropsType, StateType> {
 
     timerProgress = () => {
         setTimeout(() => {
-            if (this.state.viewData.progress < 100) {
+            if (this.state.viewData.progress < 10) {
                 this.upProgress()
                 this.timerProgress()
             }
-        }, 100)
+        }, 10)
     }
 
     upProgress = () => {
