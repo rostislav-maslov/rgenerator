@@ -45,8 +45,11 @@ public class GeneratorGitHubUseCase extends GeneratorBaseUseCase {
         DeveloperEntity developerEntity = authorizationDevByTokenUseCase.currentDeveloper().get();
         if (developerEntity.getGitHubAccessToken() == null) throw new IOException();
 
-        Response<List<RepoResponse>> response = GitHubService.getInstance().api().getRepos(developerEntity.getGitHubAccessToken()).execute();
-        if (response.isSuccessful() == false) throw new IOException();
+        Response<List<RepoResponse>> response = GitHubService.getInstance().api().getRepos("token " + developerEntity.getGitHubAccessToken()).execute();
+        if (response.isSuccessful() == false) {
+            String error = response.errorBody().string();
+            throw new IOException();
+        }
 
         return response.body();
     }
@@ -55,7 +58,7 @@ public class GeneratorGitHubUseCase extends GeneratorBaseUseCase {
         DeveloperEntity developerEntity = authorizationDevByTokenUseCase.currentDeveloper().get();
         if (developerEntity.getGitHubAccessToken() == null) throw new IOException();
 
-        Response<List<ContentResponse>> response = GitHubService.getInstance().api().content(repoName.split("/")[0], repoName.split("/")[1], developerEntity.getGitHubAccessToken()).execute();
+        Response<List<ContentResponse>> response = GitHubService.getInstance().api().content(repoName.split("/")[0], repoName.split("/")[1], "token " + developerEntity.getGitHubAccessToken()).execute();
         if (response.isSuccessful() == false) throw new IOException();
 
         List<ContentResponse> contentResponses = response.body();
@@ -96,7 +99,7 @@ public class GeneratorGitHubUseCase extends GeneratorBaseUseCase {
     }
 
     private GeneratorEntity syncDir(GeneratorEntity generatorEntity, String repoName, String accessToken, String path) throws IOException, InterruptedException, AuthenticationException, AuthorizationException {
-        Response<List<ContentResponse>> response = GitHubService.getInstance().api().contentByPath(repoName.split("/")[0], repoName.split("/")[1], path, accessToken).execute();
+        Response<List<ContentResponse>> response = GitHubService.getInstance().api().contentByPath(repoName.split("/")[0], repoName.split("/")[1], path, "token " + accessToken).execute();
         if (response.isSuccessful() == false) throw new IOException();
 
         List<ContentResponse> contentResponses = response.body();
@@ -128,7 +131,7 @@ public class GeneratorGitHubUseCase extends GeneratorBaseUseCase {
     }
 
     private GeneratorEntity syncJson(GeneratorEntity generatorEntity, String repoName, String accessToken) throws IOException, InterruptedException, AuthenticationException, AuthorizationException {
-        Response<List<ContentResponse>> response = GitHubService.getInstance().api().content(repoName.split("/")[0], repoName.split("/")[1], accessToken).execute();
+        Response<List<ContentResponse>> response = GitHubService.getInstance().api().content(repoName.split("/")[0], repoName.split("/")[1], "token " + accessToken).execute();
         if (response.isSuccessful() == false) throw new IOException();
 
         List<ContentResponse> contentResponses = response.body();
@@ -144,7 +147,7 @@ public class GeneratorGitHubUseCase extends GeneratorBaseUseCase {
                 // Start load files
                 generatorEntity = this.clearTemplates(generatorEntity);
                 generatorEntity = generatorRepository.save(generatorEntity);
-                generatorEntity = this.syncDir(generatorEntity, repoName, accessToken,  contentResponse.getPath());
+                generatorEntity = this.syncDir(generatorEntity, repoName, accessToken, contentResponse.getPath());
             }
         }
 

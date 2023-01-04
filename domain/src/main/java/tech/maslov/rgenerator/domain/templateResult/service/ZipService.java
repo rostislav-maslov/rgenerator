@@ -181,15 +181,19 @@ public class ZipService {
      * @throws IOException
      */
     public String genTemplate(Map data, String template) throws IOException {
-        StringWriter stringWriter = new StringWriter();
+        try {
+            StringWriter stringWriter = new StringWriter();
 
-        MustacheFactory mf = new DefaultMustacheFactory();
-        Mustache mustache = mf.compile(new StringReader(template), "template.mustache");
-        mustache.execute(stringWriter, data).flush();
+            MustacheFactory mf = new DefaultMustacheFactory();
+            Mustache mustache = mf.compile(new StringReader(template), "template.mustache");
+            mustache.execute(stringWriter, data).flush();
 
-        String result = stringWriter.toString();
-        stringWriter.flush();
-        return result;
+            String result = stringWriter.toString();
+            stringWriter.flush();
+            return result;
+        }catch (Exception e){
+            throw e;
+        }
     }
 
     /**

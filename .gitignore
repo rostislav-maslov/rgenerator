@@ -29,3 +29,18 @@ frontend/.env.production
 backend/src/main/webapp/resources/database-dev.properties
 backend/src/main/webapp/resources/database-prod.properties
 backend/src/main/webapp/resources/database-stand.properties
+adapter/target
+backend/src/main/webapp/resources/database.properties
+backend/.DS_Store
+client/src/main/ resources/application.properties
+client/target/classes/application.properties
+client/target
+database/target
+domain/src/main/java/tech/maslov/rgenerator/domain/generator/entity/.DS_Store
+*.DS_Store
+domain/target
+frontend/.idea
+frontend/build
+infrastructure/target
+suite/.idea
+suite/generatorContent
