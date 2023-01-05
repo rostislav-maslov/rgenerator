@@ -78,6 +78,6 @@ echo
 
 echo "### Reloading nginx ..."
 docker-compose stop;
-sudo mv /opt/docker/rgenerator/certbot/data/certbot/conf/ /opt/certbot;
-sudo mv /opt/docker/rgenerator/certbot/data/certbot/www/ /opt/certbot;
-chmod 777 -R /opt/certbot;
+#sudo mv /opt/docker/rgenerator/certbot/data/certbot/conf/ /opt/certbot;
+#sudo mv /opt/docker/rgenerator/certbot/data/certbot/www/ /opt/certbot;
+chmod 777 -R /opt/docker/rgenerator/certbot/data/certbot;
