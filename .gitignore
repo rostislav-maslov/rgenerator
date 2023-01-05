@@ -44,3 +44,6 @@ frontend/build
 infrastructure/target
 suite/.idea
 suite/generatorContent
+client/src/main/resources/application.properties
+suite/mongodb_container/data
+suite/.env

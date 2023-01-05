@@ -1,0 +1,38 @@
+version: '3.9'
+
+name: rgenerator
+
+services:
+
+  database:
+    image: 'mongo:3.4.24'
+    container_name: 'rgenerator-database'
+    restart: always
+#    command: --bind_ip *
+#    ports:
+#      - 27010:27017
+    volumes:
+      - ${mongodb_container_data}:/data/db
+      - ${mongodb_container_config}:/data/configdb
+      - ${mongodb_init_js}:/docker-entrypoint-initdb.d/init-mongo.js:ro
+
+  backend:
+    image: 'pocteg/rgenerator-backend:latest'
+    container_name: 'rgenerator-backend'
+    restart: always
+    links:
+      - database:database
+    depends_on:
+      - database
+
+  frontend:
+    image: 'pocteg/rgenerator-frontend:latest'
+    container_name: 'rgenerator-frontend'
+    restart: always
+    links:
+      - backend:backend
+    ports:
+      - 80:80
+      - 443:443
+
+

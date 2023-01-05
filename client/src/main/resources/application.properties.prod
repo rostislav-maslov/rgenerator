@@ -1,0 +1,17 @@
+server.port=8080
+
+spring.data.mongodb.database=rgenerator
+spring.data.mongodb.username=rgeneratoruser
+spring.data.mongodb.password=rg3n3r@toRuSer
+spring.data.mongodb.host=database
+spring.data.mongodb.port=27017
+
+rcore.security.jwt.key=OcgPpNVoa-yLNxmelnc6ErULJ-O_2m7ezTQqXlca1jU=
+
+feign.hystrix.enabled=true
+
+github.secret=800489adb2a3666acce9f582a3702999be5ca78e
+github.id=495f7822d3349cdceeea
+
+java.mail.username=rgenerator@maslov.tech
+java.mail.password=W$hm%8L&XX15
