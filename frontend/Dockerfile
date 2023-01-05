@@ -22,6 +22,8 @@ FROM nginx:alpine
 #!/bin/sh
 
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx/backend.conf /etc/nginx/sites-enabled/backend.conf
+COPY ./nginx/front.conf /etc/nginx/sites-enabled/front.conf
 
 ## Remove default nginx index page
 RUN rm -rf /usr/share/nginx/html/*
