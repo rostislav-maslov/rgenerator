@@ -77,4 +77,7 @@ docker-compose run --rm --entrypoint "\
 echo
 
 echo "### Reloading nginx ..."
-docker-compose exec nginx nginx -s reload
+docker-compose stop;
+sudo mv /opt/docker/rgenerator/certbot/data/certbot/conf/ /opt/certbot;
+sudo mv /opt/docker/rgenerator/certbot/data/certbot/www/ /opt/certbot;
+chmod 777 -R /opt/certbot;
