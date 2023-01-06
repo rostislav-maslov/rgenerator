@@ -47,3 +47,4 @@ suite/generatorContent
 client/src/main/resources/application.properties
 suite/mongodb_container/data
 suite/.env
+suite/nginx-proxy-maslov-tech/.env

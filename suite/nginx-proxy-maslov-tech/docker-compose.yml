@@ -6,9 +6,9 @@ services:
     image: 'pocteg/mtech-proxy:latest'
     container_name: 'mtech-proxy'
     restart: unless-stopped
-#    volumes:
-#      - ${certbot_conf}:/etc/letsencrypt
-#      - ${certbot_www}:/var/www/certbot
+    volumes:
+      - ${certbot_conf}:/etc/letsencrypt
+      - ${certbot_www}:/var/www/certbot
     ports:
       - 80:80
       - 443:443
